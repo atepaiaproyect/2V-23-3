@@ -13,6 +13,10 @@ config_version=5
 config/name="Juego"
 config/features=PackedStringArray("4.6", "GL Compatibility")
 
+[autoload]
+
+GameData="*uid://d2m4ku0q14p03"
+
 [physics]
 
 3d/physics_engine="Jolt Physics"

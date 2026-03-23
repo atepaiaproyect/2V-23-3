@@ -1,0 +1,30 @@
+# Godot — archivos temporales
+.godot/
+*.tmp
+*.import
+
+# Godot — exportaciones
+export/
+*.apk
+*.aab
+*.exe
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor
+.vscode/
+*.suo
+
+# Imágenes y assets pesados
+assets/portraits/
+*.png
+*.jpg
+*.jpeg
+*.webp
+*.psd
+*.wav
+*.mp3
+*.ogg
