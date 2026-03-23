@@ -1,0 +1,174 @@
+[gd_scene format=3 uid="uid://intro_scene"]
+[ext_resource type="Script" path="res://scripts/intro.gd" id="1"]
+[ext_resource type="Texture2D" path="res://assets/ui/logo_atepaia.png" id="2"]
+
+[node name="Intro" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.05, 0.04, 0.03, 1)
+
+[node name="CoverPage" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="VBoxCover" type="VBoxContainer" parent="CoverPage"]
+layout_mode = 2
+custom_minimum_size = Vector2(500, 0)
+alignment = 1
+theme_override_constants/separation = 24
+
+[node name="LogoImage" type="TextureRect" parent="CoverPage/VBoxCover"]
+layout_mode = 2
+size_flags_horizontal = 4
+custom_minimum_size = Vector2(380, 380)
+expand_mode = 3
+stretch_mode = 6
+texture = ExtResource("2")
+
+[node name="LabelTitulo" type="Label" parent="CoverPage/VBoxCover"]
+layout_mode = 2
+size_flags_horizontal = 4
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 22
+theme_override_colors/font_color = Color(0.9, 0.75, 0.3, 1)
+text = "ATEPAIA"
+
+[node name="LabelSubtitulo" type="Label" parent="CoverPage/VBoxCover"]
+layout_mode = 2
+size_flags_horizontal = 4
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 16
+theme_override_colors/font_color = Color(0.7, 0.6, 0.4, 1)
+text = "Crónicas de la Luna Perdida"
+
+[node name="BtnAbrir" type="Button" parent="CoverPage/VBoxCover"]
+layout_mode = 2
+size_flags_horizontal = 4
+custom_minimum_size = Vector2(220, 55)
+theme_override_font_sizes/font_size = 20
+theme_override_colors/font_color = Color(0.9, 0.75, 0.3, 1)
+text = "✦  Abrir  ✦"
+
+[node name="BookCenter" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+visible = false
+
+[node name="BookView" type="VBoxContainer" parent="BookCenter"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="PagesView" type="HBoxContainer" parent="BookCenter/BookView"]
+layout_mode = 2
+custom_minimum_size = Vector2(900, 520)
+theme_override_constants/separation = 0
+
+[node name="PageLeft" type="ColorRect" parent="BookCenter/BookView/PagesView"]
+layout_mode = 2
+custom_minimum_size = Vector2(448, 520)
+size_flags_horizontal = 3
+color = Color(0.84, 0.74, 0.50, 1)
+
+[node name="PageLeftContent" type="MarginContainer" parent="BookCenter/BookView/PagesView/PageLeft"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_constants/margin_left = 40
+theme_override_constants/margin_right = 30
+theme_override_constants/margin_top = 40
+theme_override_constants/margin_bottom = 40
+
+[node name="PageLeftText" type="RichTextLabel" parent="BookCenter/BookView/PagesView/PageLeft/PageLeftContent"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+bbcode_enabled = true
+theme_override_font_sizes/normal_font_size = 15
+theme_override_colors/default_color = Color(0.18, 0.10, 0.04, 1)
+text = ""
+
+[node name="PageDivider" type="ColorRect" parent="BookCenter/BookView/PagesView"]
+layout_mode = 2
+custom_minimum_size = Vector2(5, 520)
+color = Color(0.35, 0.24, 0.08, 1)
+
+[node name="PageRight" type="ColorRect" parent="BookCenter/BookView/PagesView"]
+layout_mode = 2
+custom_minimum_size = Vector2(448, 520)
+size_flags_horizontal = 3
+color = Color(0.80, 0.70, 0.46, 1)
+
+[node name="PageRightContent" type="MarginContainer" parent="BookCenter/BookView/PagesView/PageRight"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_constants/margin_left = 30
+theme_override_constants/margin_right = 40
+theme_override_constants/margin_top = 40
+theme_override_constants/margin_bottom = 40
+
+[node name="PageRightText" type="RichTextLabel" parent="BookCenter/BookView/PagesView/PageRight/PageRightContent"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+bbcode_enabled = true
+theme_override_font_sizes/normal_font_size = 15
+theme_override_colors/default_color = Color(0.18, 0.10, 0.04, 1)
+text = ""
+
+[node name="NavigationBar" type="HBoxContainer" parent="BookCenter/BookView"]
+layout_mode = 2
+size_flags_horizontal = 4
+alignment = 1
+theme_override_constants/separation = 40
+
+[node name="BtnPrev" type="Button" parent="BookCenter/BookView/NavigationBar"]
+custom_minimum_size = Vector2(130, 45)
+theme_override_font_sizes/font_size = 16
+theme_override_colors/font_color = Color(0.9, 0.75, 0.3, 1)
+text = "◀  Anterior"
+
+[node name="LabelPageNum" type="Label" parent="BookCenter/BookView/NavigationBar"]
+layout_mode = 2
+size_flags_horizontal = 4
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 15
+theme_override_colors/font_color = Color(0.7, 0.6, 0.4, 1)
+text = "1 / 4"
+
+[node name="BtnNext" type="Button" parent="BookCenter/BookView/NavigationBar"]
+custom_minimum_size = Vector2(130, 45)
+theme_override_font_sizes/font_size = 16
+theme_override_colors/font_color = Color(0.9, 0.75, 0.3, 1)
+text = "Siguiente  ▶"
+
+[node name="BtnComenzar" type="Button" parent="BookCenter/BookView"]
+layout_mode = 2
+size_flags_horizontal = 4
+custom_minimum_size = Vector2(260, 55)
+theme_override_font_sizes/font_size = 20
+theme_override_colors/font_color = Color(0.9, 0.75, 0.3, 1)
+text = "✦  Comenzar Aventura  ✦"
+visible = false
+
+[connection signal="pressed" from="CoverPage/VBoxCover/BtnAbrir" to="." method="_on_btn_abrir_pressed"]
+[connection signal="pressed" from="BookCenter/BookView/NavigationBar/BtnPrev" to="." method="_on_btn_prev_pressed"]
+[connection signal="pressed" from="BookCenter/BookView/NavigationBar/BtnNext" to="." method="_on_btn_next_pressed"]
+[connection signal="pressed" from="BookCenter/BookView/BtnComenzar" to="." method="_on_btn_comenzar_pressed"]
