@@ -1,2 +1,2 @@
-res://scenes/combat/Combat.tscn
-res://globals/GameData.gd
+res://scenes/character_creation.tscn
+res://scripts/character_creation.gd

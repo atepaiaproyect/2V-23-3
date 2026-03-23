@@ -1,0 +1,202 @@
+[gd_scene format=3 uid="uid://bwutxwx3sided"]
+
+[ext_resource type="Script" uid="uid://pm36yyynrdhl" path="res://scripts/character_creation.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://b2ch272aynvw0" path="res://assets/ui/backgrounds/background_character.jpg" id="4"]
+
+[node name="CharacterCreation" type="Control" unique_id=1633363445]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1")
+
+[node name="Background" type="TextureRect" parent="." unique_id=603874261]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Overlay" type="ColorRect" parent="." unique_id=184903132]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.5)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1697929142]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 20
+
+[node name="LabelTitulo" type="Label" parent="VBoxContainer" unique_id=1390998687]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0.9, 0.75, 0.3, 1)
+theme_override_font_sizes/font_size = 36
+text = "SELECCION DE PERSONAJE"
+
+[node name="LineEdit" type="LineEdit" parent="VBoxContainer" unique_id=2014123383]
+custom_minimum_size = Vector2(300, 40)
+layout_mode = 2
+size_flags_horizontal = 4
+placeholder_text = "Elegí tu nombre de jugador"
+max_length = 20
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer" unique_id=943232422]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 60
+alignment = 1
+
+[node name="VBoxMale" type="VBoxContainer" parent="VBoxContainer/HBoxContainer" unique_id=197310852]
+layout_mode = 2
+alignment = 1
+
+[node name="HBoxCarouselMale" type="HBoxContainer" parent="VBoxContainer/HBoxContainer/VBoxMale" unique_id=444468059]
+layout_mode = 2
+alignment = 1
+
+[node name="BtnPrevMale" type="Button" parent="VBoxContainer/HBoxContainer/VBoxMale/HBoxCarouselMale" unique_id=1550752091]
+custom_minimum_size = Vector2(40, 280)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.75, 0.3, 1)
+theme_override_font_sizes/font_size = 20
+text = "◀"
+
+[node name="TextureButtonMale" type="TextureRect" parent="VBoxContainer/HBoxContainer/VBoxMale/HBoxCarouselMale" unique_id=1151944475]
+custom_minimum_size = Vector2(220, 280)
+layout_mode = 2
+expand_mode = 3
+stretch_mode = 6
+
+[node name="BtnSelectMale" type="Button" parent="VBoxContainer/HBoxContainer/VBoxMale/HBoxCarouselMale/TextureButtonMale" unique_id=215773041]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+flat = true
+
+[node name="BtnNextMale" type="Button" parent="VBoxContainer/HBoxContainer/VBoxMale/HBoxCarouselMale" unique_id=15602055]
+custom_minimum_size = Vector2(40, 280)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.75, 0.3, 1)
+theme_override_font_sizes/font_size = 20
+text = "▶"
+
+[node name="LabelMale" type="Label" parent="VBoxContainer/HBoxContainer/VBoxMale" unique_id=520648862]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0.9, 0.75, 0.3, 1)
+text = "HOMBRE"
+horizontal_alignment = 1
+
+[node name="VBoxFemale" type="VBoxContainer" parent="VBoxContainer/HBoxContainer" unique_id=1318855614]
+layout_mode = 2
+alignment = 1
+
+[node name="HBoxCarouselFemale" type="HBoxContainer" parent="VBoxContainer/HBoxContainer/VBoxFemale" unique_id=1698835844]
+layout_mode = 2
+alignment = 1
+
+[node name="BtnPrevFemale" type="Button" parent="VBoxContainer/HBoxContainer/VBoxFemale/HBoxCarouselFemale" unique_id=882137252]
+custom_minimum_size = Vector2(40, 280)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.75, 0.3, 1)
+theme_override_font_sizes/font_size = 20
+text = "◀"
+
+[node name="TextureButtonFemale" type="TextureRect" parent="VBoxContainer/HBoxContainer/VBoxFemale/HBoxCarouselFemale" unique_id=2143658433]
+custom_minimum_size = Vector2(220, 280)
+layout_mode = 2
+expand_mode = 3
+stretch_mode = 6
+
+[node name="BtnSelectFemale" type="Button" parent="VBoxContainer/HBoxContainer/VBoxFemale/HBoxCarouselFemale/TextureButtonFemale" unique_id=71382636]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+flat = true
+
+[node name="BtnNextFemale" type="Button" parent="VBoxContainer/HBoxContainer/VBoxFemale/HBoxCarouselFemale" unique_id=248705859]
+custom_minimum_size = Vector2(40, 280)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.75, 0.3, 1)
+theme_override_font_sizes/font_size = 20
+text = "▶"
+
+[node name="LabelFemale" type="Label" parent="VBoxContainer/HBoxContainer/VBoxFemale" unique_id=412689961]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0.9, 0.75, 0.3, 1)
+text = "MUJER"
+horizontal_alignment = 1
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer" unique_id=999296953]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 20
+alignment = 1
+
+[node name="BtnNoble" type="Button" parent="VBoxContainer/HBoxContainer2" unique_id=337205465]
+custom_minimum_size = Vector2(160, 50)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.75, 0.3, 1)
+theme_override_font_sizes/font_size = 16
+text = "NOBLE"
+
+[node name="BtnMercenario" type="Button" parent="VBoxContainer/HBoxContainer2" unique_id=987751141]
+custom_minimum_size = Vector2(160, 50)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.75, 0.3, 1)
+theme_override_font_sizes/font_size = 16
+text = "MERCENARIO"
+
+[node name="LabelDesc" type="Label" parent="VBoxContainer" unique_id=2034065414]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0.85, 0.85, 0.85, 1)
+horizontal_alignment = 1
+
+[node name="LabelError" type="Label" parent="VBoxContainer" unique_id=550042813]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(1, 0.3, 0.3, 1)
+horizontal_alignment = 1
+
+[node name="BtnComenzar" type="Button" parent="VBoxContainer" unique_id=104779484]
+custom_minimum_size = Vector2(200, 50)
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0.9, 0.75, 0.3, 1)
+theme_override_font_sizes/font_size = 18
+text = "COMENZAR"
+
+[node name="HTTPRequest" type="HTTPRequest" parent="." unique_id=1046933572]
+
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/VBoxMale/HBoxCarouselMale/BtnPrevMale" to="." method="_on_btn_prev_male_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/VBoxMale/HBoxCarouselMale/TextureButtonMale/BtnSelectMale" to="." method="_on_btn_select_male_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/VBoxMale/HBoxCarouselMale/BtnNextMale" to="." method="_on_btn_next_male_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/VBoxFemale/HBoxCarouselFemale/BtnPrevFemale" to="." method="_on_btn_prev_female_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/VBoxFemale/HBoxCarouselFemale/TextureButtonFemale/BtnSelectFemale" to="." method="_on_btn_select_female_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/VBoxFemale/HBoxCarouselFemale/BtnNextFemale" to="." method="_on_btn_next_female_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer2/BtnNoble" to="." method="_on_btn_noble_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer2/BtnMercenario" to="." method="_on_btn_mercenario_pressed"]
+[connection signal="pressed" from="VBoxContainer/BtnComenzar" to="." method="_on_btn_comenzar_pressed"]
