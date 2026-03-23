@@ -24,7 +24,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.06, 0.05, 0.04, 1)
 
-[node name="VBoxMain" type="VBoxContainer" parent="." unique_id=1843477138]
+[node name="HBoxMain" type="HBoxContainer" parent="." unique_id=1843477138]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -33,114 +33,26 @@ grow_horizontal = 2
 grow_vertical = 2
 theme_override_constants/separation = 4
 
-[node name="TopBar" type="MarginContainer" parent="VBoxMain" unique_id=1534238650]
-custom_minimum_size = Vector2(0, 58)
-layout_mode = 2
-theme_override_constants/margin_left = 4
-theme_override_constants/margin_top = 4
-theme_override_constants/margin_right = 4
-theme_override_constants/margin_bottom = 0
-
-[node name="TopBarBg" type="TextureRect" parent="VBoxMain/TopBar" unique_id=1387469145]
-layout_mode = 2
-texture = ExtResource("4")
-expand_mode = 1
-stretch_mode = 6
-
-[node name="TopBarContent" type="HBoxContainer" parent="VBoxMain/TopBar" unique_id=948272563]
-layout_mode = 2
-theme_override_constants/separation = 2
-
-[node name="BtnQuick1" type="Button" parent="VBoxMain/TopBar/TopBarContent" unique_id=1915814899]
-custom_minimum_size = Vector2(140, 58)
-layout_mode = 2
-theme_override_colors/font_color = Color(0.15, 0.08, 0.02, 1)
-theme_override_colors/font_hover_color = Color(0.5, 0.25, 0.02, 1)
-theme_override_font_sizes/font_size = 14
-text = "Perfil"
-flat = true
-
-[node name="BtnQuick2" type="Button" parent="VBoxMain/TopBar/TopBarContent" unique_id=361591087]
-custom_minimum_size = Vector2(140, 58)
-layout_mode = 2
-theme_override_colors/font_color = Color(0.15, 0.08, 0.02, 1)
-theme_override_colors/font_hover_color = Color(0.5, 0.25, 0.02, 1)
-theme_override_font_sizes/font_size = 14
-text = "Arena"
-flat = true
-
-[node name="BtnQuick3" type="Button" parent="VBoxMain/TopBar/TopBarContent" unique_id=1792850351]
-custom_minimum_size = Vector2(140, 58)
-layout_mode = 2
-theme_override_colors/font_color = Color(0.15, 0.08, 0.02, 1)
-theme_override_colors/font_hover_color = Color(0.5, 0.25, 0.02, 1)
-theme_override_font_sizes/font_size = 14
-text = "Mercado"
-flat = true
-
-[node name="BtnQuick4" type="Button" parent="VBoxMain/TopBar/TopBarContent" unique_id=159775284]
-custom_minimum_size = Vector2(140, 58)
-layout_mode = 2
-theme_override_colors/font_color = Color(0.15, 0.08, 0.02, 1)
-theme_override_colors/font_hover_color = Color(0.5, 0.25, 0.02, 1)
-theme_override_font_sizes/font_size = 14
-text = "Clan"
-flat = true
-
-[node name="BtnQuick5" type="Button" parent="VBoxMain/TopBar/TopBarContent" unique_id=959748992]
-custom_minimum_size = Vector2(140, 58)
-layout_mode = 2
-theme_override_colors/font_color = Color(0.15, 0.08, 0.02, 1)
-theme_override_colors/font_hover_color = Color(0.5, 0.25, 0.02, 1)
-theme_override_font_sizes/font_size = 14
-text = "Ranking"
-flat = true
-
-[node name="Spacer" type="Control" parent="VBoxMain/TopBar/TopBarContent" unique_id=1718881718]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="BtnEditQuick" type="Button" parent="VBoxMain/TopBar/TopBarContent" unique_id=2137442290]
-custom_minimum_size = Vector2(90, 58)
-layout_mode = 2
-theme_override_colors/font_color = Color(0.3, 0.18, 0.05, 1)
-theme_override_colors/font_hover_color = Color(0.5, 0.3, 0.05, 1)
-theme_override_font_sizes/font_size = 13
-text = "✎ Editar"
-flat = true
-
-[node name="LabelPlayer" type="Label" parent="VBoxMain/TopBar/TopBarContent" unique_id=137546805]
-layout_mode = 2
-size_flags_horizontal = 0
-theme_override_colors/font_color = Color(0.15, 0.08, 0.02, 1)
-theme_override_font_sizes/font_size = 14
-text = "  Jugador  "
-
-[node name="HBoxContent" type="HBoxContainer" parent="VBoxMain" unique_id=483579829]
-layout_mode = 2
-size_flags_vertical = 3
-theme_override_constants/separation = 4
-
-[node name="SideMenuContainer" type="MarginContainer" parent="VBoxMain/HBoxContent" unique_id=2092110957]
+[node name="SideMenuContainer" type="MarginContainer" parent="HBoxMain" unique_id=2092110957]
 custom_minimum_size = Vector2(185, 0)
 layout_mode = 2
 size_flags_vertical = 3
 theme_override_constants/margin_left = 4
-theme_override_constants/margin_top = 0
+theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 0
 theme_override_constants/margin_bottom = 4
 
-[node name="SideMenuBg" type="TextureRect" parent="VBoxMain/HBoxContent/SideMenuContainer" unique_id=1586228107]
+[node name="SideMenuBg" type="TextureRect" parent="HBoxMain/SideMenuContainer" unique_id=1586228107]
 layout_mode = 2
 texture = ExtResource("2")
 expand_mode = 1
 stretch_mode = 6
 
-[node name="SideMenu" type="VBoxContainer" parent="VBoxMain/HBoxContent/SideMenuContainer" unique_id=1075834028]
+[node name="SideMenu" type="VBoxContainer" parent="HBoxMain/SideMenuContainer" unique_id=1075834028]
 layout_mode = 2
 theme_override_constants/separation = 2
 
-[node name="LabelMenuTitle" type="Label" parent="VBoxMain/HBoxContent/SideMenuContainer/SideMenu" unique_id=1379501537]
+[node name="LabelMenuTitle" type="Label" parent="HBoxMain/SideMenuContainer/SideMenu" unique_id=1379501537]
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_colors/font_color = Color(0.9, 0.75, 0.3, 1)
@@ -148,7 +60,7 @@ theme_override_font_sizes/font_size = 13
 text = "— MENÚ —"
 horizontal_alignment = 1
 
-[node name="BtnPerfil" type="Button" parent="VBoxMain/HBoxContent/SideMenuContainer/SideMenu" unique_id=740210492]
+[node name="BtnPerfil" type="Button" parent="HBoxMain/SideMenuContainer/SideMenu" unique_id=740210492]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.85, 0.72, 0.45, 1)
@@ -157,7 +69,7 @@ theme_override_font_sizes/font_size = 14
 text = "👤  Perfil"
 flat = true
 
-[node name="BtnExploracion" type="Button" parent="VBoxMain/HBoxContent/SideMenuContainer/SideMenu" unique_id=147131845]
+[node name="BtnExploracion" type="Button" parent="HBoxMain/SideMenuContainer/SideMenu" unique_id=147131845]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.85, 0.72, 0.45, 1)
@@ -166,7 +78,7 @@ theme_override_font_sizes/font_size = 14
 text = "🗺  Exploración"
 flat = true
 
-[node name="BtnArena" type="Button" parent="VBoxMain/HBoxContent/SideMenuContainer/SideMenu" unique_id=614332407]
+[node name="BtnArena" type="Button" parent="HBoxMain/SideMenuContainer/SideMenu" unique_id=614332407]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.85, 0.72, 0.45, 1)
@@ -175,7 +87,7 @@ theme_override_font_sizes/font_size = 14
 text = "⚔  Arena"
 flat = true
 
-[node name="BtnMercado" type="Button" parent="VBoxMain/HBoxContent/SideMenuContainer/SideMenu" unique_id=1532855030]
+[node name="BtnMercado" type="Button" parent="HBoxMain/SideMenuContainer/SideMenu" unique_id=1532855030]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.85, 0.72, 0.45, 1)
@@ -184,7 +96,7 @@ theme_override_font_sizes/font_size = 14
 text = "🏪  Mercado"
 flat = true
 
-[node name="BtnClan" type="Button" parent="VBoxMain/HBoxContent/SideMenuContainer/SideMenu" unique_id=588464885]
+[node name="BtnClan" type="Button" parent="HBoxMain/SideMenuContainer/SideMenu" unique_id=588464885]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.85, 0.72, 0.45, 1)
@@ -193,7 +105,7 @@ theme_override_font_sizes/font_size = 14
 text = "🛡  Clan"
 flat = true
 
-[node name="BtnCrafteo" type="Button" parent="VBoxMain/HBoxContent/SideMenuContainer/SideMenu" unique_id=1656086613]
+[node name="BtnCrafteo" type="Button" parent="HBoxMain/SideMenuContainer/SideMenu" unique_id=1656086613]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.85, 0.72, 0.45, 1)
@@ -202,7 +114,7 @@ theme_override_font_sizes/font_size = 14
 text = "⚒  Crafteo"
 flat = true
 
-[node name="BtnRanking" type="Button" parent="VBoxMain/HBoxContent/SideMenuContainer/SideMenu" unique_id=1075617936]
+[node name="BtnRanking" type="Button" parent="HBoxMain/SideMenuContainer/SideMenu" unique_id=1075617936]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.85, 0.72, 0.45, 1)
@@ -211,7 +123,7 @@ theme_override_font_sizes/font_size = 14
 text = "🏆  Ranking"
 flat = true
 
-[node name="BtnInventario" type="Button" parent="VBoxMain/HBoxContent/SideMenuContainer/SideMenu" unique_id=1567957552]
+[node name="BtnInventario" type="Button" parent="HBoxMain/SideMenuContainer/SideMenu" unique_id=1567957552]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.85, 0.72, 0.45, 1)
@@ -220,7 +132,7 @@ theme_override_font_sizes/font_size = 14
 text = "🎒  Inventario"
 flat = true
 
-[node name="BtnEntrenamiento" type="Button" parent="VBoxMain/HBoxContent/SideMenuContainer/SideMenu" unique_id=855335208]
+[node name="BtnEntrenamiento" type="Button" parent="HBoxMain/SideMenuContainer/SideMenu" unique_id=855335208]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.85, 0.72, 0.45, 1)
@@ -229,7 +141,7 @@ theme_override_font_sizes/font_size = 14
 text = "💪  Entrena."
 flat = true
 
-[node name="BtnTaberna" type="Button" parent="VBoxMain/HBoxContent/SideMenuContainer/SideMenu" unique_id=372910042]
+[node name="BtnTaberna" type="Button" parent="HBoxMain/SideMenuContainer/SideMenu" unique_id=372910042]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.85, 0.72, 0.45, 1)
@@ -238,7 +150,96 @@ theme_override_font_sizes/font_size = 14
 text = "🍺  Taberna"
 flat = true
 
-[node name="ContentContainer" type="MarginContainer" parent="VBoxMain/HBoxContent" unique_id=1488703274]
+[node name="VBoxRight" type="VBoxContainer" parent="HBoxMain" unique_id=183095403]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 0
+
+[node name="TopBar" type="MarginContainer" parent="HBoxMain/VBoxRight" unique_id=1534238650]
+custom_minimum_size = Vector2(0, 58)
+layout_mode = 2
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="TopBarBg" type="TextureRect" parent="HBoxMain/VBoxRight/TopBar" unique_id=1387469145]
+layout_mode = 2
+texture = ExtResource("4")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="TopBarContent" type="HBoxContainer" parent="HBoxMain/VBoxRight/TopBar" unique_id=948272563]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="BtnQuick1" type="Button" parent="HBoxMain/VBoxRight/TopBar/TopBarContent" unique_id=1915814899]
+custom_minimum_size = Vector2(140, 58)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.15, 0.08, 0.02, 1)
+theme_override_colors/font_hover_color = Color(0.5, 0.25, 0.02, 1)
+theme_override_font_sizes/font_size = 14
+text = "Perfil"
+flat = true
+
+[node name="BtnQuick2" type="Button" parent="HBoxMain/VBoxRight/TopBar/TopBarContent" unique_id=361591087]
+custom_minimum_size = Vector2(140, 58)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.15, 0.08, 0.02, 1)
+theme_override_colors/font_hover_color = Color(0.5, 0.25, 0.02, 1)
+theme_override_font_sizes/font_size = 14
+text = "Arena"
+flat = true
+
+[node name="BtnQuick3" type="Button" parent="HBoxMain/VBoxRight/TopBar/TopBarContent" unique_id=1792850351]
+custom_minimum_size = Vector2(140, 58)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.15, 0.08, 0.02, 1)
+theme_override_colors/font_hover_color = Color(0.5, 0.25, 0.02, 1)
+theme_override_font_sizes/font_size = 14
+text = "Mercado"
+flat = true
+
+[node name="BtnQuick4" type="Button" parent="HBoxMain/VBoxRight/TopBar/TopBarContent" unique_id=159775284]
+custom_minimum_size = Vector2(140, 58)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.15, 0.08, 0.02, 1)
+theme_override_colors/font_hover_color = Color(0.5, 0.25, 0.02, 1)
+theme_override_font_sizes/font_size = 14
+text = "Clan"
+flat = true
+
+[node name="BtnQuick5" type="Button" parent="HBoxMain/VBoxRight/TopBar/TopBarContent" unique_id=959748992]
+custom_minimum_size = Vector2(140, 58)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.15, 0.08, 0.02, 1)
+theme_override_colors/font_hover_color = Color(0.5, 0.25, 0.02, 1)
+theme_override_font_sizes/font_size = 14
+text = "Ranking"
+flat = true
+
+[node name="Spacer" type="Control" parent="HBoxMain/VBoxRight/TopBar/TopBarContent" unique_id=1718881718]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="BtnEditQuick" type="Button" parent="HBoxMain/VBoxRight/TopBar/TopBarContent" unique_id=2137442290]
+custom_minimum_size = Vector2(90, 58)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.3, 0.18, 0.05, 1)
+theme_override_colors/font_hover_color = Color(0.5, 0.3, 0.05, 1)
+theme_override_font_sizes/font_size = 13
+text = "✎ Editar"
+flat = true
+
+[node name="LabelPlayer" type="Label" parent="HBoxMain/VBoxRight/TopBar/TopBarContent" unique_id=137546805]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_colors/font_color = Color(0.15, 0.08, 0.02, 1)
+theme_override_font_sizes/font_size = 14
+text = "  Jugador  "
+
+[node name="ContentContainer" type="MarginContainer" parent="HBoxMain/VBoxRight" unique_id=1488703274]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -247,20 +248,20 @@ theme_override_constants/margin_top = 0
 theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 4
 
-[node name="ContentBg" type="TextureRect" parent="VBoxMain/HBoxContent/ContentContainer" unique_id=2094742810]
+[node name="ContentBg" type="TextureRect" parent="HBoxMain/VBoxRight/ContentContainer" unique_id=2094742810]
 layout_mode = 2
 texture = ExtResource("3")
 expand_mode = 1
 stretch_mode = 6
 
-[node name="ContentArea" type="MarginContainer" parent="VBoxMain/HBoxContent/ContentContainer" unique_id=125499860]
+[node name="ContentArea" type="MarginContainer" parent="HBoxMain/VBoxRight/ContentContainer" unique_id=125499860]
 layout_mode = 2
 theme_override_constants/margin_left = 30
 theme_override_constants/margin_top = 30
 theme_override_constants/margin_right = 30
 theme_override_constants/margin_bottom = 30
 
-[node name="LabelContent" type="Label" parent="VBoxMain/HBoxContent/ContentContainer/ContentArea" unique_id=1937756346]
+[node name="LabelContent" type="Label" parent="HBoxMain/VBoxRight/ContentContainer/ContentArea" unique_id=1937756346]
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_colors/font_color = Color(0.7, 0.62, 0.45, 1)
@@ -270,6 +271,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="EditPopup" type="MarginContainer" parent="." unique_id=1486260681]
+visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -395,22 +397,12 @@ theme_override_colors/font_hover_color = Color(1, 0.4, 0.4, 1)
 text = "✕  Cancelar"
 flat = true
 
-[connection signal="pressed" from="VBoxMain/TopBar/TopBarContent/BtnQuick1" to="." method="_on_quick_btn_pressed" binds= [0]]
-[connection signal="pressed" from="VBoxMain/TopBar/TopBarContent/BtnQuick2" to="." method="_on_quick_btn_pressed" binds= [1]]
-[connection signal="pressed" from="VBoxMain/TopBar/TopBarContent/BtnQuick3" to="." method="_on_quick_btn_pressed" binds= [2]]
-[connection signal="pressed" from="VBoxMain/TopBar/TopBarContent/BtnQuick4" to="." method="_on_quick_btn_pressed" binds= [3]]
-[connection signal="pressed" from="VBoxMain/TopBar/TopBarContent/BtnQuick5" to="." method="_on_quick_btn_pressed" binds= [4]]
-[connection signal="pressed" from="VBoxMain/TopBar/TopBarContent/BtnEditQuick" to="." method="_on_btn_edit_pressed"]
-[connection signal="pressed" from="VBoxMain/HBoxContent/SideMenuContainer/SideMenu/BtnPerfil" to="." method="_on_menu_pressed" binds= ["Perfil"]]
-[connection signal="pressed" from="VBoxMain/HBoxContent/SideMenuContainer/SideMenu/BtnExploracion" to="." method="_on_menu_pressed" binds= ["Exploración"]]
-[connection signal="pressed" from="VBoxMain/HBoxContent/SideMenuContainer/SideMenu/BtnArena" to="." method="_on_menu_pressed" binds= ["Arena"]]
-[connection signal="pressed" from="VBoxMain/HBoxContent/SideMenuContainer/SideMenu/BtnMercado" to="." method="_on_menu_pressed" binds= ["Mercado"]]
-[connection signal="pressed" from="VBoxMain/HBoxContent/SideMenuContainer/SideMenu/BtnClan" to="." method="_on_menu_pressed" binds= ["Clan"]]
-[connection signal="pressed" from="VBoxMain/HBoxContent/SideMenuContainer/SideMenu/BtnCrafteo" to="." method="_on_menu_pressed" binds= ["Crafteo"]]
-[connection signal="pressed" from="VBoxMain/HBoxContent/SideMenuContainer/SideMenu/BtnRanking" to="." method="_on_menu_pressed" binds= ["Ranking"]]
-[connection signal="pressed" from="VBoxMain/HBoxContent/SideMenuContainer/SideMenu/BtnInventario" to="." method="_on_menu_pressed" binds= ["Inventario"]]
-[connection signal="pressed" from="VBoxMain/HBoxContent/SideMenuContainer/SideMenu/BtnEntrenamiento" to="." method="_on_menu_pressed" binds= ["Entrenamiento"]]
-[connection signal="pressed" from="VBoxMain/HBoxContent/SideMenuContainer/SideMenu/BtnTaberna" to="." method="_on_menu_pressed" binds= ["Taberna"]]
+[connection signal="pressed" from="HBoxMain/VBoxRight/TopBar/TopBarContent/BtnQuick1" to="." method="_on_quick_btn_pressed" binds= [0]]
+[connection signal="pressed" from="HBoxMain/VBoxRight/TopBar/TopBarContent/BtnQuick2" to="." method="_on_quick_btn_pressed" binds= [1]]
+[connection signal="pressed" from="HBoxMain/VBoxRight/TopBar/TopBarContent/BtnQuick3" to="." method="_on_quick_btn_pressed" binds= [2]]
+[connection signal="pressed" from="HBoxMain/VBoxRight/TopBar/TopBarContent/BtnQuick4" to="." method="_on_quick_btn_pressed" binds= [3]]
+[connection signal="pressed" from="HBoxMain/VBoxRight/TopBar/TopBarContent/BtnQuick5" to="." method="_on_quick_btn_pressed" binds= [4]]
+[connection signal="pressed" from="HBoxMain/VBoxRight/TopBar/TopBarContent/BtnEditQuick" to="." method="_on_btn_edit_pressed"]
 [connection signal="pressed" from="EditPopup/VBoxPopup/OptionPerfil" to="." method="_on_option_selected" binds= ["👤  Perfil"]]
 [connection signal="pressed" from="EditPopup/VBoxPopup/OptionExploracion" to="." method="_on_option_selected" binds= ["🗺  Exploración"]]
 [connection signal="pressed" from="EditPopup/VBoxPopup/OptionArena" to="." method="_on_option_selected" binds= ["⚔  Arena"]]
