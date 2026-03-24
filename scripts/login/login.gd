@@ -1,6 +1,6 @@
 # ==================================================
 # ARCHIVO: scripts/login/login.gd
-# REEMPLAZA el login.gd actual completo
+# REEMPLAZsA el login.gd actual completo
 # ==================================================
 
 extends Control
