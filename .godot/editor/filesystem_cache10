@@ -1,5 +1,5 @@
 63f7b34db8d8cdea90c76aacccf841ec
-::res://::1774307624
+::res://::1774309847
 ::res://addons/::1774291832
 ::res://addons/gamedata/::1774292370
 ::res://assets/::1774303736
@@ -61,8 +61,8 @@ Combat.tscn::PackedScene::3124574673772339190::1774298772::0::1::::<><><>0<>0<><
 Intro.tscn::PackedScene::-1::1774303418::0::1::::<><><>0<>0<><>::res://scripts/intro.gd<>res://assets/ui/logo_atepaia.png
 ::res://scenes/login/::1774296772
 loguin.tscn::PackedScene::1952337313566102353::1774296772::0::1::::<><><>0<>0<><>::
-::res://scenes/main_hub/::1774307570
-MainHub.tscn::PackedScene::8571576761063084310::1774307570::0::1::::<><><>0<>0<><>::uid://dgcc761pjuy5u::::res://scripts/main_hub/main_hub.gd<>uid://cb8n35cxx0pxl::::res://assets/ui/panel_dark_tall.png<>uid://ctjieshklhfgh::::res://assets/ui/panel_dark_square.png<>uid://c82gc6hgxfoua::::res://assets/ui/panel_golden_bar.png<>uid://drsp76nk10ocy::::res://assets/ui/panel_dark_horizontal.png
+::res://scenes/main_hub/::1774307627
+MainHub.tscn::PackedScene::8571576761063084310::1774307627::0::1::::<><><>0<>0<><>::uid://dgcc761pjuy5u::::res://scripts/main_hub/main_hub.gd<>uid://cb8n35cxx0pxl::::res://assets/ui/panel_dark_tall.png<>uid://ctjieshklhfgh::::res://assets/ui/panel_dark_square.png<>uid://c82gc6hgxfoua::::res://assets/ui/panel_golden_bar.png<>uid://drsp76nk10ocy::::res://assets/ui/panel_dark_horizontal.png
 ::res://scripts/::1774303824
 character_creation.gd::GDScript::1079361921771919709::1774300814::0::1::::<>Control<><>0<>0<><>::
 intro.gd::GDScript::6968565662024935672::1774303824::0::1::::<>Control<><>0<>0<><>::
@@ -70,5 +70,5 @@ intro.gd::GDScript::6968565662024935672::1774303824::0::1::::<>Control<><>0<>0<>
 firebase_auth.gd::GDScript::7075215916342413852::1774284426::0::1::::<>Node<><>0<>0<><>::
 ::res://scripts/login/::1774284373
 login.gd::GDScript::1104051080929742585::1774284373::0::1::::<>Node<><>0<>0<><>::
-::res://scripts/main_hub/::1774307607
-main_hub.gd::GDScript::7584704116889249152::1774307607::0::1::::<>Control<><>0<>0<><>::
+::res://scripts/main_hub/::1774307627
+main_hub.gd::GDScript::7584704116889249152::1774307627::0::1::::<>Control<><>0<>0<><>::
