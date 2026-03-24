@@ -1,6 +1,7 @@
 extends Node
 
 # --- Datos del jugador ---
+var player_username: String = ""
 var player_name: String = ""
 var player_id: String = ""
 var player_email: String = ""

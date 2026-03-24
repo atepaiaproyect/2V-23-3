@@ -1,14 +1,18 @@
-[gd_scene load_steps=12 format=3]
+[gd_scene format=3 uid="uid://ck7yg8wp3yut"]
 
-[ext_resource type="Script" path="res://scripts/login/login.gd" id="1"]
-[ext_resource type="Texture2D" path="res://assets/bg_login.png" id="2"]
-[ext_resource type="FontFile" path="res://assets/fonts/Cinzel-Medium.ttf" id="3"]
-[ext_resource type="FontFile" path="res://assets/fonts/AlegreyaSC-Bold.ttf" id="4"]
+[ext_resource type="Script" uid="uid://py2tbmg4om7j" path="res://scripts/login/login.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://duijsgrcrejdr" path="res://assets/bg_login.png" id="2"]
+[ext_resource type="FontFile" uid="uid://plrt48chstd7" path="res://assets/fonts/Cinzel-Medium.ttf" id="3"]
+[ext_resource type="FontFile" uid="uid://dyxvynttyrhlc" path="res://assets/fonts/AlegreyaSC-Bold.ttf" id="4"]
 
 [sub_resource type="StyleBoxFlat" id="panel_transp"]
 bg_color = Color(0, 0, 0, 0)
 
 [sub_resource type="StyleBoxFlat" id="input_normal"]
+content_margin_left = 14.0
+content_margin_top = 6.0
+content_margin_right = 14.0
+content_margin_bottom = 6.0
 bg_color = Color(0.04, 0.06, 0.12, 0.75)
 border_width_left = 1
 border_width_top = 1
@@ -19,26 +23,25 @@ corner_radius_top_left = 4
 corner_radius_top_right = 4
 corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
-content_margin_left = 14.0
-content_margin_right = 14.0
-content_margin_top = 6.0
-content_margin_bottom = 6.0
 
 [sub_resource type="StyleBoxFlat" id="input_focus"]
+content_margin_left = 14.0
+content_margin_top = 6.0
+content_margin_right = 14.0
+content_margin_bottom = 6.0
 bg_color = Color(0.06, 0.08, 0.18, 0.9)
 border_width_left = 1
 border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
-border_color = Color(0.8, 0.65, 0.25, 1.0)
+border_color = Color(0.8, 0.65, 0.25, 1)
 corner_radius_top_left = 4
 corner_radius_top_right = 4
 corner_radius_bottom_right = 4
 corner_radius_bottom_left = 4
-content_margin_left = 14.0
-content_margin_right = 14.0
-content_margin_top = 6.0
-content_margin_bottom = 6.0
+
+[sub_resource type="StyleBoxFlat" id="btn_eye"]
+bg_color = Color(0, 0, 0, 0)
 
 [sub_resource type="StyleBoxFlat" id="btn_normal"]
 bg_color = Color(0.06, 0.1, 0.16, 0.88)
@@ -55,18 +58,21 @@ shadow_color = Color(0.6, 0.45, 0.1, 0.4)
 shadow_size = 5
 
 [sub_resource type="StyleBoxFlat" id="btn_hover"]
-bg_color = Color(0.1, 0.16, 0.24, 1.0)
+bg_color = Color(0.1, 0.16, 0.24, 1)
 border_width_left = 1
 border_width_top = 1
 border_width_right = 1
 border_width_bottom = 1
-border_color = Color(0.9, 0.72, 0.25, 1.0)
+border_color = Color(0.9, 0.72, 0.25, 1)
 corner_radius_top_left = 6
 corner_radius_top_right = 6
 corner_radius_bottom_right = 6
 corner_radius_bottom_left = 6
 shadow_color = Color(0.8, 0.6, 0.1, 0.6)
 shadow_size = 8
+
+[sub_resource type="StyleBoxFlat" id="btn_link"]
+bg_color = Color(0, 0, 0, 0)
 
 [sub_resource type="StyleBoxFlat" id="btn_cancel"]
 bg_color = Color(0.18, 0.05, 0.05, 0.88)
@@ -80,169 +86,188 @@ corner_radius_top_right = 6
 corner_radius_bottom_right = 6
 corner_radius_bottom_left = 6
 
-[sub_resource type="StyleBoxFlat" id="btn_eye"]
-bg_color = Color(0, 0, 0, 0)
-
-[sub_resource type="StyleBoxFlat" id="btn_link"]
-bg_color = Color(0, 0, 0, 0)
-
-[node name="Login" type="Control"]
+[node name="Login" type="Control" unique_id=721662736]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 script = ExtResource("1")
 
-[node name="Background" type="TextureRect" parent="."]
+[node name="Background" type="TextureRect" parent="." unique_id=834562929]
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
 anchor_bottom = 1.0
+offset_left = -324.0
+offset_right = 324.0
+grow_horizontal = 2
+grow_vertical = 2
 texture = ExtResource("2")
 expand_mode = 3
 stretch_mode = 6
 
-[node name="Panel" type="Panel" parent="."]
+[node name="Panel" type="Panel" parent="." unique_id=1463124789]
 layout_mode = 1
+anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -185.0
-offset_top = -185.0
-offset_right = 185.0
+offset_left = -156.0
+offset_top = -140.0
+offset_right = 156.0
 offset_bottom = 185.0
+grow_horizontal = 2
+grow_vertical = 2
 theme_override_styles/panel = SubResource("panel_transp")
 
-[node name="VBoxLogin" type="VBoxContainer" parent="Panel"]
+[node name="VBoxLogin" type="VBoxContainer" parent="Panel" unique_id=892953558]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 16.0
-offset_top = 16.0
+offset_top = -14.0
 offset_right = -16.0
 offset_bottom = -16.0
+grow_horizontal = 2
+grow_vertical = 2
 theme_override_constants/separation = 10
 
-[node name="UsernameInput" type="LineEdit" parent="Panel/VBoxLogin"]
-layout_mode = 2
+[node name="UsernameInput" type="LineEdit" parent="Panel/VBoxLogin" unique_id=1727704274]
 custom_minimum_size = Vector2(0, 44)
-placeholder_text = "  Usuario"
-theme_override_colors/font_color = Color(0.95, 0.88, 0.65, 1.0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.88, 0.65, 1)
 theme_override_colors/font_placeholder_color = Color(0.55, 0.5, 0.35, 0.8)
 theme_override_fonts/font = ExtResource("4")
 theme_override_font_sizes/font_size = 13
 theme_override_styles/normal = SubResource("input_normal")
 theme_override_styles/focus = SubResource("input_focus")
+placeholder_text = "  Usuario"
 
-[node name="HBoxPass" type="Control" parent="Panel/VBoxLogin"]
-layout_mode = 2
+[node name="HBoxPass" type="Control" parent="Panel/VBoxLogin" unique_id=1795973432]
 custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
 
-[node name="PasswordInput" type="LineEdit" parent="Panel/VBoxLogin/HBoxPass"]
+[node name="PasswordInput" type="LineEdit" parent="Panel/VBoxLogin/HBoxPass" unique_id=395109812]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-placeholder_text = "  Contraseña"
-secret = true
-theme_override_colors/font_color = Color(0.95, 0.88, 0.65, 1.0)
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.95, 0.88, 0.65, 1)
 theme_override_colors/font_placeholder_color = Color(0.55, 0.5, 0.35, 0.8)
 theme_override_fonts/font = ExtResource("4")
 theme_override_font_sizes/font_size = 13
 theme_override_styles/normal = SubResource("input_normal")
 theme_override_styles/focus = SubResource("input_focus")
+placeholder_text = "  Contraseña"
+secret = true
 
-[node name="EyeButton" type="Button" parent="Panel/VBoxLogin/HBoxPass"]
+[node name="EyeButton" type="Button" parent="Panel/VBoxLogin/HBoxPass" unique_id=453831678]
 layout_mode = 1
+anchors_preset = 11
 anchor_left = 1.0
-anchor_top = 0.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = -36.0
-offset_right = -2.0
 offset_top = 2.0
+offset_right = -2.0
 offset_bottom = -2.0
-text = "○"
 theme_override_colors/font_color = Color(0.7, 0.65, 0.4, 0.7)
 theme_override_font_sizes/font_size = 13
 theme_override_styles/normal = SubResource("btn_eye")
-theme_override_styles/hover = SubResource("btn_eye")
 theme_override_styles/pressed = SubResource("btn_eye")
+theme_override_styles/hover = SubResource("btn_eye")
 theme_override_styles/focus = SubResource("btn_eye")
+text = "○"
 
-[node name="HBoxOpciones" type="HBoxContainer" parent="Panel/VBoxLogin"]
+[node name="StatusLabel" type="Label" parent="Panel/VBoxLogin" unique_id=1935137853]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.55, 0.2, 1)
+theme_override_fonts/font = ExtResource("4")
+theme_override_font_sizes/font_size = 12
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="HBoxOpciones" type="HBoxContainer" parent="Panel/VBoxLogin" unique_id=1562172940]
 layout_mode = 2
 theme_override_constants/separation = 8
 
-[node name="RememberCheck" type="CheckBox" parent="Panel/VBoxLogin/HBoxOpciones"]
+[node name="RememberCheck" type="CheckBox" parent="Panel/VBoxLogin/HBoxOpciones" unique_id=1775158561]
 layout_mode = 2
 size_flags_horizontal = 3
-text = "Recordar sesión"
 theme_override_colors/font_color = Color(0.75, 0.68, 0.45, 0.9)
 theme_override_fonts/font = ExtResource("4")
 theme_override_font_sizes/font_size = 11
+text = "Recordar sesión"
 
-[node name="ServerOption" type="OptionButton" parent="Panel/VBoxLogin/HBoxOpciones"]
+[node name="ServerOption" type="OptionButton" parent="Panel/VBoxLogin/HBoxOpciones" unique_id=2008215415]
+custom_minimum_size = Vector2(0, 30)
 layout_mode = 2
 size_flags_horizontal = 3
-custom_minimum_size = Vector2(0, 30)
-theme_override_colors/font_color = Color(0.85, 0.78, 0.5, 1.0)
+theme_override_colors/font_color = Color(0.85, 0.78, 0.5, 1)
 theme_override_fonts/font = ExtResource("4")
 theme_override_font_sizes/font_size = 11
 
-[node name="HBoxBotones" type="HBoxContainer" parent="Panel/VBoxLogin"]
+[node name="HBoxBotones" type="HBoxContainer" parent="Panel/VBoxLogin" unique_id=1542871793]
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="LoginButton" type="Button" parent="Panel/VBoxLogin/HBoxBotones"]
+[node name="LoginButton" type="Button" parent="Panel/VBoxLogin/HBoxBotones" unique_id=301787735]
+custom_minimum_size = Vector2(0, 42)
 layout_mode = 2
 size_flags_horizontal = 3
-custom_minimum_size = Vector2(0, 42)
+theme_override_colors/font_color = Color(0.95, 0.85, 0.45, 1)
+theme_override_fonts/font = ExtResource("3")
+theme_override_font_sizes/font_size = 13
+theme_override_styles/normal = SubResource("btn_normal")
+theme_override_styles/pressed = SubResource("btn_normal")
+theme_override_styles/hover = SubResource("btn_hover")
+theme_override_styles/focus = SubResource("btn_normal")
 text = "⚔  INGRESAR"
-theme_override_colors/font_color = Color(0.95, 0.85, 0.45, 1.0)
-theme_override_fonts/font = ExtResource("3")
-theme_override_font_sizes/font_size = 13
-theme_override_styles/normal = SubResource("btn_normal")
-theme_override_styles/hover = SubResource("btn_hover")
-theme_override_styles/pressed = SubResource("btn_normal")
-theme_override_styles/focus = SubResource("btn_normal")
 
-[node name="RegisterButton" type="Button" parent="Panel/VBoxLogin/HBoxBotones"]
+[node name="RegisterButton" type="Button" parent="Panel/VBoxLogin/HBoxBotones" unique_id=1625748079]
+custom_minimum_size = Vector2(0, 42)
 layout_mode = 2
 size_flags_horizontal = 3
-custom_minimum_size = Vector2(0, 42)
-text = "✧  REGISTRARSE"
-theme_override_colors/font_color = Color(0.95, 0.85, 0.45, 1.0)
+theme_override_colors/font_color = Color(0.95, 0.85, 0.45, 1)
 theme_override_fonts/font = ExtResource("3")
 theme_override_font_sizes/font_size = 13
 theme_override_styles/normal = SubResource("btn_normal")
-theme_override_styles/hover = SubResource("btn_hover")
 theme_override_styles/pressed = SubResource("btn_normal")
+theme_override_styles/hover = SubResource("btn_hover")
 theme_override_styles/focus = SubResource("btn_normal")
+text = "✧  REGISTRARSE"
 
-[node name="RecoverButton" type="Button" parent="Panel/VBoxLogin"]
+[node name="RecoverButton" type="Button" parent="Panel/VBoxLogin" unique_id=1798252340]
 layout_mode = 2
-text = "¿Olvidaste tu contraseña?"
 theme_override_colors/font_color = Color(0.6, 0.6, 0.8, 0.85)
 theme_override_fonts/font = ExtResource("4")
 theme_override_font_sizes/font_size = 11
 theme_override_styles/normal = SubResource("btn_link")
-theme_override_styles/hover = SubResource("btn_link")
 theme_override_styles/pressed = SubResource("btn_link")
+theme_override_styles/hover = SubResource("btn_link")
 theme_override_styles/focus = SubResource("btn_link")
+text = "¿Olvidaste tu contraseña?"
 
-[node name="StatusLabel" type="Label" parent="Panel/VBoxLogin"]
+[node name="DeleteButton" type="Button" parent="Panel/VBoxLogin" unique_id=408798634]
 layout_mode = 2
-text = ""
-horizontal_alignment = 1
-theme_override_colors/font_color = Color(0.95, 0.55, 0.2, 1.0)
+theme_override_colors/font_color = Color(0.65, 0.3, 0.3, 0.7)
 theme_override_fonts/font = ExtResource("4")
-theme_override_font_sizes/font_size = 12
-autowrap_mode = 3
+theme_override_font_sizes/font_size = 10
+theme_override_styles/normal = SubResource("btn_link")
+theme_override_styles/pressed = SubResource("btn_link")
+theme_override_styles/hover = SubResource("btn_link")
+theme_override_styles/focus = SubResource("btn_link")
+text = "Eliminar mi cuenta"
 
-[node name="VBoxRegistro" type="VBoxContainer" parent="Panel"]
+[node name="VBoxRegistro" type="VBoxContainer" parent="Panel" unique_id=1913905614]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -251,107 +276,110 @@ offset_left = 16.0
 offset_top = 16.0
 offset_right = -16.0
 offset_bottom = -16.0
+grow_horizontal = 2
+grow_vertical = 2
 theme_override_constants/separation = 10
-visible = false
 
-[node name="RegUsernameInput" type="LineEdit" parent="Panel/VBoxRegistro"]
-layout_mode = 2
+[node name="RegUsernameInput" type="LineEdit" parent="Panel/VBoxRegistro" unique_id=537764287]
 custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.88, 0.65, 1)
+theme_override_colors/font_placeholder_color = Color(0.55, 0.5, 0.35, 0.8)
+theme_override_fonts/font = ExtResource("4")
+theme_override_font_sizes/font_size = 13
+theme_override_styles/normal = SubResource("input_normal")
+theme_override_styles/focus = SubResource("input_focus")
 placeholder_text = "  Nombre de usuario"
-theme_override_colors/font_color = Color(0.95, 0.88, 0.65, 1.0)
+
+[node name="RegEmailInput" type="LineEdit" parent="Panel/VBoxRegistro" unique_id=1075951137]
+custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.88, 0.65, 1)
 theme_override_colors/font_placeholder_color = Color(0.55, 0.5, 0.35, 0.8)
 theme_override_fonts/font = ExtResource("4")
 theme_override_font_sizes/font_size = 13
 theme_override_styles/normal = SubResource("input_normal")
 theme_override_styles/focus = SubResource("input_focus")
-
-[node name="RegEmailInput" type="LineEdit" parent="Panel/VBoxRegistro"]
-layout_mode = 2
-custom_minimum_size = Vector2(0, 44)
 placeholder_text = "  Email"
-theme_override_colors/font_color = Color(0.95, 0.88, 0.65, 1.0)
-theme_override_colors/font_placeholder_color = Color(0.55, 0.5, 0.35, 0.8)
-theme_override_fonts/font = ExtResource("4")
-theme_override_font_sizes/font_size = 13
-theme_override_styles/normal = SubResource("input_normal")
-theme_override_styles/focus = SubResource("input_focus")
 
-[node name="HBoxRegPass" type="Control" parent="Panel/VBoxRegistro"]
-layout_mode = 2
+[node name="HBoxRegPass" type="Control" parent="Panel/VBoxRegistro" unique_id=431180549]
 custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
 
-[node name="RegPasswordInput" type="LineEdit" parent="Panel/VBoxRegistro/HBoxRegPass"]
+[node name="RegPasswordInput" type="LineEdit" parent="Panel/VBoxRegistro/HBoxRegPass" unique_id=1744293254]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-placeholder_text = "  Contraseña (8+, mayúscula, número)"
-secret = true
-theme_override_colors/font_color = Color(0.95, 0.88, 0.65, 1.0)
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.95, 0.88, 0.65, 1)
 theme_override_colors/font_placeholder_color = Color(0.55, 0.5, 0.35, 0.8)
 theme_override_fonts/font = ExtResource("4")
 theme_override_font_sizes/font_size = 12
 theme_override_styles/normal = SubResource("input_normal")
 theme_override_styles/focus = SubResource("input_focus")
+placeholder_text = "  Contraseña (8+, mayúscula, número)"
+secret = true
 
-[node name="RegEyeButton" type="Button" parent="Panel/VBoxRegistro/HBoxRegPass"]
+[node name="RegEyeButton" type="Button" parent="Panel/VBoxRegistro/HBoxRegPass" unique_id=1477714573]
 layout_mode = 1
+anchors_preset = 11
 anchor_left = 1.0
-anchor_top = 0.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = -36.0
-offset_right = -2.0
 offset_top = 2.0
+offset_right = -2.0
 offset_bottom = -2.0
-text = "○"
 theme_override_colors/font_color = Color(0.7, 0.65, 0.4, 0.7)
 theme_override_font_sizes/font_size = 13
 theme_override_styles/normal = SubResource("btn_eye")
-theme_override_styles/hover = SubResource("btn_eye")
 theme_override_styles/pressed = SubResource("btn_eye")
+theme_override_styles/hover = SubResource("btn_eye")
 theme_override_styles/focus = SubResource("btn_eye")
+text = "○"
 
-[node name="HBoxRegBotones" type="HBoxContainer" parent="Panel/VBoxRegistro"]
+[node name="HBoxRegBotones" type="HBoxContainer" parent="Panel/VBoxRegistro" unique_id=127049733]
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="ConfirmRegBtn" type="Button" parent="Panel/VBoxRegistro/HBoxRegBotones"]
+[node name="ConfirmRegBtn" type="Button" parent="Panel/VBoxRegistro/HBoxRegBotones" unique_id=1016601223]
+custom_minimum_size = Vector2(0, 42)
 layout_mode = 2
 size_flags_horizontal = 3
-custom_minimum_size = Vector2(0, 42)
-text = "✧  CREAR CUENTA"
-theme_override_colors/font_color = Color(0.95, 0.85, 0.45, 1.0)
+theme_override_colors/font_color = Color(0.95, 0.85, 0.45, 1)
 theme_override_fonts/font = ExtResource("3")
 theme_override_font_sizes/font_size = 13
 theme_override_styles/normal = SubResource("btn_normal")
-theme_override_styles/hover = SubResource("btn_hover")
 theme_override_styles/pressed = SubResource("btn_normal")
+theme_override_styles/hover = SubResource("btn_hover")
 theme_override_styles/focus = SubResource("btn_normal")
+text = "✧  CREAR CUENTA"
 
-[node name="CancelRegBtn" type="Button" parent="Panel/VBoxRegistro/HBoxRegBotones"]
+[node name="CancelRegBtn" type="Button" parent="Panel/VBoxRegistro/HBoxRegBotones" unique_id=2099438057]
+custom_minimum_size = Vector2(0, 42)
 layout_mode = 2
 size_flags_horizontal = 3
-custom_minimum_size = Vector2(0, 42)
-text = "✕  CANCELAR"
-theme_override_colors/font_color = Color(0.95, 0.5, 0.5, 1.0)
+theme_override_colors/font_color = Color(0.95, 0.5, 0.5, 1)
 theme_override_fonts/font = ExtResource("3")
 theme_override_font_sizes/font_size = 13
 theme_override_styles/normal = SubResource("btn_cancel")
-theme_override_styles/hover = SubResource("btn_cancel")
 theme_override_styles/pressed = SubResource("btn_cancel")
+theme_override_styles/hover = SubResource("btn_cancel")
 theme_override_styles/focus = SubResource("btn_cancel")
+text = "✕  CANCELAR"
 
-[node name="StatusLabel" type="Label" parent="Panel/VBoxRegistro"]
+[node name="StatusLabel" type="Label" parent="Panel/VBoxRegistro" unique_id=1150048446]
 layout_mode = 2
-text = ""
-horizontal_alignment = 1
-theme_override_colors/font_color = Color(0.95, 0.55, 0.2, 1.0)
+theme_override_colors/font_color = Color(0.95, 0.55, 0.2, 1)
 theme_override_fonts/font = ExtResource("4")
 theme_override_font_sizes/font_size = 12
+horizontal_alignment = 1
 autowrap_mode = 3
 
-[node name="VBoxRecuperar" type="VBoxContainer" parent="Panel"]
+[node name="VBoxRecuperar" type="VBoxContainer" parent="Panel" unique_id=31855274]
+visible = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -360,66 +388,118 @@ offset_left = 16.0
 offset_top = 16.0
 offset_right = -16.0
 offset_bottom = -16.0
+grow_horizontal = 2
+grow_vertical = 2
 theme_override_constants/separation = 10
-visible = false
 
-[node name="RecEmailInput" type="LineEdit" parent="Panel/VBoxRecuperar"]
-layout_mode = 2
+[node name="RecEmailInput" type="LineEdit" parent="Panel/VBoxRecuperar" unique_id=683313234]
 custom_minimum_size = Vector2(0, 44)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.88, 0.65, 1)
+theme_override_colors/font_placeholder_color = Color(0.55, 0.5, 0.35, 0.8)
+theme_override_fonts/font = ExtResource("4")
+theme_override_font_sizes/font_size = 13
+theme_override_styles/normal = SubResource("input_normal")
+theme_override_styles/focus = SubResource("input_focus")
 placeholder_text = "  Email de registro"
-theme_override_colors/font_color = Color(0.95, 0.88, 0.65, 1.0)
-theme_override_colors/font_placeholder_color = Color(0.55, 0.5, 0.35, 0.8)
-theme_override_fonts/font = ExtResource("4")
-theme_override_font_sizes/font_size = 13
-theme_override_styles/normal = SubResource("input_normal")
-theme_override_styles/focus = SubResource("input_focus")
 
-[node name="RecEmailConfirm" type="LineEdit" parent="Panel/VBoxRecuperar"]
-layout_mode = 2
+[node name="RecEmailConfirm" type="LineEdit" parent="Panel/VBoxRecuperar" unique_id=996228529]
 custom_minimum_size = Vector2(0, 44)
-placeholder_text = "  Confirmá el email"
-theme_override_colors/font_color = Color(0.95, 0.88, 0.65, 1.0)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.88, 0.65, 1)
 theme_override_colors/font_placeholder_color = Color(0.55, 0.5, 0.35, 0.8)
 theme_override_fonts/font = ExtResource("4")
 theme_override_font_sizes/font_size = 13
 theme_override_styles/normal = SubResource("input_normal")
 theme_override_styles/focus = SubResource("input_focus")
+placeholder_text = "  Confirmá el email"
 
-[node name="HBoxRecBotones" type="HBoxContainer" parent="Panel/VBoxRecuperar"]
+[node name="HBoxRecBotones" type="HBoxContainer" parent="Panel/VBoxRecuperar" unique_id=1318000411]
 layout_mode = 2
 theme_override_constants/separation = 10
 
-[node name="RecConfirmBtn" type="Button" parent="Panel/VBoxRecuperar/HBoxRecBotones"]
+[node name="RecConfirmBtn" type="Button" parent="Panel/VBoxRecuperar/HBoxRecBotones" unique_id=409790102]
+custom_minimum_size = Vector2(0, 42)
 layout_mode = 2
 size_flags_horizontal = 3
-custom_minimum_size = Vector2(0, 42)
-text = "✉  ENVIAR"
-theme_override_colors/font_color = Color(0.95, 0.85, 0.45, 1.0)
+theme_override_colors/font_color = Color(0.95, 0.85, 0.45, 1)
 theme_override_fonts/font = ExtResource("3")
 theme_override_font_sizes/font_size = 13
 theme_override_styles/normal = SubResource("btn_normal")
-theme_override_styles/hover = SubResource("btn_hover")
 theme_override_styles/pressed = SubResource("btn_normal")
+theme_override_styles/hover = SubResource("btn_hover")
 theme_override_styles/focus = SubResource("btn_normal")
+text = "✉  ENVIAR"
 
-[node name="RecCancelBtn" type="Button" parent="Panel/VBoxRecuperar/HBoxRecBotones"]
+[node name="RecCancelBtn" type="Button" parent="Panel/VBoxRecuperar/HBoxRecBotones" unique_id=2137950265]
+custom_minimum_size = Vector2(0, 42)
 layout_mode = 2
 size_flags_horizontal = 3
-custom_minimum_size = Vector2(0, 42)
-text = "✕  CANCELAR"
-theme_override_colors/font_color = Color(0.95, 0.5, 0.5, 1.0)
+theme_override_colors/font_color = Color(0.95, 0.5, 0.5, 1)
 theme_override_fonts/font = ExtResource("3")
 theme_override_font_sizes/font_size = 13
 theme_override_styles/normal = SubResource("btn_cancel")
-theme_override_styles/hover = SubResource("btn_cancel")
 theme_override_styles/pressed = SubResource("btn_cancel")
+theme_override_styles/hover = SubResource("btn_cancel")
 theme_override_styles/focus = SubResource("btn_cancel")
+text = "✕  CANCELAR"
 
-[node name="StatusLabel" type="Label" parent="Panel/VBoxRecuperar"]
+[node name="StatusLabel" type="Label" parent="Panel/VBoxRecuperar" unique_id=1657733801]
 layout_mode = 2
-text = ""
-horizontal_alignment = 1
-theme_override_colors/font_color = Color(0.95, 0.55, 0.2, 1.0)
+theme_override_colors/font_color = Color(0.95, 0.55, 0.2, 1)
 theme_override_fonts/font = ExtResource("4")
 theme_override_font_sizes/font_size = 12
+horizontal_alignment = 1
 autowrap_mode = 3
+
+[node name="VBoxEliminar" type="VBoxContainer" parent="Panel" unique_id=1022669017]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 16.0
+offset_top = 16.0
+offset_right = -16.0
+offset_bottom = -16.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 20
+
+[node name="StatusLabel" type="Label" parent="Panel/VBoxEliminar" unique_id=1148656492]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.55, 0.2, 1)
+theme_override_fonts/font = ExtResource("4")
+theme_override_font_sizes/font_size = 13
+horizontal_alignment = 1
+autowrap_mode = 3
+
+[node name="HBoxDelBotones" type="HBoxContainer" parent="Panel/VBoxEliminar" unique_id=358461134]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="DelConfirmBtn" type="Button" parent="Panel/VBoxEliminar/HBoxDelBotones" unique_id=1098241658]
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(1, 0.4, 0.4, 1)
+theme_override_fonts/font = ExtResource("3")
+theme_override_font_sizes/font_size = 13
+theme_override_styles/normal = SubResource("btn_cancel")
+theme_override_styles/pressed = SubResource("btn_cancel")
+theme_override_styles/hover = SubResource("btn_cancel")
+theme_override_styles/focus = SubResource("btn_cancel")
+text = "✕  ELIMINAR"
+
+[node name="DelCancelBtn" type="Button" parent="Panel/VBoxEliminar/HBoxDelBotones" unique_id=1971712654]
+custom_minimum_size = Vector2(0, 42)
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.95, 0.85, 0.45, 1)
+theme_override_fonts/font = ExtResource("3")
+theme_override_font_sizes/font_size = 13
+theme_override_styles/normal = SubResource("btn_normal")
+theme_override_styles/pressed = SubResource("btn_normal")
+theme_override_styles/hover = SubResource("btn_hover")
+theme_override_styles/focus = SubResource("btn_normal")
+text = "←  VOLVER"
