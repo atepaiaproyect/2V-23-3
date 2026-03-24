@@ -1,5 +1,6 @@
-[gd_scene format=3 uid="uid://ck7yg8wp3yut"]
+[gd_scene format=3 uid="uid://22yyfegxex2p"]
 
+<<<<<<< HEAD
 [ext_resource type="Script" uid="uid://py2tbmg4om7j" path="res://scripts/login/login.gd" id="1"]
 [ext_resource type="Texture2D" uid="uid://duijsgrcrejdr" path="res://assets/bg_login.png" id="2"]
 [ext_resource type="FontFile" uid="uid://plrt48chstd7" path="res://assets/fonts/Cinzel-Medium.ttf" id="3"]
@@ -507,3 +508,6 @@ theme_override_styles/pressed = SubResource("btn_normal")
 theme_override_styles/hover = SubResource("btn_hover")
 theme_override_styles/focus = SubResource("btn_normal")
 text = "←  VOLVER"
+=======
+[node name="Loguin" type="Node2D" unique_id=1215441012]
+>>>>>>> 777c72e091907c774a15b0ad946571874926fdca
