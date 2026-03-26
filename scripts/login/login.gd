@@ -50,6 +50,7 @@ var reg_pass_visible: bool = false
 var _deleting_mode: bool = false
 var _id_token: String = ""
 
+# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
     FirebaseAuth.login_success.connect(_on_login_success)
     FirebaseAuth.login_failed.connect(_on_login_failed)
