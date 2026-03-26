@@ -18,6 +18,10 @@ config/features=PackedStringArray("4.6", "GL Compatibility")
 
 GameData="*uid://d2m4ku0q14p03"
 FirebaseAuth="*uid://c72j1i68u8esa"
+ItemManager="*uid://0xnatuks07a6"
+EquipmentManager="*uid://cuxfta2gy1huu"
+ItemTooltip="*uid://cj15dt0s4sy6g"
+CombatEngine="*uid://cdkv56yc2ahpd"
 
 [physics]
 
@@ -28,3 +32,4 @@ FirebaseAuth="*uid://c72j1i68u8esa"
 rendering_device/driver.windows="d3d12"
 renderer/rendering_method="gl_compatibility"
 renderer/rendering_method.mobile="gl_compatibility"
+textures/vram_compression/import_etc2_astc=true

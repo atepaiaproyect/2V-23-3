@@ -1,0 +1,1350 @@
+[gd_scene format=3 uid="uid://bp8r1x6whv3rp"]
+
+[ext_resource type="Script" uid="uid://bkn1p04ghf2yi" path="res://scripts/profile/profile.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://ctjieshklhfgh" path="res://assets/ui/panels/panel_dark_square.png" id="2"]
+[ext_resource type="Script" uid="uid://boyaqssb2opt" path="res://scripts/profile/inventory_slot/InventorySlot.gd" id="3"]
+[ext_resource type="Script" uid="uid://cc2ln88dvncdd" path="res://scripts/profile/equip_slot/EquipSlot.gd" id="4"]
+
+[node name="Profile" type="Control" unique_id=1054462379]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1")
+
+[node name="Tooltip" type="PanelContainer" parent="." unique_id=53537966]
+visible = false
+z_index = 100
+layout_mode = 1
+offset_right = 280.0
+offset_bottom = 80.0
+
+[node name="TooltipLabel" type="Label" parent="Tooltip" unique_id=179969919]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.85, 0.7, 1)
+theme_override_font_sizes/font_size = 12
+autowrap_mode = 3
+
+[node name="HBoxMain" type="HBoxContainer" parent="." unique_id=925334837]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 6
+
+[node name="ColLeft" type="VBoxContainer" parent="HBoxMain" unique_id=2131372078]
+custom_minimum_size = Vector2(170, 0)
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 4
+
+[node name="PortraitBg" type="MarginContainer" parent="HBoxMain/ColLeft" unique_id=1666938704]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 0
+
+[node name="PortraitBgTex" type="TextureRect" parent="HBoxMain/ColLeft/PortraitBg" unique_id=2048603737]
+layout_mode = 2
+texture = ExtResource("2")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="PortraitImage" type="TextureRect" parent="HBoxMain/ColLeft/PortraitBg" unique_id=334143609]
+custom_minimum_size = Vector2(158, 158)
+layout_mode = 2
+expand_mode = 3
+stretch_mode = 6
+
+[node name="StatsPanel" type="MarginContainer" parent="HBoxMain/ColLeft" unique_id=1265154344]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="StatsBgTex" type="TextureRect" parent="HBoxMain/ColLeft/StatsPanel" unique_id=984667758]
+layout_mode = 2
+texture = ExtResource("2")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="VBoxStats" type="VBoxContainer" parent="HBoxMain/ColLeft/StatsPanel" unique_id=1997130170]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="LabelName" type="Label" parent="HBoxMain/ColLeft/StatsPanel/VBoxStats" unique_id=1974643486]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.75, 0.3, 1)
+theme_override_font_sizes/font_size = 16
+text = "Nombre"
+
+[node name="LabelClass" type="Label" parent="HBoxMain/ColLeft/StatsPanel/VBoxStats" unique_id=1166770556]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.62, 0.45, 1)
+theme_override_font_sizes/font_size = 12
+text = "Noble"
+
+[node name="LabelLevel" type="Label" parent="HBoxMain/ColLeft/StatsPanel/VBoxStats" unique_id=1717044653]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.72, 0.45, 1)
+theme_override_font_sizes/font_size = 12
+text = "Nivel 1"
+
+[node name="Sep1" type="HSeparator" parent="HBoxMain/ColLeft/StatsPanel/VBoxStats" unique_id=1729306960]
+layout_mode = 2
+
+[node name="LabelHP" type="Label" parent="HBoxMain/ColLeft/StatsPanel/VBoxStats" unique_id=1337433438]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.3, 0.3, 1)
+theme_override_font_sizes/font_size = 11
+text = "❤ HP: 100/100"
+
+[node name="BarHPBg" type="ColorRect" parent="HBoxMain/ColLeft/StatsPanel/VBoxStats" unique_id=1788416896]
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+size_flags_horizontal = 3
+color = Color(0.15, 0.08, 0.08, 1)
+
+[node name="BarHP" type="ColorRect" parent="HBoxMain/ColLeft/StatsPanel/VBoxStats/BarHPBg" unique_id=139125978]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.8, 0.15, 0.15, 1)
+
+[node name="LabelXP" type="Label" parent="HBoxMain/ColLeft/StatsPanel/VBoxStats" unique_id=1735696739]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 0.7, 1, 1)
+theme_override_font_sizes/font_size = 11
+text = "⭐ XP: 0/100"
+
+[node name="BarXPBg" type="ColorRect" parent="HBoxMain/ColLeft/StatsPanel/VBoxStats" unique_id=1002243978]
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+size_flags_horizontal = 3
+color = Color(0.08, 0.12, 0.2, 1)
+
+[node name="BarXP" type="ColorRect" parent="HBoxMain/ColLeft/StatsPanel/VBoxStats/BarXPBg" unique_id=966354239]
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+grow_vertical = 2
+color = Color(0.2, 0.5, 0.9, 1)
+
+[node name="Sep2" type="HSeparator" parent="HBoxMain/ColLeft/StatsPanel/VBoxStats" unique_id=2117253145]
+layout_mode = 2
+
+[node name="LabelAttrsTitle" type="Label" parent="HBoxMain/ColLeft/StatsPanel/VBoxStats" unique_id=326888453]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.75, 0.3, 1)
+theme_override_font_sizes/font_size = 11
+text = "— ATRIBUTOS —"
+horizontal_alignment = 1
+
+[node name="RowStr" type="HBoxContainer" parent="HBoxMain/ColLeft/StatsPanel/VBoxStats" unique_id=470389744]
+layout_mode = 2
+
+[node name="LabelStrN" type="Label" parent="HBoxMain/ColLeft/StatsPanel/VBoxStats/RowStr" unique_id=1724872416]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.85, 0.72, 0.45, 1)
+theme_override_font_sizes/font_size = 11
+text = "Fuerza"
+
+[node name="LabelStr" type="Label" parent="HBoxMain/ColLeft/StatsPanel/VBoxStats/RowStr" unique_id=314452417]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.85, 0.6, 1)
+theme_override_font_sizes/font_size = 11
+text = "10"
+
+[node name="RowAgi" type="HBoxContainer" parent="HBoxMain/ColLeft/StatsPanel/VBoxStats" unique_id=557386244]
+layout_mode = 2
+
+[node name="LabelAgiN" type="Label" parent="HBoxMain/ColLeft/StatsPanel/VBoxStats/RowAgi" unique_id=480492213]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.85, 0.72, 0.45, 1)
+theme_override_font_sizes/font_size = 11
+text = "Agilidad"
+
+[node name="LabelAgi" type="Label" parent="HBoxMain/ColLeft/StatsPanel/VBoxStats/RowAgi" unique_id=2082776611]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.85, 0.6, 1)
+theme_override_font_sizes/font_size = 11
+text = "10"
+
+[node name="RowDex" type="HBoxContainer" parent="HBoxMain/ColLeft/StatsPanel/VBoxStats" unique_id=919399689]
+layout_mode = 2
+
+[node name="LabelDexN" type="Label" parent="HBoxMain/ColLeft/StatsPanel/VBoxStats/RowDex" unique_id=1691733678]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.85, 0.72, 0.45, 1)
+theme_override_font_sizes/font_size = 11
+text = "Destreza"
+
+[node name="LabelDex" type="Label" parent="HBoxMain/ColLeft/StatsPanel/VBoxStats/RowDex" unique_id=1265673062]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.85, 0.6, 1)
+theme_override_font_sizes/font_size = 11
+text = "10"
+
+[node name="RowCha" type="HBoxContainer" parent="HBoxMain/ColLeft/StatsPanel/VBoxStats" unique_id=857057803]
+layout_mode = 2
+
+[node name="LabelChaN" type="Label" parent="HBoxMain/ColLeft/StatsPanel/VBoxStats/RowCha" unique_id=2052371495]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.85, 0.72, 0.45, 1)
+theme_override_font_sizes/font_size = 11
+text = "Carisma"
+
+[node name="LabelCha" type="Label" parent="HBoxMain/ColLeft/StatsPanel/VBoxStats/RowCha" unique_id=26126296]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.85, 0.6, 1)
+theme_override_font_sizes/font_size = 11
+text = "10"
+
+[node name="RowCon" type="HBoxContainer" parent="HBoxMain/ColLeft/StatsPanel/VBoxStats" unique_id=891848202]
+layout_mode = 2
+
+[node name="LabelConN" type="Label" parent="HBoxMain/ColLeft/StatsPanel/VBoxStats/RowCon" unique_id=365190929]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.85, 0.72, 0.45, 1)
+theme_override_font_sizes/font_size = 11
+text = "Constitución"
+
+[node name="LabelCon" type="Label" parent="HBoxMain/ColLeft/StatsPanel/VBoxStats/RowCon" unique_id=1571049130]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.85, 0.6, 1)
+theme_override_font_sizes/font_size = 11
+text = "10"
+
+[node name="RowInt" type="HBoxContainer" parent="HBoxMain/ColLeft/StatsPanel/VBoxStats" unique_id=1920615959]
+layout_mode = 2
+
+[node name="LabelIntN" type="Label" parent="HBoxMain/ColLeft/StatsPanel/VBoxStats/RowInt" unique_id=1904726865]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.85, 0.72, 0.45, 1)
+theme_override_font_sizes/font_size = 11
+text = "Inteligencia"
+
+[node name="LabelInt" type="Label" parent="HBoxMain/ColLeft/StatsPanel/VBoxStats/RowInt" unique_id=205582439]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.85, 0.6, 1)
+theme_override_font_sizes/font_size = 11
+text = "10"
+
+[node name="RowAtk" type="HBoxContainer" parent="HBoxMain/ColLeft/StatsPanel/VBoxStats" unique_id=1762895433]
+layout_mode = 2
+
+[node name="LabelAtkN" type="Label" parent="HBoxMain/ColLeft/StatsPanel/VBoxStats/RowAtk" unique_id=1209228042]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.85, 0.72, 0.45, 1)
+theme_override_font_sizes/font_size = 11
+text = "Daño"
+
+[node name="LabelAtk" type="Label" parent="HBoxMain/ColLeft/StatsPanel/VBoxStats/RowAtk" unique_id=1576055317]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.85, 0.6, 1)
+theme_override_font_sizes/font_size = 11
+text = "5-10"
+
+[node name="RowDef" type="HBoxContainer" parent="HBoxMain/ColLeft/StatsPanel/VBoxStats" unique_id=1893721946]
+layout_mode = 2
+
+[node name="LabelDefN" type="Label" parent="HBoxMain/ColLeft/StatsPanel/VBoxStats/RowDef" unique_id=1184669322]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.85, 0.72, 0.45, 1)
+theme_override_font_sizes/font_size = 11
+text = "Armadura"
+
+[node name="LabelDef" type="Label" parent="HBoxMain/ColLeft/StatsPanel/VBoxStats/RowDef" unique_id=788691553]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.85, 0.6, 1)
+theme_override_font_sizes/font_size = 11
+text = "0"
+
+[node name="Spacer" type="Control" parent="HBoxMain" unique_id=2095561810]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ColCenter" type="VBoxContainer" parent="HBoxMain" unique_id=185731114]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 3
+theme_override_constants/separation = 4
+
+[node name="EquipPanel" type="MarginContainer" parent="HBoxMain/ColCenter" unique_id=421498929]
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="EquipBg" type="ColorRect" parent="HBoxMain/ColCenter/EquipPanel" unique_id=1877491078]
+layout_mode = 2
+color = Color(0.08, 0.06, 0.04, 0.85)
+
+[node name="VBoxEquip" type="VBoxContainer" parent="HBoxMain/ColCenter/EquipPanel" unique_id=1482554950]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="LabelEquipTitle" type="Label" parent="HBoxMain/ColCenter/EquipPanel/VBoxEquip" unique_id=1205069153]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.75, 0.3, 1)
+theme_override_font_sizes/font_size = 12
+text = "— EQUIPO —"
+horizontal_alignment = 1
+
+[node name="GridEquip" type="GridContainer" parent="HBoxMain/ColCenter/EquipPanel/VBoxEquip" unique_id=1345508202]
+layout_mode = 2
+theme_override_constants/h_separation = 4
+theme_override_constants/v_separation = 4
+columns = 3
+
+[node name="SlotCapa" type="PanelContainer" parent="HBoxMain/ColCenter/EquipPanel/VBoxEquip/GridEquip" unique_id=919519983 groups=["equip_slots"]]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+script = ExtResource("4")
+slot_name = "capa"
+
+[node name="ItemIcon" type="TextureRect" parent="HBoxMain/ColCenter/EquipPanel/VBoxEquip/GridEquip/SlotCapa" unique_id=811506497]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+expand_mode = 1
+stretch_mode = 6
+
+[node name="SlotLabel" type="Label" parent="HBoxMain/ColCenter/EquipPanel/VBoxEquip/GridEquip/SlotCapa" unique_id=492401396]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0.5, 0.5, 0.5, 1)
+theme_override_font_sizes/font_size = 10
+text = "Capa/
+Alas"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SlotCasco" type="PanelContainer" parent="HBoxMain/ColCenter/EquipPanel/VBoxEquip/GridEquip" unique_id=1108990233 groups=["equip_slots"]]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+script = ExtResource("4")
+slot_name = "casco"
+
+[node name="ItemIcon" type="TextureRect" parent="HBoxMain/ColCenter/EquipPanel/VBoxEquip/GridEquip/SlotCasco" unique_id=1823549941]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+expand_mode = 1
+stretch_mode = 6
+
+[node name="SlotLabel" type="Label" parent="HBoxMain/ColCenter/EquipPanel/VBoxEquip/GridEquip/SlotCasco" unique_id=464950434]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0.5, 0.5, 0.5, 1)
+theme_override_font_sizes/font_size = 10
+text = "Casco"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SlotCuello" type="PanelContainer" parent="HBoxMain/ColCenter/EquipPanel/VBoxEquip/GridEquip" unique_id=61650409 groups=["equip_slots"]]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+script = ExtResource("4")
+slot_name = "cuello"
+
+[node name="ItemIcon" type="TextureRect" parent="HBoxMain/ColCenter/EquipPanel/VBoxEquip/GridEquip/SlotCuello" unique_id=1270656157]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+expand_mode = 1
+stretch_mode = 6
+
+[node name="SlotLabel" type="Label" parent="HBoxMain/ColCenter/EquipPanel/VBoxEquip/GridEquip/SlotCuello" unique_id=503043607]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0.5, 0.5, 0.5, 1)
+theme_override_font_sizes/font_size = 10
+text = "Cuello"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SlotManoD" type="PanelContainer" parent="HBoxMain/ColCenter/EquipPanel/VBoxEquip/GridEquip" unique_id=1188798236 groups=["equip_slots"]]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+script = ExtResource("4")
+slot_name = "mano_d"
+
+[node name="ItemIcon" type="TextureRect" parent="HBoxMain/ColCenter/EquipPanel/VBoxEquip/GridEquip/SlotManoD" unique_id=1364764922]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+expand_mode = 1
+stretch_mode = 6
+
+[node name="SlotLabel" type="Label" parent="HBoxMain/ColCenter/EquipPanel/VBoxEquip/GridEquip/SlotManoD" unique_id=374531086]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0.5, 0.5, 0.5, 1)
+theme_override_font_sizes/font_size = 10
+text = "Mano D"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SlotPecho" type="PanelContainer" parent="HBoxMain/ColCenter/EquipPanel/VBoxEquip/GridEquip" unique_id=604615848 groups=["equip_slots"]]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+script = ExtResource("4")
+slot_name = "pecho"
+
+[node name="ItemIcon" type="TextureRect" parent="HBoxMain/ColCenter/EquipPanel/VBoxEquip/GridEquip/SlotPecho" unique_id=1021140086]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+expand_mode = 1
+stretch_mode = 6
+
+[node name="SlotLabel" type="Label" parent="HBoxMain/ColCenter/EquipPanel/VBoxEquip/GridEquip/SlotPecho" unique_id=639544799]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0.5, 0.5, 0.5, 1)
+theme_override_font_sizes/font_size = 10
+text = "Pecho"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SlotManoI" type="PanelContainer" parent="HBoxMain/ColCenter/EquipPanel/VBoxEquip/GridEquip" unique_id=1801001989 groups=["equip_slots"]]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+script = ExtResource("4")
+slot_name = "mano_i"
+
+[node name="ItemIcon" type="TextureRect" parent="HBoxMain/ColCenter/EquipPanel/VBoxEquip/GridEquip/SlotManoI" unique_id=1621877622]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+expand_mode = 1
+stretch_mode = 6
+
+[node name="SlotLabel" type="Label" parent="HBoxMain/ColCenter/EquipPanel/VBoxEquip/GridEquip/SlotManoI" unique_id=1064654073]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0.5, 0.5, 0.5, 1)
+theme_override_font_sizes/font_size = 10
+text = "Mano I"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SlotManos" type="PanelContainer" parent="HBoxMain/ColCenter/EquipPanel/VBoxEquip/GridEquip" unique_id=348517588 groups=["equip_slots"]]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+script = ExtResource("4")
+slot_name = "manos"
+
+[node name="ItemIcon" type="TextureRect" parent="HBoxMain/ColCenter/EquipPanel/VBoxEquip/GridEquip/SlotManos" unique_id=155673250]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+expand_mode = 1
+stretch_mode = 6
+
+[node name="SlotLabel" type="Label" parent="HBoxMain/ColCenter/EquipPanel/VBoxEquip/GridEquip/SlotManos" unique_id=647581766]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0.5, 0.5, 0.5, 1)
+theme_override_font_sizes/font_size = 10
+text = "Manos"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SlotPies" type="PanelContainer" parent="HBoxMain/ColCenter/EquipPanel/VBoxEquip/GridEquip" unique_id=1448309866 groups=["equip_slots"]]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+script = ExtResource("4")
+slot_name = "pies"
+
+[node name="ItemIcon" type="TextureRect" parent="HBoxMain/ColCenter/EquipPanel/VBoxEquip/GridEquip/SlotPies" unique_id=920975573]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+expand_mode = 1
+stretch_mode = 6
+
+[node name="SlotLabel" type="Label" parent="HBoxMain/ColCenter/EquipPanel/VBoxEquip/GridEquip/SlotPies" unique_id=634235370]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0.5, 0.5, 0.5, 1)
+theme_override_font_sizes/font_size = 10
+text = "Pies"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SlotAnillos" type="VBoxContainer" parent="HBoxMain/ColCenter/EquipPanel/VBoxEquip/GridEquip" unique_id=1624259479]
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="SlotAnilloI" type="PanelContainer" parent="HBoxMain/ColCenter/EquipPanel/VBoxEquip/GridEquip/SlotAnillos" unique_id=269889834 groups=["equip_slots"]]
+custom_minimum_size = Vector2(80, 38)
+layout_mode = 2
+size_flags_vertical = 3
+script = ExtResource("4")
+slot_name = "anillo"
+
+[node name="ItemIcon" type="TextureRect" parent="HBoxMain/ColCenter/EquipPanel/VBoxEquip/GridEquip/SlotAnillos/SlotAnilloI" unique_id=996891369]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+expand_mode = 1
+stretch_mode = 6
+
+[node name="SlotLabel" type="Label" parent="HBoxMain/ColCenter/EquipPanel/VBoxEquip/GridEquip/SlotAnillos/SlotAnilloI" unique_id=2047020765]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0.5, 0.5, 0.5, 1)
+theme_override_font_sizes/font_size = 9
+text = "Anillo I"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SlotAnilloD" type="PanelContainer" parent="HBoxMain/ColCenter/EquipPanel/VBoxEquip/GridEquip/SlotAnillos" unique_id=1593763574 groups=["equip_slots"]]
+custom_minimum_size = Vector2(80, 38)
+layout_mode = 2
+size_flags_vertical = 3
+script = ExtResource("4")
+slot_name = "anillo"
+
+[node name="ItemIcon" type="TextureRect" parent="HBoxMain/ColCenter/EquipPanel/VBoxEquip/GridEquip/SlotAnillos/SlotAnilloD" unique_id=168754055]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+expand_mode = 1
+stretch_mode = 6
+
+[node name="SlotLabel" type="Label" parent="HBoxMain/ColCenter/EquipPanel/VBoxEquip/GridEquip/SlotAnillos/SlotAnilloD" unique_id=1803979658]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0.5, 0.5, 0.5, 1)
+theme_override_font_sizes/font_size = 9
+text = "Anillo D"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="InvPanel" type="MarginContainer" parent="HBoxMain/ColCenter" unique_id=241331343]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+theme_override_constants/margin_bottom = 4
+
+[node name="InvBg" type="ColorRect" parent="HBoxMain/ColCenter/InvPanel" unique_id=1782361148]
+layout_mode = 2
+color = Color(0.08, 0.06, 0.04, 0.85)
+
+[node name="VBoxInv" type="VBoxContainer" parent="HBoxMain/ColCenter/InvPanel" unique_id=1964358814]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="LabelInvTitle" type="Label" parent="HBoxMain/ColCenter/InvPanel/VBoxInv" unique_id=2121837063]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.75, 0.3, 1)
+theme_override_font_sizes/font_size = 12
+text = "— INVENTARIO —"
+horizontal_alignment = 1
+
+[node name="GridInv" type="GridContainer" parent="HBoxMain/ColCenter/InvPanel/VBoxInv" unique_id=134486198]
+layout_mode = 2
+theme_override_constants/h_separation = 4
+theme_override_constants/v_separation = 4
+columns = 6
+
+[node name="Slot1" type="PanelContainer" parent="HBoxMain/ColCenter/InvPanel/VBoxInv/GridInv" unique_id=139856540 groups=["inventory_slots"]]
+custom_minimum_size = Vector2(55, 55)
+layout_mode = 2
+script = ExtResource("3")
+
+[node name="RarityBg" type="ColorRect" parent="HBoxMain/ColCenter/InvPanel/VBoxInv/GridInv/Slot1" unique_id=1356757304]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+color = Color(0, 0, 0, 0)
+
+[node name="ItemIcon" type="TextureRect" parent="HBoxMain/ColCenter/InvPanel/VBoxInv/GridInv/Slot1" unique_id=1434146151]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+expand_mode = 1
+stretch_mode = 6
+
+[node name="CantidadLabel" type="Label" parent="HBoxMain/ColCenter/InvPanel/VBoxInv/GridInv/Slot1" unique_id=997163856]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 9
+horizontal_alignment = 2
+vertical_alignment = 2
+
+[node name="Slot2" type="PanelContainer" parent="HBoxMain/ColCenter/InvPanel/VBoxInv/GridInv" unique_id=818154775 groups=["inventory_slots"]]
+custom_minimum_size = Vector2(55, 55)
+layout_mode = 2
+script = ExtResource("3")
+
+[node name="RarityBg" type="ColorRect" parent="HBoxMain/ColCenter/InvPanel/VBoxInv/GridInv/Slot2" unique_id=912886844]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+color = Color(0, 0, 0, 0)
+
+[node name="ItemIcon" type="TextureRect" parent="HBoxMain/ColCenter/InvPanel/VBoxInv/GridInv/Slot2" unique_id=1736450416]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+expand_mode = 1
+stretch_mode = 6
+
+[node name="CantidadLabel" type="Label" parent="HBoxMain/ColCenter/InvPanel/VBoxInv/GridInv/Slot2" unique_id=153770240]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 9
+horizontal_alignment = 2
+vertical_alignment = 2
+
+[node name="Slot3" type="PanelContainer" parent="HBoxMain/ColCenter/InvPanel/VBoxInv/GridInv" unique_id=536368538 groups=["inventory_slots"]]
+custom_minimum_size = Vector2(55, 55)
+layout_mode = 2
+script = ExtResource("3")
+
+[node name="RarityBg" type="ColorRect" parent="HBoxMain/ColCenter/InvPanel/VBoxInv/GridInv/Slot3" unique_id=308557641]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+color = Color(0, 0, 0, 0)
+
+[node name="ItemIcon" type="TextureRect" parent="HBoxMain/ColCenter/InvPanel/VBoxInv/GridInv/Slot3" unique_id=1394386014]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+expand_mode = 1
+stretch_mode = 6
+
+[node name="CantidadLabel" type="Label" parent="HBoxMain/ColCenter/InvPanel/VBoxInv/GridInv/Slot3" unique_id=2089975541]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 9
+horizontal_alignment = 2
+vertical_alignment = 2
+
+[node name="Slot4" type="PanelContainer" parent="HBoxMain/ColCenter/InvPanel/VBoxInv/GridInv" unique_id=814748384 groups=["inventory_slots"]]
+custom_minimum_size = Vector2(55, 55)
+layout_mode = 2
+script = ExtResource("3")
+
+[node name="RarityBg" type="ColorRect" parent="HBoxMain/ColCenter/InvPanel/VBoxInv/GridInv/Slot4" unique_id=853174458]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+color = Color(0, 0, 0, 0)
+
+[node name="ItemIcon" type="TextureRect" parent="HBoxMain/ColCenter/InvPanel/VBoxInv/GridInv/Slot4" unique_id=2001318467]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+expand_mode = 1
+stretch_mode = 6
+
+[node name="CantidadLabel" type="Label" parent="HBoxMain/ColCenter/InvPanel/VBoxInv/GridInv/Slot4" unique_id=1776924223]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 9
+horizontal_alignment = 2
+vertical_alignment = 2
+
+[node name="Slot5" type="PanelContainer" parent="HBoxMain/ColCenter/InvPanel/VBoxInv/GridInv" unique_id=2105828229 groups=["inventory_slots"]]
+custom_minimum_size = Vector2(55, 55)
+layout_mode = 2
+script = ExtResource("3")
+
+[node name="RarityBg" type="ColorRect" parent="HBoxMain/ColCenter/InvPanel/VBoxInv/GridInv/Slot5" unique_id=703507679]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+color = Color(0, 0, 0, 0)
+
+[node name="ItemIcon" type="TextureRect" parent="HBoxMain/ColCenter/InvPanel/VBoxInv/GridInv/Slot5" unique_id=184782538]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+expand_mode = 1
+stretch_mode = 6
+
+[node name="CantidadLabel" type="Label" parent="HBoxMain/ColCenter/InvPanel/VBoxInv/GridInv/Slot5" unique_id=865367685]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 9
+horizontal_alignment = 2
+vertical_alignment = 2
+
+[node name="Slot6" type="PanelContainer" parent="HBoxMain/ColCenter/InvPanel/VBoxInv/GridInv" unique_id=1746850681 groups=["inventory_slots"]]
+custom_minimum_size = Vector2(55, 55)
+layout_mode = 2
+script = ExtResource("3")
+
+[node name="RarityBg" type="ColorRect" parent="HBoxMain/ColCenter/InvPanel/VBoxInv/GridInv/Slot6" unique_id=1275120083]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+color = Color(0, 0, 0, 0)
+
+[node name="ItemIcon" type="TextureRect" parent="HBoxMain/ColCenter/InvPanel/VBoxInv/GridInv/Slot6" unique_id=1359171325]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+expand_mode = 1
+stretch_mode = 6
+
+[node name="CantidadLabel" type="Label" parent="HBoxMain/ColCenter/InvPanel/VBoxInv/GridInv/Slot6" unique_id=1167107102]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 9
+horizontal_alignment = 2
+vertical_alignment = 2
+
+[node name="Slot7" type="PanelContainer" parent="HBoxMain/ColCenter/InvPanel/VBoxInv/GridInv" unique_id=1469217186 groups=["inventory_slots"]]
+custom_minimum_size = Vector2(55, 55)
+layout_mode = 2
+script = ExtResource("3")
+
+[node name="RarityBg" type="ColorRect" parent="HBoxMain/ColCenter/InvPanel/VBoxInv/GridInv/Slot7" unique_id=1170468467]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+color = Color(0, 0, 0, 0)
+
+[node name="ItemIcon" type="TextureRect" parent="HBoxMain/ColCenter/InvPanel/VBoxInv/GridInv/Slot7" unique_id=640897833]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+expand_mode = 1
+stretch_mode = 6
+
+[node name="CantidadLabel" type="Label" parent="HBoxMain/ColCenter/InvPanel/VBoxInv/GridInv/Slot7" unique_id=420264075]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 9
+horizontal_alignment = 2
+vertical_alignment = 2
+
+[node name="Slot8" type="PanelContainer" parent="HBoxMain/ColCenter/InvPanel/VBoxInv/GridInv" unique_id=1795986584 groups=["inventory_slots"]]
+custom_minimum_size = Vector2(55, 55)
+layout_mode = 2
+script = ExtResource("3")
+
+[node name="RarityBg" type="ColorRect" parent="HBoxMain/ColCenter/InvPanel/VBoxInv/GridInv/Slot8" unique_id=522425486]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+color = Color(0, 0, 0, 0)
+
+[node name="ItemIcon" type="TextureRect" parent="HBoxMain/ColCenter/InvPanel/VBoxInv/GridInv/Slot8" unique_id=1836582417]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+expand_mode = 1
+stretch_mode = 6
+
+[node name="CantidadLabel" type="Label" parent="HBoxMain/ColCenter/InvPanel/VBoxInv/GridInv/Slot8" unique_id=923384192]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 9
+horizontal_alignment = 2
+vertical_alignment = 2
+
+[node name="Slot9" type="PanelContainer" parent="HBoxMain/ColCenter/InvPanel/VBoxInv/GridInv" unique_id=252361584 groups=["inventory_slots"]]
+custom_minimum_size = Vector2(55, 55)
+layout_mode = 2
+script = ExtResource("3")
+
+[node name="RarityBg" type="ColorRect" parent="HBoxMain/ColCenter/InvPanel/VBoxInv/GridInv/Slot9" unique_id=1586778156]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+color = Color(0, 0, 0, 0)
+
+[node name="ItemIcon" type="TextureRect" parent="HBoxMain/ColCenter/InvPanel/VBoxInv/GridInv/Slot9" unique_id=2132254674]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+expand_mode = 1
+stretch_mode = 6
+
+[node name="CantidadLabel" type="Label" parent="HBoxMain/ColCenter/InvPanel/VBoxInv/GridInv/Slot9" unique_id=1569481787]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 9
+horizontal_alignment = 2
+vertical_alignment = 2
+
+[node name="Slot10" type="PanelContainer" parent="HBoxMain/ColCenter/InvPanel/VBoxInv/GridInv" unique_id=394310102 groups=["inventory_slots"]]
+custom_minimum_size = Vector2(55, 55)
+layout_mode = 2
+script = ExtResource("3")
+
+[node name="RarityBg" type="ColorRect" parent="HBoxMain/ColCenter/InvPanel/VBoxInv/GridInv/Slot10" unique_id=1443131997]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+color = Color(0, 0, 0, 0)
+
+[node name="ItemIcon" type="TextureRect" parent="HBoxMain/ColCenter/InvPanel/VBoxInv/GridInv/Slot10" unique_id=932403587]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+expand_mode = 1
+stretch_mode = 6
+
+[node name="CantidadLabel" type="Label" parent="HBoxMain/ColCenter/InvPanel/VBoxInv/GridInv/Slot10" unique_id=1948699994]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 9
+horizontal_alignment = 2
+vertical_alignment = 2
+
+[node name="Slot11" type="PanelContainer" parent="HBoxMain/ColCenter/InvPanel/VBoxInv/GridInv" unique_id=1767285959 groups=["inventory_slots"]]
+custom_minimum_size = Vector2(55, 55)
+layout_mode = 2
+script = ExtResource("3")
+
+[node name="RarityBg" type="ColorRect" parent="HBoxMain/ColCenter/InvPanel/VBoxInv/GridInv/Slot11" unique_id=215090097]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+color = Color(0, 0, 0, 0)
+
+[node name="ItemIcon" type="TextureRect" parent="HBoxMain/ColCenter/InvPanel/VBoxInv/GridInv/Slot11" unique_id=171268785]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+expand_mode = 1
+stretch_mode = 6
+
+[node name="CantidadLabel" type="Label" parent="HBoxMain/ColCenter/InvPanel/VBoxInv/GridInv/Slot11" unique_id=1880836037]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 9
+horizontal_alignment = 2
+vertical_alignment = 2
+
+[node name="Slot12" type="PanelContainer" parent="HBoxMain/ColCenter/InvPanel/VBoxInv/GridInv" unique_id=1823611485 groups=["inventory_slots"]]
+custom_minimum_size = Vector2(55, 55)
+layout_mode = 2
+script = ExtResource("3")
+
+[node name="RarityBg" type="ColorRect" parent="HBoxMain/ColCenter/InvPanel/VBoxInv/GridInv/Slot12" unique_id=1837374968]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+color = Color(0, 0, 0, 0)
+
+[node name="ItemIcon" type="TextureRect" parent="HBoxMain/ColCenter/InvPanel/VBoxInv/GridInv/Slot12" unique_id=1901750690]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+expand_mode = 1
+stretch_mode = 6
+
+[node name="CantidadLabel" type="Label" parent="HBoxMain/ColCenter/InvPanel/VBoxInv/GridInv/Slot12" unique_id=1307319531]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 9
+horizontal_alignment = 2
+vertical_alignment = 2
+
+[node name="Slot13" type="PanelContainer" parent="HBoxMain/ColCenter/InvPanel/VBoxInv/GridInv" unique_id=1948868826 groups=["inventory_slots"]]
+custom_minimum_size = Vector2(55, 55)
+layout_mode = 2
+script = ExtResource("3")
+
+[node name="RarityBg" type="ColorRect" parent="HBoxMain/ColCenter/InvPanel/VBoxInv/GridInv/Slot13" unique_id=209910352]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+color = Color(0, 0, 0, 0)
+
+[node name="ItemIcon" type="TextureRect" parent="HBoxMain/ColCenter/InvPanel/VBoxInv/GridInv/Slot13" unique_id=1736788749]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+expand_mode = 1
+stretch_mode = 6
+
+[node name="CantidadLabel" type="Label" parent="HBoxMain/ColCenter/InvPanel/VBoxInv/GridInv/Slot13" unique_id=571918541]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 9
+horizontal_alignment = 2
+vertical_alignment = 2
+
+[node name="Slot14" type="PanelContainer" parent="HBoxMain/ColCenter/InvPanel/VBoxInv/GridInv" unique_id=842668445 groups=["inventory_slots"]]
+custom_minimum_size = Vector2(55, 55)
+layout_mode = 2
+script = ExtResource("3")
+
+[node name="RarityBg" type="ColorRect" parent="HBoxMain/ColCenter/InvPanel/VBoxInv/GridInv/Slot14" unique_id=346349901]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+color = Color(0, 0, 0, 0)
+
+[node name="ItemIcon" type="TextureRect" parent="HBoxMain/ColCenter/InvPanel/VBoxInv/GridInv/Slot14" unique_id=2110282267]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+expand_mode = 1
+stretch_mode = 6
+
+[node name="CantidadLabel" type="Label" parent="HBoxMain/ColCenter/InvPanel/VBoxInv/GridInv/Slot14" unique_id=1344321174]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 9
+horizontal_alignment = 2
+vertical_alignment = 2
+
+[node name="Slot15" type="PanelContainer" parent="HBoxMain/ColCenter/InvPanel/VBoxInv/GridInv" unique_id=1104518319 groups=["inventory_slots"]]
+custom_minimum_size = Vector2(55, 55)
+layout_mode = 2
+script = ExtResource("3")
+
+[node name="RarityBg" type="ColorRect" parent="HBoxMain/ColCenter/InvPanel/VBoxInv/GridInv/Slot15" unique_id=1109686154]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+color = Color(0, 0, 0, 0)
+
+[node name="ItemIcon" type="TextureRect" parent="HBoxMain/ColCenter/InvPanel/VBoxInv/GridInv/Slot15" unique_id=539824903]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+expand_mode = 1
+stretch_mode = 6
+
+[node name="CantidadLabel" type="Label" parent="HBoxMain/ColCenter/InvPanel/VBoxInv/GridInv/Slot15" unique_id=1046113028]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 9
+horizontal_alignment = 2
+vertical_alignment = 2
+
+[node name="Slot16" type="PanelContainer" parent="HBoxMain/ColCenter/InvPanel/VBoxInv/GridInv" unique_id=1787852199 groups=["inventory_slots"]]
+custom_minimum_size = Vector2(55, 55)
+layout_mode = 2
+script = ExtResource("3")
+
+[node name="RarityBg" type="ColorRect" parent="HBoxMain/ColCenter/InvPanel/VBoxInv/GridInv/Slot16" unique_id=27693778]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+color = Color(0, 0, 0, 0)
+
+[node name="ItemIcon" type="TextureRect" parent="HBoxMain/ColCenter/InvPanel/VBoxInv/GridInv/Slot16" unique_id=1154884351]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+expand_mode = 1
+stretch_mode = 6
+
+[node name="CantidadLabel" type="Label" parent="HBoxMain/ColCenter/InvPanel/VBoxInv/GridInv/Slot16" unique_id=1585029701]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 9
+horizontal_alignment = 2
+vertical_alignment = 2
+
+[node name="Slot17" type="PanelContainer" parent="HBoxMain/ColCenter/InvPanel/VBoxInv/GridInv" unique_id=57763322 groups=["inventory_slots"]]
+custom_minimum_size = Vector2(55, 55)
+layout_mode = 2
+script = ExtResource("3")
+
+[node name="RarityBg" type="ColorRect" parent="HBoxMain/ColCenter/InvPanel/VBoxInv/GridInv/Slot17" unique_id=585026843]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+color = Color(0, 0, 0, 0)
+
+[node name="ItemIcon" type="TextureRect" parent="HBoxMain/ColCenter/InvPanel/VBoxInv/GridInv/Slot17" unique_id=1135378108]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+expand_mode = 1
+stretch_mode = 6
+
+[node name="CantidadLabel" type="Label" parent="HBoxMain/ColCenter/InvPanel/VBoxInv/GridInv/Slot17" unique_id=2138069364]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 9
+horizontal_alignment = 2
+vertical_alignment = 2
+
+[node name="Slot18" type="PanelContainer" parent="HBoxMain/ColCenter/InvPanel/VBoxInv/GridInv" unique_id=1988905337 groups=["inventory_slots"]]
+custom_minimum_size = Vector2(55, 55)
+layout_mode = 2
+script = ExtResource("3")
+
+[node name="RarityBg" type="ColorRect" parent="HBoxMain/ColCenter/InvPanel/VBoxInv/GridInv/Slot18" unique_id=521160646]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+color = Color(0, 0, 0, 0)
+
+[node name="ItemIcon" type="TextureRect" parent="HBoxMain/ColCenter/InvPanel/VBoxInv/GridInv/Slot18" unique_id=1174439559]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+expand_mode = 1
+stretch_mode = 6
+
+[node name="CantidadLabel" type="Label" parent="HBoxMain/ColCenter/InvPanel/VBoxInv/GridInv/Slot18" unique_id=1275971902]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 9
+horizontal_alignment = 2
+vertical_alignment = 2
+
+[node name="Slot19" type="PanelContainer" parent="HBoxMain/ColCenter/InvPanel/VBoxInv/GridInv" unique_id=1734755909 groups=["inventory_slots"]]
+custom_minimum_size = Vector2(55, 55)
+layout_mode = 2
+script = ExtResource("3")
+
+[node name="RarityBg" type="ColorRect" parent="HBoxMain/ColCenter/InvPanel/VBoxInv/GridInv/Slot19" unique_id=1219467858]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+color = Color(0, 0, 0, 0)
+
+[node name="ItemIcon" type="TextureRect" parent="HBoxMain/ColCenter/InvPanel/VBoxInv/GridInv/Slot19" unique_id=287479839]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+expand_mode = 1
+stretch_mode = 6
+
+[node name="CantidadLabel" type="Label" parent="HBoxMain/ColCenter/InvPanel/VBoxInv/GridInv/Slot19" unique_id=706115592]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 9
+horizontal_alignment = 2
+vertical_alignment = 2
+
+[node name="Slot20" type="PanelContainer" parent="HBoxMain/ColCenter/InvPanel/VBoxInv/GridInv" unique_id=368437864 groups=["inventory_slots"]]
+custom_minimum_size = Vector2(55, 55)
+layout_mode = 2
+script = ExtResource("3")
+
+[node name="RarityBg" type="ColorRect" parent="HBoxMain/ColCenter/InvPanel/VBoxInv/GridInv/Slot20" unique_id=317295955]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+color = Color(0, 0, 0, 0)
+
+[node name="ItemIcon" type="TextureRect" parent="HBoxMain/ColCenter/InvPanel/VBoxInv/GridInv/Slot20" unique_id=713958565]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+expand_mode = 1
+stretch_mode = 6
+
+[node name="CantidadLabel" type="Label" parent="HBoxMain/ColCenter/InvPanel/VBoxInv/GridInv/Slot20" unique_id=373419915]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 9
+horizontal_alignment = 2
+vertical_alignment = 2
+
+[node name="Slot21" type="PanelContainer" parent="HBoxMain/ColCenter/InvPanel/VBoxInv/GridInv" unique_id=36500072 groups=["inventory_slots"]]
+custom_minimum_size = Vector2(55, 55)
+layout_mode = 2
+script = ExtResource("3")
+
+[node name="RarityBg" type="ColorRect" parent="HBoxMain/ColCenter/InvPanel/VBoxInv/GridInv/Slot21" unique_id=2008339615]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+color = Color(0, 0, 0, 0)
+
+[node name="ItemIcon" type="TextureRect" parent="HBoxMain/ColCenter/InvPanel/VBoxInv/GridInv/Slot21" unique_id=1802779610]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+expand_mode = 1
+stretch_mode = 6
+
+[node name="CantidadLabel" type="Label" parent="HBoxMain/ColCenter/InvPanel/VBoxInv/GridInv/Slot21" unique_id=788107565]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 9
+horizontal_alignment = 2
+vertical_alignment = 2
+
+[node name="Slot22" type="PanelContainer" parent="HBoxMain/ColCenter/InvPanel/VBoxInv/GridInv" unique_id=1549629597 groups=["inventory_slots"]]
+custom_minimum_size = Vector2(55, 55)
+layout_mode = 2
+script = ExtResource("3")
+
+[node name="RarityBg" type="ColorRect" parent="HBoxMain/ColCenter/InvPanel/VBoxInv/GridInv/Slot22" unique_id=2141711375]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+color = Color(0, 0, 0, 0)
+
+[node name="ItemIcon" type="TextureRect" parent="HBoxMain/ColCenter/InvPanel/VBoxInv/GridInv/Slot22" unique_id=2005516837]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+expand_mode = 1
+stretch_mode = 6
+
+[node name="CantidadLabel" type="Label" parent="HBoxMain/ColCenter/InvPanel/VBoxInv/GridInv/Slot22" unique_id=867620838]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 9
+horizontal_alignment = 2
+vertical_alignment = 2
+
+[node name="Slot23" type="PanelContainer" parent="HBoxMain/ColCenter/InvPanel/VBoxInv/GridInv" unique_id=401326833 groups=["inventory_slots"]]
+custom_minimum_size = Vector2(55, 55)
+layout_mode = 2
+script = ExtResource("3")
+
+[node name="RarityBg" type="ColorRect" parent="HBoxMain/ColCenter/InvPanel/VBoxInv/GridInv/Slot23" unique_id=755373843]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+color = Color(0, 0, 0, 0)
+
+[node name="ItemIcon" type="TextureRect" parent="HBoxMain/ColCenter/InvPanel/VBoxInv/GridInv/Slot23" unique_id=134967709]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+expand_mode = 1
+stretch_mode = 6
+
+[node name="CantidadLabel" type="Label" parent="HBoxMain/ColCenter/InvPanel/VBoxInv/GridInv/Slot23" unique_id=2011772387]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 9
+horizontal_alignment = 2
+vertical_alignment = 2
+
+[node name="Slot24" type="PanelContainer" parent="HBoxMain/ColCenter/InvPanel/VBoxInv/GridInv" unique_id=519671670 groups=["inventory_slots"]]
+custom_minimum_size = Vector2(55, 55)
+layout_mode = 2
+script = ExtResource("3")
+
+[node name="RarityBg" type="ColorRect" parent="HBoxMain/ColCenter/InvPanel/VBoxInv/GridInv/Slot24" unique_id=1726248818]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+color = Color(0, 0, 0, 0)
+
+[node name="ItemIcon" type="TextureRect" parent="HBoxMain/ColCenter/InvPanel/VBoxInv/GridInv/Slot24" unique_id=1438273967]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+expand_mode = 1
+stretch_mode = 6
+
+[node name="CantidadLabel" type="Label" parent="HBoxMain/ColCenter/InvPanel/VBoxInv/GridInv/Slot24" unique_id=53062156]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_font_sizes/font_size = 9
+horizontal_alignment = 2
+vertical_alignment = 2
+
+[node name="Spacer2" type="Control" parent="HBoxMain" unique_id=1372074098]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ColRight" type="VBoxContainer" parent="HBoxMain" unique_id=1489451522]
+custom_minimum_size = Vector2(195, 0)
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 4
+
+[node name="PublicPanel" type="MarginContainer" parent="HBoxMain/ColRight" unique_id=182238397]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="PublicBgTex" type="TextureRect" parent="HBoxMain/ColRight/PublicPanel" unique_id=1016309360]
+layout_mode = 2
+texture = ExtResource("2")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="VBoxPublic" type="VBoxContainer" parent="HBoxMain/ColRight/PublicPanel" unique_id=20292060]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="LabelPublicTitle" type="Label" parent="HBoxMain/ColRight/PublicPanel/VBoxPublic" unique_id=581932578]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.75, 0.3, 1)
+theme_override_font_sizes/font_size = 13
+text = "— PERFIL PÚBLICO —"
+horizontal_alignment = 1
+
+[node name="LabelPublicView" type="Label" parent="HBoxMain/ColRight/PublicPanel/VBoxPublic" unique_id=1776145918]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0.7, 0.62, 0.45, 1)
+theme_override_font_sizes/font_size = 12
+autowrap_mode = 3
+
+[node name="TextEditPublic" type="TextEdit" parent="HBoxMain/ColRight/PublicPanel/VBoxPublic" unique_id=1091646782]
+visible = false
+custom_minimum_size = Vector2(0, 140)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 12
+placeholder_text = "Escribí algo sobre vos, tus logros o un mensaje..."
+
+[node name="SepMedals" type="HSeparator" parent="HBoxMain/ColRight/PublicPanel/VBoxPublic" unique_id=820664954]
+layout_mode = 2
+
+[node name="LabelMedalsTitle" type="Label" parent="HBoxMain/ColRight/PublicPanel/VBoxPublic" unique_id=141711308]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.75, 0.3, 1)
+theme_override_font_sizes/font_size = 12
+text = "— MEDALLAS —"
+horizontal_alignment = 1
+
+[node name="VBoxMedals" type="VBoxContainer" parent="HBoxMain/ColRight/PublicPanel/VBoxPublic" unique_id=1648269777]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 4
+
+[node name="LineEditMedal" type="LineEdit" parent="HBoxMain/ColRight/PublicPanel/VBoxPublic" unique_id=1129662506]
+visible = false
+layout_mode = 2
+theme_override_font_sizes/font_size = 12
+placeholder_text = "Código de medalla..."
+
+[node name="SpacerBottom" type="Control" parent="HBoxMain/ColRight/PublicPanel/VBoxPublic" unique_id=1479615801]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="BtnEdit" type="Button" parent="HBoxMain/ColRight/PublicPanel/VBoxPublic" unique_id=375979080]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0.9, 0.75, 0.3, 1)
+theme_override_font_sizes/font_size = 12
+text = "✏  EDITAR"
+
+[node name="BtnAddMedal" type="Button" parent="HBoxMain/ColRight/PublicPanel/VBoxPublic" unique_id=151878033]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0.9, 0.75, 0.3, 1)
+theme_override_font_sizes/font_size = 12
+text = "➕  Agregar medalla"
+
+[node name="BtnSavePublic" type="Button" parent="HBoxMain/ColRight/PublicPanel/VBoxPublic" unique_id=1620183416]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0.9, 0.75, 0.3, 1)
+theme_override_font_sizes/font_size = 12
+text = "💾  Guardar"

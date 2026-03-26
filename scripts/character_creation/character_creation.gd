@@ -9,6 +9,9 @@ extends Control
 @onready var portrait_male = $VBoxContainer/HBoxContainer/VBoxMale/HBoxCarouselMale/TextureButtonMale
 @onready var portrait_female = $VBoxContainer/HBoxContainer/VBoxFemale/HBoxCarouselFemale/TextureButtonFemale
 
+# HTTPRequest para guardar en Firestore
+@onready var http_save = $HTTPRequest
+
 # --- Estado del carrusel ---
 var male_index: int = 1
 var female_index: int = 1
@@ -25,29 +28,25 @@ const DESC_MERCENARIO = "MERCENARIO: +5% oro, -5% experiencia.\nPara quienes viv
 
 # ─────────────────────────────────────
 func _ready():
-    # Contamos cuántas imágenes hay de cada género
     male_max = _count_portraits("male")
     female_max = _count_portraits("female")
-    
-    # Cargamos la primera imagen de cada carrusel
     _update_portrait("male")
     _update_portrait("female")
+    http_save.request_completed.connect(_on_save_completed)
 
-# Cuenta cuántos retratos existen para un género
 func _count_portraits(gender: String) -> int:
     var count = 0
-    for i in range(1, 50):  # máximo 50 por seguridad
-        var path = "res://assets/portraits/portrait_" + gender + "_" + str(i) + ".png"
+    for i in range(1, 50):
+        var path = "res://assets/portraits/players/portrait_" + gender + "_" + str(i) + ".png"
         if ResourceLoader.exists(path):
             count += 1
         else:
             break
     return count
 
-# Actualiza la imagen mostrada en el carrusel
 func _update_portrait(gender: String):
     var index = male_index if gender == "male" else female_index
-    var path = "res://assets/portraits/portrait_" + gender + "_" + str(index) + ".png"
+    var path = "res://assets/portraits/players/portrait_" + gender + "_" + str(index) + ".png"
     var texture = load(path)
     if gender == "male":
         portrait_male.texture = texture
@@ -85,7 +84,7 @@ func _on_btn_next_female_pressed():
     _update_portrait("female")
 
 # ─────────────────────────────────────
-# SELECCIÓN DE GÉNERO (click en retrato)
+# SELECCIÓN DE GÉNERO
 # ─────────────────────────────────────
 func _on_btn_select_male_pressed():
     selected_gender = "male"
@@ -115,7 +114,7 @@ func _on_btn_mercenario_pressed():
     btn_noble.modulate = Color(1, 1, 1, 1)
 
 # ─────────────────────────────────────
-# BOTÓN COMENZAR
+# BOTÓN COMENZAR → guarda en Firestore
 # ─────────────────────────────────────
 func _on_btn_comenzar_pressed():
     var player_name = name_input.text.strip_edges()
@@ -133,16 +132,56 @@ func _on_btn_comenzar_pressed():
         error_label.text = "Elegí entre Noble o Mercenario."
         return
 
-    GameData.player_name = player_name
-    GameData.player_gender = selected_gender
-    GameData.player_class = selected_class
+    # Guardamos en GameData
+    GameData.player_name    = player_name
+    GameData.player_gender  = selected_gender
+    GameData.player_class   = selected_class
     GameData.player_portrait = selected_portrait
 
     if selected_class == "noble":
-        GameData.bonus_exp = 0.05
+        GameData.bonus_exp  = 0.05
         GameData.bonus_gold = -0.05
     else:
-        GameData.bonus_exp = -0.05
+        GameData.bonus_exp  = -0.05
         GameData.bonus_gold = 0.05
 
-    get_tree().change_scene_to_file("res://scenes/intro/Intro.tscn")
+    error_label.text = "Guardando personaje..."
+    _save_to_firestore(player_name)
+
+# ─────────────────────────────────────
+# GUARDAR EN FIRESTORE
+# ─────────────────────────────────────
+func _save_to_firestore(player_name: String):
+    var url = GameData.FIRESTORE_URL + "players/" + GameData.player_id
+
+    var body = JSON.stringify({
+        "fields": {
+            "username":  {"stringValue": player_name},
+            "gender":    {"stringValue": selected_gender},
+            "class":     {"stringValue": selected_class},
+            "portrait":  {"stringValue": selected_portrait},
+            "level":     {"integerValue": 1},
+            "gold":      {"integerValue": 100},
+            "hp":        {"integerValue": 100},
+            "hp_max":    {"integerValue": 100},
+            "bonus_exp": {"doubleValue": GameData.bonus_exp},
+            "bonus_gold":{"doubleValue": GameData.bonus_gold},
+            "created_at":{"stringValue": Time.get_datetime_string_from_system()}
+        }
+    })
+
+    # Usamos el idToken guardado en GameData
+    var headers = [
+        "Content-Type: application/json",
+        "Authorization: Bearer " + GameData.id_token
+    ]
+
+    # PATCH crea o sobreescribe el documento
+    http_save.request(url, headers, HTTPClient.METHOD_PATCH, body)
+
+func _on_save_completed(_result, response_code, _headers, _body):
+    if response_code == 200:
+        # Guardado exitoso → ir a la intro
+        get_tree().change_scene_to_file("res://scenes/intro/Intro.tscn")
+    else:
+        error_label.text = "Error al guardar. Intentá de nuevo."

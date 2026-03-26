@@ -116,7 +116,25 @@ func _on_quick_btn_pressed(slot_index: int):
     _navigate_to(clean)
 
 func _navigate_to(section: String):
-    label_content.text = "[ " + section + " ]\n\nEsta sección está en construcción.\nProximamente disponible."
+    match section:
+        "Perfil":
+            _load_sub_scene("res://scenes/profile/Profile.tscn")
+        "Exploración":
+            _load_sub_scene("res://scenes/exploration/Exploration.tscn")
+        _:
+            _show_label("[ " + section + " ]\n\nEsta sección está en construcción.\nProximamente disponible.")
+
+func _load_sub_scene(path: String):
+    for child in $HBoxMain/VBoxRight/ContentContainer/ContentArea.get_children():
+        child.queue_free()
+    var scene = load(path).instantiate()
+    $HBoxMain/VBoxRight/ContentContainer/ContentArea.add_child(scene)
+
+func _show_label(text: String):
+    for child in $HBoxMain/VBoxRight/ContentContainer/ContentArea.get_children():
+        child.queue_free()
+    label_content.text = text
+    $HBoxMain/VBoxRight/ContentContainer/ContentArea.add_child(label_content)
 
 func _on_btn_edit_pressed():
     editing_slot = 0

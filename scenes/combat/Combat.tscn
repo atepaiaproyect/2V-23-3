@@ -1,3 +1,157 @@
-[gd_scene format=3 uid="uid://bkrtj2meqypsw"]
+[gd_scene format=3 uid="uid://combat_scene"]
+[ext_resource type="Script" path="res://scripts/combat/combat.gd" id="1"]
 
-[node name="Combat" type="Node2D" unique_id=1879912866]
+[node name="Combat" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource("1")
+
+[node name="BgColor" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.05, 0.03, 0.02, 1)
+
+[node name="ScrollMain" type="ScrollContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="VBox" type="VBoxContainer" parent="ScrollMain"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 10
+
+[node name="MarginContent" type="MarginContainer" parent="ScrollMain/VBox"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_bottom = 12
+
+[node name="VBoxContent" type="VBoxContainer" parent="ScrollMain/VBox/MarginContent"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="PanelHeader" type="PanelContainer" parent="ScrollMain/VBox/MarginContent/VBoxContent"]
+layout_mode = 2
+
+[node name="LblGanador" type="Label" parent="ScrollMain/VBox/MarginContent/VBoxContent/PanelHeader"]
+layout_mode = 2
+size_flags_horizontal = 3
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 20
+text = "⚔  Resultado"
+
+[node name="HBoxRetratos" type="HBoxContainer" parent="ScrollMain/VBox/MarginContent/VBoxContent"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="PanelJugador" type="PanelContainer" parent="ScrollMain/VBox/MarginContent/VBoxContent/HBoxRetratos"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="VBoxJugador" type="VBoxContainer" parent="ScrollMain/VBox/MarginContent/VBoxContent/HBoxRetratos/PanelJugador"]
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="LblNombre" type="Label" parent="ScrollMain/VBox/MarginContent/VBoxContent/HBoxRetratos/PanelJugador/VBoxJugador"]
+layout_mode = 2
+horizontal_alignment = 1
+theme_override_colors/font_color = Color(0.9, 0.75, 0.3, 1)
+theme_override_font_sizes/font_size = 13
+text = "Jugador"
+
+[node name="ImgJugador" type="TextureRect" parent="ScrollMain/VBox/MarginContent/VBoxContent/HBoxRetratos/PanelJugador/VBoxJugador"]
+custom_minimum_size = Vector2(0, 200)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+expand_mode = 1
+stretch_mode = 6
+
+[node name="LblHP" type="Label" parent="ScrollMain/VBox/MarginContent/VBoxContent/HBoxRetratos/PanelJugador/VBoxJugador"]
+layout_mode = 2
+horizontal_alignment = 1
+theme_override_colors/font_color = Color(0.9, 0.3, 0.3, 1)
+theme_override_font_sizes/font_size = 11
+text = "HP: 100/100"
+
+[node name="LblVS" type="Label" parent="ScrollMain/VBox/MarginContent/VBoxContent/HBoxRetratos"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_colors/font_color = Color(0.9, 0.75, 0.3, 1)
+theme_override_font_sizes/font_size = 22
+text = "VS"
+
+[node name="PanelEnemigo" type="PanelContainer" parent="ScrollMain/VBox/MarginContent/VBoxContent/HBoxRetratos"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="VBoxEnemigo" type="VBoxContainer" parent="ScrollMain/VBox/MarginContent/VBoxContent/HBoxRetratos/PanelEnemigo"]
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="LblNombre" type="Label" parent="ScrollMain/VBox/MarginContent/VBoxContent/HBoxRetratos/PanelEnemigo/VBoxEnemigo"]
+layout_mode = 2
+horizontal_alignment = 1
+theme_override_colors/font_color = Color(0.9, 0.3, 0.3, 1)
+theme_override_font_sizes/font_size = 13
+text = "Enemigo"
+
+[node name="ImgEnemigo" type="TextureRect" parent="ScrollMain/VBox/MarginContent/VBoxContent/HBoxRetratos/PanelEnemigo/VBoxEnemigo"]
+custom_minimum_size = Vector2(0, 200)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+expand_mode = 1
+stretch_mode = 6
+
+[node name="LblHP" type="Label" parent="ScrollMain/VBox/MarginContent/VBoxContent/HBoxRetratos/PanelEnemigo/VBoxEnemigo"]
+layout_mode = 2
+horizontal_alignment = 1
+theme_override_colors/font_color = Color(0.9, 0.3, 0.3, 1)
+theme_override_font_sizes/font_size = 11
+text = "HP: 100/100"
+
+[node name="PanelRecompensa" type="PanelContainer" parent="ScrollMain/VBox/MarginContent/VBoxContent"]
+layout_mode = 2
+visible = false
+
+[node name="LblRecompensa" type="Label" parent="ScrollMain/VBox/MarginContent/VBoxContent/PanelRecompensa"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.9, 0.85, 0.6, 1)
+theme_override_font_sizes/font_size = 12
+text = ""
+
+[node name="LblLogTitle" type="Label" parent="ScrollMain/VBox/MarginContent/VBoxContent"]
+layout_mode = 2
+horizontal_alignment = 1
+theme_override_colors/font_color = Color(0.9, 0.75, 0.3, 1)
+theme_override_font_sizes/font_size = 13
+text = "— REPORTE DE BATALLA —"
+
+[node name="ScrollLog" type="ScrollContainer" parent="ScrollMain/VBox/MarginContent/VBoxContent"]
+custom_minimum_size = Vector2(0, 280)
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="LblLog" type="Label" parent="ScrollMain/VBox/MarginContent/VBoxContent/ScrollLog"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.8, 0.78, 0.7, 1)
+theme_override_font_sizes/font_size = 11
+autowrap_mode = 3
+text = ""
+
+[node name="BtnVolver" type="Button" parent="ScrollMain/VBox/MarginContent/VBoxContent"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0.9, 0.75, 0.3, 1)
+theme_override_font_sizes/font_size = 12
+text = "◀  Volver a la zona"

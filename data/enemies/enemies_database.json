@@ -1,0 +1,199 @@
+{
+  "zonas": [
+    {
+      "id": "zona_01",
+      "nombre": "Jungla de Atepaia",
+      "descripcion": "Bajo la luna de Varek, la jungla nunca duerme. Las criaturas que habitan entre sus raíces no pertenecen al mundo que conocés. Algo antiguo las alimenta desde abajo.",
+      "nivel_recomendado": 1,
+      "imagen": "res://assets/ui/backgrounds/exploration/exploracion_01.jpg",
+      "mobs": [
+        {
+          "id": "mob_z01_01",
+          "nombre": "Rastrero del Pantano",
+          "icono": "res://assets/portraits/mobs/mob_01.jpg",
+          "nivel": 1, "hp": 40, "hp_max": 40,
+          "attr_strength": 8, "attr_agility": 6, "attr_dexterity": 5,
+          "attr_constitution": 7, "attr_intelligence": 2, "attr_charisma": 3,
+          "ataque_min": 3, "ataque_max": 7, "armadura": 4,
+          "crit_chance": 0.04, "crit_damage": 1.5, "dodge_chance": 0.05,
+          "block_chance": 0.0, "block_reduction": 0.0, "double_hit_chance": 0.0,
+          "oro_min": 5, "oro_max": 12, "xp": 8, "drop_chance": 0.10,
+          "es_jefe": false,
+          "descripcion": "Una bestia acuática que arrastra a sus presas hacia las aguas negras. Lenta, pero implacable."
+        },
+        {
+          "id": "mob_z01_02",
+          "nombre": "Brutón Escarlata",
+          "icono": "res://assets/portraits/mobs/mob_02.jpg",
+          "nivel": 2, "hp": 65, "hp_max": 65,
+          "attr_strength": 14, "attr_agility": 7, "attr_dexterity": 6,
+          "attr_constitution": 12, "attr_intelligence": 2, "attr_charisma": 3,
+          "ataque_min": 5, "ataque_max": 12, "armadura": 10,
+          "crit_chance": 0.06, "crit_damage": 1.6, "dodge_chance": 0.04,
+          "block_chance": 0.04, "block_reduction": 0.2, "double_hit_chance": 0.02,
+          "oro_min": 10, "oro_max": 22, "xp": 15, "drop_chance": 0.12,
+          "es_jefe": false,
+          "descripcion": "Cubierto de púas carmesí. Su piel es dura como roca volcánica y su furia no tiene límite."
+        },
+        {
+          "id": "mob_z01_03",
+          "nombre": "Gárgola Errante",
+          "icono": "res://assets/portraits/mobs/mob_03.jpg",
+          "nivel": 3, "hp": 90, "hp_max": 90,
+          "attr_strength": 16, "attr_agility": 12, "attr_dexterity": 10,
+          "attr_constitution": 14, "attr_intelligence": 5, "attr_charisma": 4,
+          "ataque_min": 8, "ataque_max": 16, "armadura": 18,
+          "crit_chance": 0.08, "crit_damage": 1.6, "dodge_chance": 0.08,
+          "block_chance": 0.06, "block_reduction": 0.25, "double_hit_chance": 0.04,
+          "oro_min": 18, "oro_max": 35, "xp": 25, "drop_chance": 0.13,
+          "es_jefe": false,
+          "descripcion": "Tallada en piedra Serath hace siglos. Algo la despertó. Nadie sabe qué."
+        },
+        {
+          "id": "mob_z01_04",
+          "nombre": "El Alquimista Maldito",
+          "icono": "res://assets/portraits/mobs/mob_04.jpg",
+          "nivel": 5, "hp": 160, "hp_max": 160,
+          "attr_strength": 18, "attr_agility": 16, "attr_dexterity": 14,
+          "attr_constitution": 20, "attr_intelligence": 22, "attr_charisma": 12,
+          "ataque_min": 14, "ataque_max": 28, "armadura": 22,
+          "crit_chance": 0.14, "crit_damage": 1.9, "dodge_chance": 0.12,
+          "block_chance": 0.10, "block_reduction": 0.3, "double_hit_chance": 0.08,
+          "oro_min": 45, "oro_max": 90, "xp": 65, "drop_chance": 0.22,
+          "es_jefe": true,
+          "descripcion": "Buscaba el Anima para vivir eternamente. Lo encontró. Ahora no puede morir, pero tampoco vivir."
+        }
+      ]
+    },
+    {
+      "id": "zona_02",
+      "nombre": "Aldea Olvidada",
+      "descripcion": "Una aldea que el tiempo borró del mapa y de la memoria. Sus habitantes no saben que murieron. Sus calles están llenas de criaturas que no deberían existir en ningún mundo sano.",
+      "nivel_recomendado": 4,
+      "imagen": "res://assets/ui/backgrounds/exploration/exploracion_02.jpg",
+      "mobs": [
+        {
+          "id": "mob_z02_01",
+          "nombre": "No-Muerto del Páramo",
+          "icono": "res://assets/portraits/mobs/mob_05.jpg",
+          "nivel": 4, "hp": 110, "hp_max": 110,
+          "attr_strength": 18, "attr_agility": 8, "attr_dexterity": 7,
+          "attr_constitution": 16, "attr_intelligence": 3, "attr_charisma": 2,
+          "ataque_min": 10, "ataque_max": 20, "armadura": 12,
+          "crit_chance": 0.07, "crit_damage": 1.6, "dodge_chance": 0.04,
+          "block_chance": 0.05, "block_reduction": 0.2, "double_hit_chance": 0.03,
+          "oro_min": 22, "oro_max": 45, "xp": 35, "drop_chance": 0.14,
+          "es_jefe": false,
+          "descripcion": "La piel como pergamino, los ojos sin luz. Lo que fue humano ya no queda. Solo el hambre."
+        },
+        {
+          "id": "mob_z02_02",
+          "nombre": "Devorador Tentacular",
+          "icono": "res://assets/portraits/mobs/mob_06.jpg",
+          "nivel": 5, "hp": 140, "hp_max": 140,
+          "attr_strength": 20, "attr_agility": 10, "attr_dexterity": 9,
+          "attr_constitution": 18, "attr_intelligence": 8, "attr_charisma": 2,
+          "ataque_min": 13, "ataque_max": 26, "armadura": 16,
+          "crit_chance": 0.09, "crit_damage": 1.7, "dodge_chance": 0.06,
+          "block_chance": 0.07, "block_reduction": 0.25, "double_hit_chance": 0.06,
+          "oro_min": 30, "oro_max": 60, "xp": 48, "drop_chance": 0.15,
+          "es_jefe": false,
+          "descripcion": "Surgió del mar cuando la luna se alineó con Atepaia. Sus tentáculos recuerdan algo antiguo."
+        },
+        {
+          "id": "mob_z02_03",
+          "nombre": "Demonio Cornudo",
+          "icono": "res://assets/portraits/mobs/mob_07.jpg",
+          "nivel": 6, "hp": 170, "hp_max": 170,
+          "attr_strength": 24, "attr_agility": 14, "attr_dexterity": 12,
+          "attr_constitution": 22, "attr_intelligence": 10, "attr_charisma": 6,
+          "ataque_min": 17, "ataque_max": 33, "armadura": 22,
+          "crit_chance": 0.11, "crit_damage": 1.8, "dodge_chance": 0.08,
+          "block_chance": 0.09, "block_reduction": 0.28, "double_hit_chance": 0.07,
+          "oro_min": 40, "oro_max": 75, "xp": 60, "drop_chance": 0.16,
+          "es_jefe": false,
+          "descripcion": "Sus cuernos crecen cuando absorbe el Anima de sus víctimas. Lleva años alimentándose."
+        },
+        {
+          "id": "mob_z02_04",
+          "nombre": "El Rey Corrompido",
+          "icono": "res://assets/portraits/mobs/mob_08.jpg",
+          "nivel": 8, "hp": 280, "hp_max": 280,
+          "attr_strength": 30, "attr_agility": 18, "attr_dexterity": 16,
+          "attr_constitution": 28, "attr_intelligence": 24, "attr_charisma": 20,
+          "ataque_min": 24, "ataque_max": 46, "armadura": 35,
+          "crit_chance": 0.14, "crit_damage": 2.0, "dodge_chance": 0.10,
+          "block_chance": 0.14, "block_reduction": 0.35, "double_hit_chance": 0.10,
+          "oro_min": 80, "oro_max": 150, "xp": 110, "drop_chance": 0.25,
+          "es_jefe": true,
+          "descripcion": "Gobernó la aldea cuando aún vivía. Ahora la gobierna de otra manera. Su corona pesa más que su alma."
+        }
+      ]
+    },
+    {
+      "id": "zona_03",
+      "nombre": "Cementerio de Varek",
+      "descripcion": "Aquí yacen los últimos Serath. La niebla no es niebla — es Anima corrompida que no encontró adónde ir. Todo lo que entra aquí tarda más de lo normal en salir.",
+      "nivel_recomendado": 7,
+      "imagen": "res://assets/ui/backgrounds/exploration/exploracion_03.jpg",
+      "mobs": [
+        {
+          "id": "mob_z03_01",
+          "nombre": "Leviatán Volador",
+          "icono": "res://assets/portraits/mobs/mob_09.jpg",
+          "nivel": 7, "hp": 200, "hp_max": 200,
+          "attr_strength": 26, "attr_agility": 18, "attr_dexterity": 15,
+          "attr_constitution": 24, "attr_intelligence": 6, "attr_charisma": 4,
+          "ataque_min": 20, "ataque_max": 38, "armadura": 28,
+          "crit_chance": 0.10, "crit_damage": 1.7, "dodge_chance": 0.10,
+          "block_chance": 0.08, "block_reduction": 0.25, "double_hit_chance": 0.06,
+          "oro_min": 55, "oro_max": 100, "xp": 80, "drop_chance": 0.16,
+          "es_jefe": false,
+          "descripcion": "Nada en el aire igual que en el fondo del mar. Sus dientes no distinguen entre vivos y muertos."
+        },
+        {
+          "id": "mob_z03_02",
+          "nombre": "Engendro del Pantano",
+          "icono": "res://assets/portraits/mobs/mob_10.jpg",
+          "nivel": 8, "hp": 230, "hp_max": 230,
+          "attr_strength": 22, "attr_agility": 20, "attr_dexterity": 18,
+          "attr_constitution": 22, "attr_intelligence": 8, "attr_charisma": 5,
+          "ataque_min": 18, "ataque_max": 36, "armadura": 24,
+          "crit_chance": 0.12, "crit_damage": 1.8, "dodge_chance": 0.14,
+          "block_chance": 0.10, "block_reduction": 0.28, "double_hit_chance": 0.09,
+          "oro_min": 65, "oro_max": 120, "xp": 95, "drop_chance": 0.17,
+          "es_jefe": false,
+          "descripcion": "Pequeño, pero más rápido de lo que parece. Sus saltos pueden derribar a un guerrero adulto."
+        },
+        {
+          "id": "mob_z03_03",
+          "nombre": "Tejedor de Sombras",
+          "icono": "res://assets/portraits/mobs/mob_12.jpg",
+          "nivel": 9, "hp": 260, "hp_max": 260,
+          "attr_strength": 28, "attr_agility": 22, "attr_dexterity": 20,
+          "attr_constitution": 26, "attr_intelligence": 28, "attr_charisma": 14,
+          "ataque_min": 22, "ataque_max": 44, "armadura": 32,
+          "crit_chance": 0.14, "crit_damage": 1.9, "dodge_chance": 0.15,
+          "block_chance": 0.12, "block_reduction": 0.30, "double_hit_chance": 0.10,
+          "oro_min": 75, "oro_max": 140, "xp": 110, "drop_chance": 0.18,
+          "es_jefe": false,
+          "descripcion": "Un descendiente Serath que eligió el camino equivocado. Maneja el Anima negro como un arma."
+        },
+        {
+          "id": "mob_z03_04",
+          "nombre": "Dragón de las Ruinas",
+          "icono": "res://assets/portraits/mobs/mob_11.jpg",
+          "nivel": 12, "hp": 500, "hp_max": 500,
+          "attr_strength": 45, "attr_agility": 25, "attr_dexterity": 22,
+          "attr_constitution": 40, "attr_intelligence": 20, "attr_charisma": 15,
+          "ataque_min": 40, "ataque_max": 75, "armadura": 60,
+          "crit_chance": 0.18, "crit_damage": 2.2, "dodge_chance": 0.12,
+          "block_chance": 0.18, "block_reduction": 0.40, "double_hit_chance": 0.14,
+          "oro_min": 180, "oro_max": 320, "xp": 250, "drop_chance": 0.35,
+          "es_jefe": true,
+          "descripcion": "El último guardián del cementerio Serath. Llevaba siglos durmiendo. Acaba de despertar."
+        }
+      ]
+    }
+  ]
+}

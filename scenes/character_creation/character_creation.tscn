@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://bwutxwx3sided"]
 
-[ext_resource type="Script" uid="uid://pm36yyynrdhl" path="res://scripts/character_creation.gd" id="1"]
+[ext_resource type="Script" uid="uid://pm36yyynrdhl" path="res://scripts/character_creation/character_creation.gd" id="1"]
 [ext_resource type="Texture2D" uid="uid://b2ch272aynvw0" path="res://assets/ui/backgrounds/background_character.jpg" id="4"]
 
 [node name="CharacterCreation" type="Control" unique_id=1633363445]

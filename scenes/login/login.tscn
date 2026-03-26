@@ -178,6 +178,8 @@ offset_left = -36.0
 offset_top = 2.0
 offset_right = -2.0
 offset_bottom = -2.0
+grow_horizontal = 0
+grow_vertical = 2
 theme_override_colors/font_color = Color(0.7, 0.65, 0.4, 0.7)
 theme_override_font_sizes/font_size = 13
 theme_override_styles/normal = SubResource("btn_eye")
@@ -332,6 +334,8 @@ offset_left = -36.0
 offset_top = 2.0
 offset_right = -2.0
 offset_bottom = -2.0
+grow_horizontal = 0
+grow_vertical = 2
 theme_override_colors/font_color = Color(0.7, 0.65, 0.4, 0.7)
 theme_override_font_sizes/font_size = 13
 theme_override_styles/normal = SubResource("btn_eye")
@@ -503,3 +507,5 @@ theme_override_styles/pressed = SubResource("btn_normal")
 theme_override_styles/hover = SubResource("btn_hover")
 theme_override_styles/focus = SubResource("btn_normal")
 text = "←  VOLVER"
+
+[node name="HTTPCheckPlayer" type="HTTPRequest" parent="." unique_id=764369915]

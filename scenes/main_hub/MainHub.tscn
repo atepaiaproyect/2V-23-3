@@ -2,9 +2,11 @@
 
 [ext_resource type="Script" uid="uid://dgcc761pjuy5u" path="res://scripts/main_hub/main_hub.gd" id="1"]
 [ext_resource type="Texture2D" uid="uid://cb8n35cxx0pxl" path="res://assets/ui/panel_dark_tall.png" id="2"]
-[ext_resource type="Texture2D" uid="uid://ctjieshklhfgh" path="res://assets/ui/panel_dark_square.png" id="3"]
 [ext_resource type="Texture2D" uid="uid://c82gc6hgxfoua" path="res://assets/ui/panel_golden_bar.png" id="4"]
 [ext_resource type="Texture2D" uid="uid://drsp76nk10ocy" path="res://assets/ui/panel_dark_horizontal.png" id="5"]
+[ext_resource type="Texture2D" uid="uid://dflkcb3q0f7o3" path="res://assets/ui/backgrounds/Background_bronze.jpg" id="6"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_hmyq1"]
 
 [node name="MainHub" type="Control" unique_id=1943419060]
 layout_mode = 3
@@ -15,14 +17,16 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1")
 
-[node name="Background" type="ColorRect" parent="." unique_id=1753942138]
+[node name="Background" type="TextureRect" parent="." unique_id=1753942138]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.06, 0.05, 0.04, 1)
+texture = ExtResource("6")
+expand_mode = 1
+stretch_mode = 6
 
 [node name="HBoxMain" type="HBoxContainer" parent="." unique_id=1843477138]
 layout_mode = 1
@@ -47,10 +51,12 @@ layout_mode = 2
 texture = ExtResource("2")
 expand_mode = 1
 stretch_mode = 6
+flip_v = true
 
 [node name="SideMenu" type="VBoxContainer" parent="HBoxMain/SideMenuContainer" unique_id=1075834028]
 layout_mode = 2
 theme_override_constants/separation = 2
+alignment = 1
 
 [node name="LabelMenuTitle" type="Label" parent="HBoxMain/SideMenuContainer/SideMenu" unique_id=1379501537]
 layout_mode = 2
@@ -66,61 +72,7 @@ layout_mode = 2
 theme_override_colors/font_color = Color(0.85, 0.72, 0.45, 1)
 theme_override_colors/font_hover_color = Color(1, 0.92, 0.55, 1)
 theme_override_font_sizes/font_size = 14
-text = "👤  Perfil"
-flat = true
-
-[node name="BtnExploracion" type="Button" parent="HBoxMain/SideMenuContainer/SideMenu" unique_id=147131845]
-custom_minimum_size = Vector2(0, 40)
-layout_mode = 2
-theme_override_colors/font_color = Color(0.85, 0.72, 0.45, 1)
-theme_override_colors/font_hover_color = Color(1, 0.92, 0.55, 1)
-theme_override_font_sizes/font_size = 14
-text = "🗺  Exploración"
-flat = true
-
-[node name="BtnArena" type="Button" parent="HBoxMain/SideMenuContainer/SideMenu" unique_id=614332407]
-custom_minimum_size = Vector2(0, 40)
-layout_mode = 2
-theme_override_colors/font_color = Color(0.85, 0.72, 0.45, 1)
-theme_override_colors/font_hover_color = Color(1, 0.92, 0.55, 1)
-theme_override_font_sizes/font_size = 14
-text = "⚔  Arena"
-flat = true
-
-[node name="BtnMercado" type="Button" parent="HBoxMain/SideMenuContainer/SideMenu" unique_id=1532855030]
-custom_minimum_size = Vector2(0, 40)
-layout_mode = 2
-theme_override_colors/font_color = Color(0.85, 0.72, 0.45, 1)
-theme_override_colors/font_hover_color = Color(1, 0.92, 0.55, 1)
-theme_override_font_sizes/font_size = 14
-text = "🏪  Mercado"
-flat = true
-
-[node name="BtnClan" type="Button" parent="HBoxMain/SideMenuContainer/SideMenu" unique_id=588464885]
-custom_minimum_size = Vector2(0, 40)
-layout_mode = 2
-theme_override_colors/font_color = Color(0.85, 0.72, 0.45, 1)
-theme_override_colors/font_hover_color = Color(1, 0.92, 0.55, 1)
-theme_override_font_sizes/font_size = 14
-text = "🛡  Clan"
-flat = true
-
-[node name="BtnCrafteo" type="Button" parent="HBoxMain/SideMenuContainer/SideMenu" unique_id=1656086613]
-custom_minimum_size = Vector2(0, 40)
-layout_mode = 2
-theme_override_colors/font_color = Color(0.85, 0.72, 0.45, 1)
-theme_override_colors/font_hover_color = Color(1, 0.92, 0.55, 1)
-theme_override_font_sizes/font_size = 14
-text = "⚒  Crafteo"
-flat = true
-
-[node name="BtnRanking" type="Button" parent="HBoxMain/SideMenuContainer/SideMenu" unique_id=1075617936]
-custom_minimum_size = Vector2(0, 40)
-layout_mode = 2
-theme_override_colors/font_color = Color(0.85, 0.72, 0.45, 1)
-theme_override_colors/font_hover_color = Color(1, 0.92, 0.55, 1)
-theme_override_font_sizes/font_size = 14
-text = "🏆  Ranking"
+text = "PERFIL"
 flat = true
 
 [node name="BtnInventario" type="Button" parent="HBoxMain/SideMenuContainer/SideMenu" unique_id=1567957552]
@@ -129,16 +81,16 @@ layout_mode = 2
 theme_override_colors/font_color = Color(0.85, 0.72, 0.45, 1)
 theme_override_colors/font_hover_color = Color(1, 0.92, 0.55, 1)
 theme_override_font_sizes/font_size = 14
-text = "🎒  Inventario"
+text = "INVENTARIO"
 flat = true
 
-[node name="BtnEntrenamiento" type="Button" parent="HBoxMain/SideMenuContainer/SideMenu" unique_id=855335208]
+[node name="BtnCrafteo" type="Button" parent="HBoxMain/SideMenuContainer/SideMenu" unique_id=1656086613]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.85, 0.72, 0.45, 1)
 theme_override_colors/font_hover_color = Color(1, 0.92, 0.55, 1)
 theme_override_font_sizes/font_size = 14
-text = "💪  Entrena."
+text = "HERRERIA"
 flat = true
 
 [node name="BtnTaberna" type="Button" parent="HBoxMain/SideMenuContainer/SideMenu" unique_id=372910042]
@@ -147,76 +99,130 @@ layout_mode = 2
 theme_override_colors/font_color = Color(0.85, 0.72, 0.45, 1)
 theme_override_colors/font_hover_color = Color(1, 0.92, 0.55, 1)
 theme_override_font_sizes/font_size = 14
-text = "🍺  Taberna"
+text = "TABERNA"
+flat = true
+
+[node name="BtnMercado" type="Button" parent="HBoxMain/SideMenuContainer/SideMenu" unique_id=1532855030]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.72, 0.45, 1)
+theme_override_colors/font_hover_color = Color(1, 0.92, 0.55, 1)
+theme_override_font_sizes/font_size = 14
+text = "MERCADO"
+flat = true
+
+[node name="BtnArena" type="Button" parent="HBoxMain/SideMenuContainer/SideMenu" unique_id=614332407]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.72, 0.45, 1)
+theme_override_colors/font_hover_color = Color(1, 0.92, 0.55, 1)
+theme_override_font_sizes/font_size = 14
+text = "ARENA"
+flat = true
+
+[node name="BtnClan" type="Button" parent="HBoxMain/SideMenuContainer/SideMenu" unique_id=588464885]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.72, 0.45, 1)
+theme_override_colors/font_hover_color = Color(1, 0.92, 0.55, 1)
+theme_override_font_sizes/font_size = 14
+text = "CLAN"
+flat = true
+
+[node name="BtnRanking" type="Button" parent="HBoxMain/SideMenuContainer/SideMenu" unique_id=1075617936]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.72, 0.45, 1)
+theme_override_colors/font_hover_color = Color(1, 0.92, 0.55, 1)
+theme_override_font_sizes/font_size = 14
+text = "RANKING"
+flat = true
+
+[node name="BtnExploracion" type="Button" parent="HBoxMain/SideMenuContainer/SideMenu" unique_id=147131845]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.72, 0.45, 1)
+theme_override_colors/font_hover_color = Color(1, 0.92, 0.55, 1)
+theme_override_font_sizes/font_size = 14
+text = "EXPLORACIÓN"
+flat = true
+
+[node name="BtnEntrenamiento" type="Button" parent="HBoxMain/SideMenuContainer/SideMenu" unique_id=855335208]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.72, 0.45, 1)
+theme_override_colors/font_hover_color = Color(1, 0.92, 0.55, 1)
+theme_override_font_sizes/font_size = 14
+text = "ENTRENAMIENTO"
 flat = true
 
 [node name="VBoxRight" type="VBoxContainer" parent="HBoxMain" unique_id=183095403]
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_vertical = 3
-theme_override_constants/separation = 0
+theme_override_constants/separation = -5
 
 [node name="TopBar" type="MarginContainer" parent="HBoxMain/VBoxRight" unique_id=1534238650]
-custom_minimum_size = Vector2(0, 58)
+custom_minimum_size = Vector2(0, 50)
 layout_mode = 2
-theme_override_constants/margin_left = 0
-theme_override_constants/margin_top = 4
-theme_override_constants/margin_right = 4
-theme_override_constants/margin_bottom = 4
+size_flags_horizontal = 4
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
 
 [node name="TopBarBg" type="TextureRect" parent="HBoxMain/VBoxRight/TopBar" unique_id=1387469145]
 layout_mode = 2
 texture = ExtResource("4")
 expand_mode = 1
-stretch_mode = 6
 
 [node name="TopBarContent" type="HBoxContainer" parent="HBoxMain/VBoxRight/TopBar" unique_id=948272563]
+custom_minimum_size = Vector2(130, 0)
 layout_mode = 2
-theme_override_constants/separation = 2
+theme_override_constants/separation = -7
 
 [node name="BtnQuick1" type="Button" parent="HBoxMain/VBoxRight/TopBar/TopBarContent" unique_id=1915814899]
-custom_minimum_size = Vector2(140, 58)
+custom_minimum_size = Vector2(130, 58)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.15, 0.08, 0.02, 1)
 theme_override_colors/font_hover_color = Color(0.5, 0.25, 0.02, 1)
 theme_override_font_sizes/font_size = 14
-text = "Perfil"
+text = "PERFIL"
 flat = true
 
 [node name="BtnQuick2" type="Button" parent="HBoxMain/VBoxRight/TopBar/TopBarContent" unique_id=361591087]
-custom_minimum_size = Vector2(140, 58)
+custom_minimum_size = Vector2(130, 58)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.15, 0.08, 0.02, 1)
 theme_override_colors/font_hover_color = Color(0.5, 0.25, 0.02, 1)
 theme_override_font_sizes/font_size = 14
-text = "Arena"
+text = "ARENA"
 flat = true
 
 [node name="BtnQuick3" type="Button" parent="HBoxMain/VBoxRight/TopBar/TopBarContent" unique_id=1792850351]
-custom_minimum_size = Vector2(140, 58)
+custom_minimum_size = Vector2(130, 58)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.15, 0.08, 0.02, 1)
 theme_override_colors/font_hover_color = Color(0.5, 0.25, 0.02, 1)
 theme_override_font_sizes/font_size = 14
-text = "Mercado"
+text = "MERCADO"
 flat = true
 
 [node name="BtnQuick4" type="Button" parent="HBoxMain/VBoxRight/TopBar/TopBarContent" unique_id=159775284]
-custom_minimum_size = Vector2(140, 58)
+custom_minimum_size = Vector2(130, 58)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.15, 0.08, 0.02, 1)
 theme_override_colors/font_hover_color = Color(0.5, 0.25, 0.02, 1)
 theme_override_font_sizes/font_size = 14
-text = "Clan"
+text = "CLAN"
 flat = true
 
 [node name="BtnQuick5" type="Button" parent="HBoxMain/VBoxRight/TopBar/TopBarContent" unique_id=959748992]
-custom_minimum_size = Vector2(140, 58)
+custom_minimum_size = Vector2(130, 58)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.15, 0.08, 0.02, 1)
 theme_override_colors/font_hover_color = Color(0.5, 0.25, 0.02, 1)
 theme_override_font_sizes/font_size = 14
-text = "Ranking"
+text = "RANKING"
 flat = true
 
 [node name="Spacer" type="Control" parent="HBoxMain/VBoxRight/TopBar/TopBarContent" unique_id=1718881718]
@@ -224,47 +230,43 @@ layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="BtnEditQuick" type="Button" parent="HBoxMain/VBoxRight/TopBar/TopBarContent" unique_id=2137442290]
-custom_minimum_size = Vector2(90, 58)
+custom_minimum_size = Vector2(130, 58)
 layout_mode = 2
 theme_override_colors/font_color = Color(0.3, 0.18, 0.05, 1)
 theme_override_colors/font_hover_color = Color(0.5, 0.3, 0.05, 1)
 theme_override_font_sizes/font_size = 13
-text = "✎ Editar"
+text = "EDITAR"
 flat = true
 
 [node name="LabelPlayer" type="Label" parent="HBoxMain/VBoxRight/TopBar/TopBarContent" unique_id=137546805]
+custom_minimum_size = Vector2(130, 0)
 layout_mode = 2
 size_flags_horizontal = 0
 theme_override_colors/font_color = Color(0.15, 0.08, 0.02, 1)
 theme_override_font_sizes/font_size = 14
-text = "  Jugador  "
+text = "JUGADOR"
+label_settings = SubResource("LabelSettings_hmyq1")
 
 [node name="ContentContainer" type="MarginContainer" parent="HBoxMain/VBoxRight" unique_id=1488703274]
 layout_mode = 2
-size_flags_horizontal = 3
+size_flags_horizontal = 5
 size_flags_vertical = 3
 theme_override_constants/margin_left = 0
 theme_override_constants/margin_top = 0
 theme_override_constants/margin_right = 4
 theme_override_constants/margin_bottom = 4
 
-[node name="ContentBg" type="TextureRect" parent="HBoxMain/VBoxRight/ContentContainer" unique_id=2094742810]
-layout_mode = 2
-texture = ExtResource("3")
-expand_mode = 1
-stretch_mode = 6
-
 [node name="ContentArea" type="MarginContainer" parent="HBoxMain/VBoxRight/ContentContainer" unique_id=125499860]
 layout_mode = 2
-theme_override_constants/margin_left = 30
-theme_override_constants/margin_top = 30
-theme_override_constants/margin_right = 30
-theme_override_constants/margin_bottom = 30
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
 
 [node name="LabelContent" type="Label" parent="HBoxMain/VBoxRight/ContentContainer/ContentArea" unique_id=1937756346]
 layout_mode = 2
 size_flags_horizontal = 4
-theme_override_colors/font_color = Color(0.7, 0.62, 0.45, 1)
+theme_override_colors/font_color = Color(0.2, 0.12, 0.05, 1)
 theme_override_font_sizes/font_size = 22
 text = "Seleccioná una sección del menú"
 horizontal_alignment = 1

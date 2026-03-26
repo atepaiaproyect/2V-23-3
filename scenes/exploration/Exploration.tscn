@@ -1,0 +1,93 @@
+[gd_scene format=3 uid="uid://exploration_scene"]
+[ext_resource type="Script" path="res://scripts/exploration/exploration.gd" id="1"]
+
+[node name="Exploration" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource("1")
+
+[node name="BgColor" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.06, 0.04, 0.03, 1)
+
+[node name="ScrollMain" type="ScrollContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="VBoxMain" type="VBoxContainer" parent="ScrollMain"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 10
+
+[node name="MarginTop" type="MarginContainer" parent="ScrollMain/VBoxMain"]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_bottom = 0
+
+[node name="LblTitulo" type="Label" parent="ScrollMain/VBoxMain/MarginTop"]
+layout_mode = 2
+horizontal_alignment = 1
+theme_override_colors/font_color = Color(0.9, 0.75, 0.3, 1)
+theme_override_font_sizes/font_size = 18
+text = "— EXPLORACIÓN —"
+
+[node name="MarginZonas" type="MarginContainer" parent="ScrollMain/VBoxMain"]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_bottom = 0
+
+[node name="HBoxZonas" type="HBoxContainer" parent="ScrollMain/VBoxMain/MarginZonas"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="MarginDesc" type="MarginContainer" parent="ScrollMain/VBoxMain"]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_bottom = 0
+
+[node name="PanelDesc" type="PanelContainer" parent="ScrollMain/VBoxMain/MarginDesc"]
+layout_mode = 2
+
+[node name="LblDescripcion" type="Label" parent="ScrollMain/VBoxMain/MarginDesc/PanelDesc"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_colors/font_color = Color(0.75, 0.68, 0.55, 1)
+theme_override_font_sizes/font_size = 11
+autowrap_mode = 3
+text = "Seleccioná una zona para explorar."
+
+[node name="MarginMobs" type="MarginContainer" parent="ScrollMain/VBoxMain"]
+layout_mode = 2
+theme_override_constants/margin_left = 12
+theme_override_constants/margin_right = 12
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_bottom = 10
+visible = false
+
+[node name="VBoxMobs" type="VBoxContainer" parent="ScrollMain/VBoxMain/MarginMobs"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="LblMobsTitle" type="Label" parent="ScrollMain/VBoxMain/MarginMobs/VBoxMobs"]
+layout_mode = 2
+horizontal_alignment = 1
+theme_override_colors/font_color = Color(0.9, 0.75, 0.3, 1)
+theme_override_font_sizes/font_size = 14
+text = "— ELIGE TU ENEMIGO —"
+
+[node name="HBoxMobs" type="HBoxContainer" parent="ScrollMain/VBoxMain/MarginMobs/VBoxMobs"]
+layout_mode = 2
+theme_override_constants/separation = 10
