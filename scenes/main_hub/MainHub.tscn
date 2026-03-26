@@ -1,9 +1,9 @@
 [gd_scene format=3 uid="uid://dueeu8f5ack0m"]
 
 [ext_resource type="Script" uid="uid://dgcc761pjuy5u" path="res://scripts/main_hub/main_hub.gd" id="1"]
-[ext_resource type="Texture2D" uid="uid://cb8n35cxx0pxl" path="res://assets/ui/panel_dark_tall.png" id="2"]
-[ext_resource type="Texture2D" uid="uid://c82gc6hgxfoua" path="res://assets/ui/panel_golden_bar.png" id="4"]
-[ext_resource type="Texture2D" uid="uid://drsp76nk10ocy" path="res://assets/ui/panel_dark_horizontal.png" id="5"]
+[ext_resource type="Texture2D" uid="uid://cb8n35cxx0pxl" path="res://assets/ui/panels/panel_dark_tall.png" id="2"]
+[ext_resource type="Texture2D" uid="uid://c82gc6hgxfoua" path="res://assets/ui/panels/panel_golden_bar.png" id="4"]
+[ext_resource type="Texture2D" uid="uid://drsp76nk10ocy" path="res://assets/ui/panels/panel_dark_horizontal.png" id="5"]
 [ext_resource type="Texture2D" uid="uid://dflkcb3q0f7o3" path="res://assets/ui/backgrounds/Background_bronze.jpg" id="6"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_hmyq1"]
