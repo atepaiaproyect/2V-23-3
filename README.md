@@ -26,9 +26,9 @@
 
 | Plataforma | Enlace |
 | :--- | :--- |
-| **🌐 Web Oficial** | [atepaiaproyect.github.io/Atepaia](https://atepaiaproyect.github.io) |
+| **🌐 Web Oficial**     | https://atepaiaproyect.github.io/Atepaia/ |
 | **🕹️ Foro en Itch.io** | [coloradosnm.itch.io/atepaia](https://coloradosnm.itch.io) |
-| **📸 Instagram** | [@atepaia](https://www.instagram.com) |
+| **📸 Instagram**       | [@atepaia](https://www.instagram.com) |
 
 ---
 
