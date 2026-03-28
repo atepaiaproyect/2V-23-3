@@ -47,6 +47,29 @@ func _ready():
     call_deferred("_setup_effects")
     # Cargar Perfil por defecto
     call_deferred("_navigate_to", "Perfil")
+    # Iniciar timer de regeneración de HP en tiempo real
+    _iniciar_regen_timer()
+
+# ─────────────────────────────────────
+# REGENERACIÓN DE HP EN TIEMPO REAL
+# 1 tick cada 60 segundos = 1 minuto
+# ─────────────────────────────────────
+var _regen_timer: Timer
+
+func _iniciar_regen_timer() -> void:
+    _regen_timer = Timer.new()
+    _regen_timer.wait_time = 60.0
+    _regen_timer.autostart = true
+    _regen_timer.timeout.connect(_on_regen_tick)
+    add_child(_regen_timer)
+
+func _on_regen_tick() -> void:
+    if GameData.hp < GameData.hp_max:
+        GameData.hp = min(GameData.hp + GameData.hp_regen_per_min, GameData.hp_max)
+        # Guardar HP actualizado en Firebase
+        SaveManager.save_progress()
+        # Notificar al perfil si está abierto para refrescar los labels
+        EquipmentManager.emit_signal("stats_changed")
 
 func _setup_effects():
     var sections = [

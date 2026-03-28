@@ -90,35 +90,35 @@ func costo_entrenamiento(valor_actual: int) -> int:
 func recalcular_stats() -> void:
     
     # HP max: 100 + CON*10 + (CONdiv11)*5
-    var hp_bonus_con = (attr_constitution / 11) * 5
+    var hp_bonus_con = (float(attr_constitution) / 11) * 5
     hp_max = 100 + attr_constitution * 10 + hp_bonus_con
     hp = min(hp, hp_max)
     # Regen: base 1 + 1 por cada 10 CON
-    hp_regen_per_min = 1 + attr_constitution / 10
+    hp_regen_per_min = 1 + int(attr_constitution) / 10
 
     
     # Daño bonus del arma + bonus por cada 10 puntos de fuerza
-    var fuerza_bonus = attr_strength / 10
+    var fuerza_bonus = int(attr_strength) / 10
     damage_min = equipped_weapon.get("ataque_min", 0) + fuerza_bonus
     damage_max = equipped_weapon.get("ataque_max", 0) + fuerza_bonus
     # Resistir mortal: +1% por cada 11 puntos de fuerza
-    resist_mortal = min((attr_strength / 11) / 100.0, MAX_CHANCE)
+    resist_mortal = min((float(attr_strength) / 11) / 100.0, MAX_CHANCE)
 
     
     # Esquiva: base 5% + 1% por cada 10 puntos
-    dodge_chance = min(0.05 + (attr_agility / 10) / 100.0, MAX_CHANCE)
+    dodge_chance = min(0.05 + (float(attr_agility) / 10) / 100.0, MAX_CHANCE)
     # Daño crítico: base 1.5 (+50%) + 1% por cada 11 puntos
-    crit_damage = 1.5 + (attr_agility / 11) / 100.0
+    crit_damage = 1.5 + (float(attr_agility) / 11) / 100.0
 
     
     # Doble golpe: base 5% + 1% por cada 15 puntos
-    double_hit_chance = min(0.05 + (attr_dexterity / 15) / 100.0, MAX_CHANCE)
+    double_hit_chance = min(0.05 + (float(attr_dexterity) / 15) / 100.0, MAX_CHANCE)
     # Golpe crítico: base 5% + 1% por cada 15 puntos
-    crit_chance = min(0.05 + (attr_dexterity / 15) / 100.0, MAX_CHANCE)
+    crit_chance = min(0.05 + (float(attr_dexterity) / 15) / 100.0, MAX_CHANCE)
 
     
     # Bloqueo: base 5% + 1% por cada 10 puntos (bloqueo = 0 daño)
-    block_chance = min(0.05 + (attr_charisma / 10) / 100.0, MAX_CHANCE)
+    block_chance = min(0.05 + (float(attr_charisma) / 10) / 100.0, MAX_CHANCE)
     block_reduction = 1.0  # siempre 0 daño al bloquear
 
     
@@ -130,7 +130,7 @@ func recalcular_hp_max() -> void:
 
 # Reducción de precio por inteligencia: -2% por cada 10 puntos, máx 80%
 func reduccion_precio() -> float:
-    return min((attr_intelligence / 10) * 0.02, 0.80)
+    return min((float(attr_intelligence) / 10) * 0.02, 0.80)
 
 func precio_con_descuento(precio_base: int) -> int:
     return max(1, int(precio_base * (1.0 - reduccion_precio())))

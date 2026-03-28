@@ -10,13 +10,18 @@ var _http_chat: HTTPRequest
 var _mi_clan: Dictionary = {}
 var _clanes_lista: Array = []
 
+var _http_membresia: HTTPRequest
+
 func _ready() -> void:
     _http = HTTPRequest.new()
     add_child(_http)
     _http_chat = HTTPRequest.new()
     add_child(_http_chat)
+    _http_membresia = HTTPRequest.new()
+    add_child(_http_membresia)
     _http.request_completed.connect(_on_http_completed)
     _http_chat.request_completed.connect(_on_chat_completed)
+    _http_membresia.request_completed.connect(_on_membresia_completed)
     _construir_ui()
     _cargar_mi_clan()
 
@@ -344,9 +349,8 @@ func _on_http_completed(_result, response_code, _headers_r, body) -> void:
                         })
             _poblar_lista_clanes()
         "crear_clan", "unirse_clan":
-            if response_code in [200, 201]:
-                # Guardar membresía
-                _accion_actual = "guardar_membresia"
+            if response_code == 200 or response_code == 201:
+                # Guardar membresía en nodo HTTP separado
                 var url = GameData.FIRESTORE_URL + "clan_members/" + GameData.player_id
                 var body2 = JSON.stringify({ "fields": {
                     "clan_id":    { "stringValue": _mi_clan.get("clan_id", "") },
@@ -354,18 +358,22 @@ func _on_http_completed(_result, response_code, _headers_r, body) -> void:
                     "player_name":{ "stringValue": GameData.player_name },
                     "joined_at":  { "stringValue": Time.get_datetime_string_from_system() },
                 }})
-                _http_patch(url, body2)
+                _http_membresia.request(url, _headers(), HTTPClient.METHOD_PATCH, body2)
             else:
-                _lbl_status.text = "Error al crear/unirse al clan."
-        "guardar_membresia":
-            _lbl_status.text = "¡Clan actualizado!"
-            _mostrar_panel_clan()
+                _lbl_status.text = "Error al crear/unirse al clan. Código: " + str(response_code)
         "salir_clan":
             _mi_clan = {}
             _lbl_status.text = "Abandonaste el clan."
             _panel_sin_clan.visible = true
             _panel_con_clan.visible = false
             _cargar_lista_clanes()
+
+func _on_membresia_completed(_result, response_code, _headers_r, _body) -> void:
+    if response_code == 200 or response_code == 201:
+        _lbl_status.text = "¡Clan actualizado correctamente!"
+        _mostrar_panel_clan()
+    else:
+        _lbl_status.text = "Error al guardar membresía. Código: " + str(response_code)
 
 func _on_chat_completed(_r, _c, _h, _b) -> void:
     pass  # Mensaje ya mostrado localmente

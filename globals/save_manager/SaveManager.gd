@@ -2,7 +2,7 @@ extends Node
 
 # ─────────────────────────────────────────────────────────
 # SAVE MANAGER — Autoload
-# Guarda y carga progreso + equipo en Firestore.
+# Guarda progreso en Firestore + maneja regeneración offline.
 # ─────────────────────────────────────────────────────────
 
 var _http: HTTPRequest
@@ -12,7 +12,7 @@ func _ready() -> void:
     add_child(_http)
 
 # ─────────────────────────────────────
-# GUARDAR
+# GUARDAR PROGRESO
 # ─────────────────────────────────────
 func save_progress() -> void:
     if GameData.player_id == "" or GameData.id_token == "":
@@ -33,6 +33,7 @@ func save_progress() -> void:
     url += "&updateMask.fieldPaths=eq_ring_r&updateMask.fieldPaths=eq_cape"
     url += "&updateMask.fieldPaths=pvp_points&updateMask.fieldPaths=gold_stolen"
     url += "&updateMask.fieldPaths=xp_total&updateMask.fieldPaths=craft_points&updateMask.fieldPaths=pvp_kills"
+    url += "&updateMask.fieldPaths=last_online"
 
     var fields: Dictionary = {
         "level":            { "integerValue": str(GameData.level) },
@@ -49,7 +50,6 @@ func save_progress() -> void:
         "attr_constitution":{ "integerValue": str(GameData.attr_constitution) },
         "attr_intelligence":{ "integerValue": str(GameData.attr_intelligence) },
         "attr_charisma":    { "integerValue": str(GameData.attr_charisma) },
-        # Guardar IDs del equipo (vacío si no hay nada equipado)
         "eq_weapon":  { "stringValue": GameData.equipped_weapon.get("id",  "") },
         "eq_shield":  { "stringValue": GameData.equipped_shield.get("id",  "") },
         "eq_chest":   { "stringValue": GameData.equipped_chest.get("id",   "") },
@@ -60,24 +60,25 @@ func save_progress() -> void:
         "eq_ring_l":  { "stringValue": GameData.equipped_ring_l.get("id",  "") },
         "eq_ring_r":  { "stringValue": GameData.equipped_ring_r.get("id",  "") },
         "eq_cape":    { "stringValue": GameData.equipped_cape.get("id",    "") },
-        # Ranking
         "pvp_points":   { "integerValue": str(GameData.pvp_points) },
         "gold_stolen":  { "integerValue": str(GameData.gold_stolen) },
         "xp_total":     { "integerValue": str(GameData.xp_total) },
         "craft_points": { "integerValue": str(GameData.craft_points) },
         "pvp_kills":    { "integerValue": str(GameData.pvp_kills) },
+        # Timestamp Unix para calcular regen offline
+        "last_online":  { "integerValue": str(int(Time.get_unix_time_from_system())) },
     }
 
-    var headers = [
+    var headers = PackedStringArray([
         "Content-Type: application/json",
         "Authorization: Bearer " + GameData.id_token
-    ]
+    ])
     _http.request(url, headers, HTTPClient.METHOD_PATCH, JSON.stringify({"fields": fields}))
 
 # ─────────────────────────────────────
-# CARGAR desde Firestore
+# CARGAR DESDE FIRESTORE
 # ─────────────────────────────────────
-static func cargar_desde_fields(fields: Dictionary) -> void:
+func cargar_desde_fields(fields: Dictionary) -> void:
     GameData.level       = int(fields.get("level",       {}).get("integerValue", "1"))
     GameData.xp          = int(fields.get("xp",          {}).get("integerValue", "0"))
     GameData.hp          = int(fields.get("hp",          {}).get("integerValue", "120"))
@@ -93,7 +94,6 @@ static func cargar_desde_fields(fields: Dictionary) -> void:
     GameData.attr_constitution = max(2, int(fields.get("attr_constitution", {}).get("integerValue", "2")))
     GameData.attr_intelligence = max(2, int(fields.get("attr_intelligence", {}).get("integerValue", "2")))
     GameData.attr_charisma     = max(2, int(fields.get("attr_charisma",     {}).get("integerValue", "2")))
-    GameData.recalcular_hp_max()
 
     # Ranking
     GameData.pvp_points   = int(fields.get("pvp_points",   {}).get("integerValue", "0"))
@@ -102,7 +102,22 @@ static func cargar_desde_fields(fields: Dictionary) -> void:
     GameData.craft_points = int(fields.get("craft_points", {}).get("integerValue", "0"))
     GameData.pvp_kills    = int(fields.get("pvp_kills",    {}).get("integerValue", "0"))
 
-    # Cargar IDs de equipo y reconstruir ítems desde el JSON
+    # Recalcular stats derivados (incluye hp_regen_per_min)
+    GameData.recalcular_stats()
+
+    # ── REGENERACIÓN OFFLINE ──────────────────────────────
+    # Calcular cuántos minutos pasaron desde la última vez que estuvo online
+    var last_online_unix = int(fields.get("last_online", {}).get("integerValue", "0"))
+    if last_online_unix > 0:
+        var ahora_unix    = int(Time.get_unix_time_from_system())
+        var segundos_fuera = max(0, ahora_unix - last_online_unix)
+        var minutos_fuera  = segundos_fuera / 60
+        if minutos_fuera > 0 and GameData.hp < GameData.hp_max:
+            var regen_total = minutos_fuera * GameData.hp_regen_per_min
+            GameData.hp = min(GameData.hp + regen_total, GameData.hp_max)
+            print("SaveManager: regen offline ", minutos_fuera, " min → +", regen_total, " HP")
+
+    # Cargar equipo
     var eq_ids = {
         "eq_weapon":  fields.get("eq_weapon",  {}).get("stringValue", ""),
         "eq_shield":  fields.get("eq_shield",  {}).get("stringValue", ""),
@@ -116,25 +131,22 @@ static func cargar_desde_fields(fields: Dictionary) -> void:
         "eq_cape":    fields.get("eq_cape",    {}).get("stringValue", ""),
     }
     _restaurar_equipo_desde_ids(eq_ids)
-    print("SaveManager: cargado. Nivel: ", GameData.level, " XP: ", GameData.xp, " Bronce: ", GameData.bronze_hand)
+    print("SaveManager: cargado. Nivel ", GameData.level, " HP ", GameData.hp, "/", GameData.hp_max)
 
-static func _restaurar_equipo_desde_ids(eq_ids: Dictionary) -> void:
+func _restaurar_equipo_desde_ids(eq_ids: Dictionary) -> void:
     if not FileAccess.file_exists("res://data/items_database/items_database.json"):
         return
     var db = JSON.parse_string(FileAccess.get_file_as_string("res://data/items_database/items_database.json"))
     if db == null:
         return
-
-    # Construir índice id → item para búsqueda rápida
     var indice: Dictionary = {}
     for categoria in ["armas", "escudos", "pecho", "cascos", "botas", "guantes", "collares", "anillos", "capas"]:
         if db.has(categoria):
             for item in db[categoria]:
                 var item_c = item.duplicate()
                 item_c["categoria"] = categoria
-                indice[item_c["id"]] = item_c
+                indice[item_c.get("id", "")] = item_c
 
-    # Restaurar cada slot
     var slot_map = {
         "eq_weapon": "equipped_weapon",
         "eq_shield": "equipped_shield",
@@ -152,18 +164,15 @@ static func _restaurar_equipo_desde_ids(eq_ids: Dictionary) -> void:
         if item_id != "" and indice.has(item_id):
             var item = indice[item_id]
             GameData.set(slot_map[eq_key], item)
-            # Aplicar stats del ítem equipado
             _aplicar_stats_item(item)
 
-static func _aplicar_stats_item(item: Dictionary) -> void:
+func _aplicar_stats_item(item: Dictionary) -> void:
     var categoria = item.get("categoria", "")
     match categoria:
         "armas":
             GameData.damage_min += item.get("ataque_min", 0)
             GameData.damage_max += item.get("ataque_max", 0)
         "escudos":
-            GameData.block_chance = min(GameData.block_chance + item.get("bloqueo_bonus", 0.0), GameData.MAX_CHANCE)
-        "pecho":
-            GameData.attr_constitution += item.get("constitucion_bonus", 0)
             GameData.armor += item.get("defensa", 0)
-            GameData.recalcular_hp_max()
+        "pecho":
+            GameData.armor += item.get("defensa", 0)
