@@ -25,6 +25,7 @@ ItemManager="*uid://0xnatuks07a6"
 EquipmentManager="*uid://cuxfta2gy1huu"
 ItemTooltip="*uid://cj15dt0s4sy6g"
 CombatEngine="*uid://cdkv56yc2ahpd"
+SaveManager="*uid://coiqbjhmnpv5d"
 
 [display]
 

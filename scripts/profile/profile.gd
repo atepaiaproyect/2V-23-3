@@ -45,6 +45,8 @@ extends Control
 @onready var tooltip_label = $Tooltip/TooltipLabel
 
 var editing_mode: bool = false
+var label_bronze: Label = null
+var label_gold: Label   = null
 
 const TOOLTIPS = {
     "str": "Fuerza: Aumenta el daño y la probabilidad de resistir un golpe crítico o mortal quedando en 1 de vida.",
@@ -67,9 +69,52 @@ func _ready():
     btn_add_medal.pressed.connect(_on_add_medal)
     _cargar_inventario()
     EquipmentManager.stats_changed.connect(_refresh_stats)
+    _insertar_monedas()
+
+# ─────────────────────────────────────
+# Insertar labels de monedas después del separador Sep2
+# (justo antes de los atributos, para no solapar nada)
+# ─────────────────────────────────────
+func _insertar_monedas() -> void:
+    var vbox = $HBoxMain/ColLeft/StatsPanel/VBoxStats
+    if vbox == null:
+        return
+
+    # Buscar la posición del Sep2 para insertar después de él
+    var sep2 = vbox.get_node_or_null("Sep2")
+    var insert_idx = vbox.get_child_count()
+    if sep2:
+        insert_idx = sep2.get_index() + 1
+
+    # Label de oro
+    label_gold = Label.new()
+    label_gold.add_theme_color_override("font_color", Color(1.0, 0.85, 0.2, 1))
+    label_gold.add_theme_font_size_override("font_size", 11)
+    vbox.add_child(label_gold)
+    vbox.move_child(label_gold, insert_idx)
+
+    # Label de bronce
+    label_bronze = Label.new()
+    label_bronze.add_theme_color_override("font_color", Color(0.8, 0.55, 0.25, 1))
+    label_bronze.add_theme_font_size_override("font_size", 11)
+    vbox.add_child(label_bronze)
+    vbox.move_child(label_bronze, insert_idx + 1)
+
+    # Separador entre monedas y atributos
+    var sep_monedas = HSeparator.new()
+    vbox.add_child(sep_monedas)
+    vbox.move_child(sep_monedas, insert_idx + 2)
+
+    _actualizar_monedas()
+
+func _actualizar_monedas() -> void:
+    if label_gold:
+        label_gold.text   = "💰 Oro: " + str(GameData.gold_hand)
+    if label_bronze:
+        label_bronze.text = "🪙 Bronce: " + str(GameData.bronze_hand)
 
 func _load_profile():
-    var path = "res://assets/portraits/" + GameData.player_portrait + ".png"
+    var path = "res://assets/portraits/players/" + GameData.player_portrait + ".png"
     if ResourceLoader.exists(path):
         portrait_image.texture = load(path)
     label_name.text  = GameData.player_name
@@ -82,13 +127,13 @@ func _load_profile():
 
 # ─────────────────────────────────────
 # REFRESCO DE STATS
-# Se llama al cargar y cada vez que se equipa/desequipa algo
 # ─────────────────────────────────────
 func _refresh_stats():
     label_hp.text = "❤ HP: " + str(GameData.hp) + "/" + str(GameData.hp_max)
     bar_hp.anchor_right = clamp(float(GameData.hp) / float(GameData.hp_max), 0.0, 1.0)
     label_xp.text = "⭐ XP: " + str(GameData.xp) + "/" + str(GameData.xp_next)
     bar_xp.anchor_right = clamp(float(GameData.xp) / float(GameData.xp_next), 0.0, 1.0)
+    label_level.text = "Nivel " + str(GameData.level)
 
     label_str.text = str(GameData.attr_strength)
     label_agi.text = str(GameData.attr_agility)
@@ -97,13 +142,12 @@ func _refresh_stats():
     label_con.text = str(GameData.attr_constitution)
     label_int.text = str(GameData.attr_intelligence)
 
-    # Daño = base (fuerza) + bonus del arma equipada
     var base_min = 5  + GameData.attr_strength
     var base_max = 10 + GameData.attr_strength * 2
     label_atk.text = str(base_min + GameData.damage_min) + "-" + str(base_max + GameData.damage_max)
-
-    # Armadura = constitución * 5 + armadura del equipo
     label_def.text = str(GameData.attr_constitution * 5 + GameData.armor)
+
+    _actualizar_monedas()
 
 # ─────────────────────────────────────
 # MODO EDICIÓN
@@ -171,15 +215,11 @@ func _process(_delta):
 # ─────────────────────────────────────
 func _cargar_inventario() -> void:
     if not FileAccess.file_exists("res://data/items_database/items_database.json"):
-        print("ERROR: No se encontró items_database.json")
         return
-    var contenido = FileAccess.get_file_as_string("res://data/items_database/items_database.json")
-    var db = JSON.parse_string(contenido)
+    var db = JSON.parse_string(FileAccess.get_file_as_string("res://data/items_database/items_database.json"))
     if db == null:
-        print("ERROR: El JSON tiene un problema de formato")
         return
 
-    # Construir lista de IDs ya equipados para no ponerlos en el inventario
     var equipados_ids: Array = []
     for item in [GameData.equipped_weapon, GameData.equipped_shield, GameData.equipped_chest,
                  GameData.equipped_helmet, GameData.equipped_boots, GameData.equipped_gloves,
@@ -189,10 +229,9 @@ func _cargar_inventario() -> void:
             equipados_ids.append(item.get("id", ""))
 
     var todos_los_items: Array = []
-    for categoria in ["armas", "pecho"]:
+    for categoria in ["armas", "escudos", "pecho"]:
         if db.has(categoria):
             for item in db[categoria]:
-                # Saltar ítems que ya están equipados
                 if item.get("id", "") in equipados_ids:
                     continue
                 var item_con_cat = item.duplicate()
@@ -205,11 +244,9 @@ func _cargar_inventario() -> void:
         if slot.has_method("set_item"):
             slot.set_item(todos_los_items[i])
 
-    # Restaurar visualmente los ítems equipados en sus slots
     _restaurar_equipo()
 
 func _restaurar_equipo() -> void:
-    # Mapa: slot_name → variable de GameData
     var mapa := {
         "mano_d": GameData.equipped_weapon,
         "mano_i": GameData.equipped_shield,
@@ -221,8 +258,7 @@ func _restaurar_equipo() -> void:
         "anillo": GameData.equipped_ring_l,
         "capa":   GameData.equipped_cape,
     }
-    var equip_slots = get_tree().get_nodes_in_group("equip_slots")
-    for slot in equip_slots:
+    for slot in get_tree().get_nodes_in_group("equip_slots"):
         var item = mapa.get(slot.slot_name, {})
         if not item.is_empty():
             slot.set_equipped(item)

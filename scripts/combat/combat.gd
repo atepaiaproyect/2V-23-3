@@ -34,14 +34,18 @@ func _resolver_y_mostrar() -> void:
     _mostrar_log(resultado, jugador, enemigo)
 
 func _aplicar_resultado(resultado: Dictionary) -> void:
+    # Guardar progreso en Firebase después de cada combate
+    SaveManager.save_progress()
     GameData.hp = max(1, resultado.get("hp_final_a", GameData.hp))
     if resultado.get("jugador_gano", false):
-        GameData.gold_hand += resultado.get("oro_ganado", 0)
+        GameData.bronze_hand += resultado.get("oro_ganado", 0)  # PvE recompensa en bronce
         GameData.xp        += resultado.get("xp_ganada", 0)
         _chequear_nivel()
         var item = resultado.get("item_dropeado", {})
         if not item.is_empty():
             GameData.ultimo_drop = item
+    # Guardar progreso en Firebase
+    SaveManager.save_progress()
 
 func _chequear_nivel() -> void:
     while GameData.xp >= GameData.xp_next:
@@ -76,7 +80,7 @@ func _mostrar_recompensa(resultado: Dictionary) -> void:
         return
     panel_recompensa.visible = true
     var txt  = "— RECOMPENSAS ——————————————\n"
-    txt     += "💰  Oro: +" + str(resultado.get("oro_ganado", 0)) + "\n"
+    txt     += "🪙  Bronce: +" + str(resultado.get("oro_ganado", 0)) + "\n"
     txt     += "⭐  XP:  +" + str(resultado.get("xp_ganada",  0)) + "\n"
     var item = resultado.get("item_dropeado", {})
     if not item.is_empty():

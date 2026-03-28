@@ -121,6 +121,8 @@ func _navigate_to(section: String):
             _load_sub_scene("res://scenes/profile/Profile.tscn")
         "Exploración":
             _load_sub_scene("res://scenes/exploration/Exploration.tscn")
+        "Entrenamiento":
+            _load_sub_scene("res://scenes/training/Training.tscn")
         _:
             _show_label("[ " + section + " ]\n\nEsta sección está en construcción.\nProximamente disponible.")
 

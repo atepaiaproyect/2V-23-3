@@ -77,12 +77,12 @@ stretch_mode = 6
 
 [node name="VBoxStats" type="VBoxContainer" parent="HBoxMain/ColLeft/StatsPanel" unique_id=1997130170]
 layout_mode = 2
-theme_override_constants/separation = 4
+theme_override_constants/separation = 2
 
 [node name="LabelName" type="Label" parent="HBoxMain/ColLeft/StatsPanel/VBoxStats" unique_id=1974643486]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.9, 0.75, 0.3, 1)
-theme_override_font_sizes/font_size = 16
+theme_override_font_sizes/font_size = 14
 text = "Nombre"
 
 [node name="LabelClass" type="Label" parent="HBoxMain/ColLeft/StatsPanel/VBoxStats" unique_id=1166770556]
@@ -107,7 +107,7 @@ theme_override_font_sizes/font_size = 11
 text = "❤ HP: 100/100"
 
 [node name="BarHPBg" type="ColorRect" parent="HBoxMain/ColLeft/StatsPanel/VBoxStats" unique_id=1788416896]
-custom_minimum_size = Vector2(0, 8)
+custom_minimum_size = Vector2(0, 5)
 layout_mode = 2
 size_flags_horizontal = 3
 color = Color(0.15, 0.08, 0.08, 1)
@@ -128,7 +128,7 @@ theme_override_font_sizes/font_size = 11
 text = "⭐ XP: 0/100"
 
 [node name="BarXPBg" type="ColorRect" parent="HBoxMain/ColLeft/StatsPanel/VBoxStats" unique_id=1002243978]
-custom_minimum_size = Vector2(0, 8)
+custom_minimum_size = Vector2(0, 5)
 layout_mode = 2
 size_flags_horizontal = 3
 color = Color(0.08, 0.12, 0.2, 1)

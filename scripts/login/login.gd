@@ -206,6 +206,7 @@ func _on_player_check_completed(_result, response_code, _headers, body):
         GameData.player_gender   = fields.get("gender", {}).get("stringValue", "")
         GameData.player_class    = fields.get("class", {}).get("stringValue", "")
         GameData.player_portrait = fields.get("portrait", {}).get("stringValue", "")
+        SaveManager.cargar_desde_fields(fields)
         get_tree().change_scene_to_file("res://scenes/main_hub/MainHub.tscn")
     else:
         # Jugador NO tiene personaje → ir a creación
