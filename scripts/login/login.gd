@@ -98,13 +98,14 @@ func _load_remembered() -> void:
     var cfg = ConfigFile.new()
     if cfg.load(SAVE_PATH) == OK:
         username_input.text = cfg.get_value("auth", "username", "")
-        password_input.text = cfg.get_value("auth", "password", "")
+        # La contraseña NUNCA se guarda ni se carga por seguridad
+        password_input.text = ""
         remember_check.button_pressed = true
 
-func _save_credentials(username: String, password: String) -> void:
+func _save_credentials(username: String, _password: String) -> void:
+    # Solo guardamos el nombre de usuario, NUNCA la contraseña
     var cfg = ConfigFile.new()
     cfg.set_value("auth", "username", username)
-    cfg.set_value("auth", "password", password)
     cfg.save(SAVE_PATH)
 
 func _clear_credentials() -> void:

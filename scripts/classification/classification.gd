@@ -143,8 +143,9 @@ func _on_http(_result, response_code, _headers_r, body) -> void:
                     "pvp_kills":    int(f.get("pvp_kills",{}).get("integerValue", "0")),
                     "gold_stolen":  int(f.get("gold_stolen",{}).get("integerValue","0")),
                     "craft_points": int(f.get("craft_points",{}).get("integerValue","0")),
-                    "clan_tag":     f.get("clan_tag",     {}).get("stringValue", "-"),
-                    "hp":           int(f.get("hp",       {}).get("integerValue","100")),
+                    "clan_tag":     f.get("clan_tag",        {}).get("stringValue", "-"),
+                    "clan_id":      f.get("player_clan_id", {}).get("stringValue", ""),
+                    "hp":           int(f.get("hp",          {}).get("integerValue","100")),
                     "hp_max":       int(f.get("hp_max",   {}).get("integerValue","100")),
                 })
     _lbl_status.text = str(_jugadores.size()) + " jugadores en el servidor"
@@ -193,10 +194,20 @@ func _crear_fila(pos: int, j: Dictionary) -> PanelContainer:
     var c_pos    = Color(1.0,0.85,0.2,1) if pos <= 3 else Color(0.55,0.55,0.5,1)
     hbox.add_child(_celda(pos_txt, "pos", 12, c_pos, false))
 
-    # — Nombre —
-    var c_nom = Color(0.3, 0.9, 0.3, 1) if es_yo else Color(0.9, 0.85, 0.7, 1)
+    # — Nombre (clickeable si no sos vos) —
+    var c_nom = Color(0.3, 0.9, 0.3, 1) if es_yo else Color(0.4, 0.8, 1.0, 1)
     var nom   = j["nombre"] + (" ◀" if es_yo else "")
-    hbox.add_child(_celda(nom, "nombre", 12, c_nom, true))
+    if not es_yo:
+        var btn_nom = Button.new()
+        btn_nom.text = nom
+        btn_nom.add_theme_font_size_override("font_size", 12)
+        btn_nom.add_theme_color_override("font_color", c_nom)
+        btn_nom.custom_minimum_size = Vector2(COL_WIDTHS["nombre"], 0)
+        btn_nom.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+        btn_nom.pressed.connect(_abrir_perfil.bind(j))
+        hbox.add_child(btn_nom)
+    else:
+        hbox.add_child(_celda(nom, "nombre", 12, c_nom, true))
 
     # — Nivel —
     hbox.add_child(_celda(str(j["nivel"]), "nivel", 11, Color(0.7,0.85,1.0,1), false))
@@ -215,8 +226,20 @@ func _crear_fila(pos: int, j: Dictionary) -> PanelContainer:
     # — Crafteo —
     hbox.add_child(_celda(str(j["craft_points"]), "craft", 11, Color(0.4,0.9,0.5,1), false))
 
-    # — Clan —
-    hbox.add_child(_celda(j.get("clan_tag", "-"), "clan", 10, Color(0.6,0.8,1.0,1), false))
+    # — Clan (clickeable si tiene clan_id) —
+    var clan_id_fila = j.get("clan_id", "")
+    if clan_id_fila != "":
+        var btn_clan = Button.new()
+        btn_clan.text = j.get("clan_tag", "-")
+        btn_clan.flat = true
+        btn_clan.add_theme_font_size_override("font_size", 10)
+        btn_clan.add_theme_color_override("font_color", Color(0.6, 0.8, 1.0, 1))
+        btn_clan.custom_minimum_size = Vector2(COL_WIDTHS["clan"], 0)
+        btn_clan.size_flags_horizontal = Control.SIZE_SHRINK_BEGIN
+        btn_clan.pressed.connect(_abrir_perfil_clan.bind(clan_id_fila))
+        hbox.add_child(btn_clan)
+    else:
+        hbox.add_child(_celda("-", "clan", 10, Color(0.6, 0.8, 1.0, 1), false))
 
     # — Botón atacar —
     if not es_yo:
@@ -240,6 +263,13 @@ func _celda(txt: String, col_key: String, size: int, color: Color, expandir: boo
     return l
 
 func _on_atacar(j: Dictionary) -> void:
+    # Cooldown global de 1 minuto entre ataques PvP
+    var ahora = int(Time.get_unix_time_from_system())
+    var seg_rest = 60 - (ahora - GameData.pvp_last_attack_time)
+    if seg_rest > 0:
+        _lbl_status.text = "⏳ Podés atacar en " + str(seg_rest) + " segundos."
+        return
+    GameData.pvp_last_attack_time = ahora
     var ficha = {
         "nombre": j.get("nombre","?"), "nivel": j.get("nivel",1),
         "hp": j.get("hp",100), "hp_max": j.get("hp_max",100),
@@ -256,8 +286,30 @@ func _on_atacar(j: Dictionary) -> void:
         GameData.xp += 2; GameData.xp_total += 2
         SaveManager.save_clan_stats(2, 0, 0, 0)
     SaveManager.save_progress()
+    AchievementManager.check_all()
     _lbl_status.text = ("✔ Victoria" if resultado.get("jugador_gano",false) else "✖ Derrota") + \
         " vs " + j.get("nombre","?") + (" (+2 XP)" if resultado.get("jugador_gano",false) else "")
+
+func _abrir_perfil(j: Dictionary) -> void:
+    var perfil = preload("res://scenes/player_profile/PlayerProfile.tscn").instantiate()
+    add_child(perfil)
+    perfil.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+    perfil.z_index = 100
+    perfil.cargar_jugador(j["player_id"])
+
+func _abrir_perfil_clan(clan_id: String) -> void:
+    if clan_id == "":
+        return
+    var script = load("res://scripts/clan_profile/clan_profile.gd")
+    if script == null:
+        print("ERROR: No se encuentra clan_profile.gd")
+        return
+    var perfil = Control.new()
+    perfil.set_script(script)
+    add_child(perfil)
+    perfil.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+    perfil.z_index = 100
+    perfil.cargar_clan(clan_id)
 
 func _fmt(n: int) -> String:
     if n >= 1_000_000: return str(snappedf(float(n)/1_000_000.0,0.1)) + "M"

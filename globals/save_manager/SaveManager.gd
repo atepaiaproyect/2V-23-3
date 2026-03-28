@@ -39,7 +39,11 @@ func save_progress() -> void:
     url += "&updateMask.fieldPaths=xp_total&updateMask.fieldPaths=craft_points&updateMask.fieldPaths=pvp_kills"
     url += "&updateMask.fieldPaths=last_online"
     url += "&updateMask.fieldPaths=arena_pos&updateMask.fieldPaths=arena_bounty&updateMask.fieldPaths=arena_is_top1&updateMask.fieldPaths=arena_league"
-    url += "&updateMask.fieldPaths=player_clan_id"
+    url += "&updateMask.fieldPaths=player_clan_id&updateMask.fieldPaths=player_clan_name&updateMask.fieldPaths=player_clan_tag"
+    url += "&updateMask.fieldPaths=pve_wins&updateMask.fieldPaths=boss_kills&updateMask.fieldPaths=crits_landed"
+    url += "&updateMask.fieldPaths=double_hits&updateMask.fieldPaths=dodges_done&updateMask.fieldPaths=blocks_done"
+    url += "&updateMask.fieldPaths=resist_done&updateMask.fieldPaths=items_dropped&updateMask.fieldPaths=messages_sent"
+    url += "&updateMask.fieldPaths=achievements_unlocked"
 
     var fields: Dictionary = {
         "level":            { "integerValue": str(GameData.level) },
@@ -77,7 +81,19 @@ func save_progress() -> void:
         "arena_bounty": { "integerValue": str(GameData.arena_bounty) },
         "arena_is_top1":{ "booleanValue": GameData.arena_is_top1 },
         "arena_league":   { "stringValue": GameData.get_arena_league_id() },
-        "player_clan_id": { "stringValue": GameData.player_clan_id },
+        "player_clan_id":   { "stringValue": GameData.player_clan_id },
+        "player_clan_name": { "stringValue": GameData.player_clan_name },
+        "player_clan_tag":  { "stringValue": GameData.player_clan_tag },
+        "pve_wins":         { "integerValue": str(GameData.pve_wins) },
+        "boss_kills":       { "integerValue": str(GameData.boss_kills) },
+        "crits_landed":     { "integerValue": str(GameData.crits_landed) },
+        "double_hits":      { "integerValue": str(GameData.double_hits) },
+        "dodges_done":      { "integerValue": str(GameData.dodges_done) },
+        "blocks_done":      { "integerValue": str(GameData.blocks_done) },
+        "resist_done":      { "integerValue": str(GameData.resist_done) },
+        "items_dropped":    { "integerValue": str(GameData.items_dropped) },
+        "messages_sent":    { "integerValue": str(GameData.messages_sent) },
+        "achievements_unlocked": { "arrayValue": { "values": _array_to_firestore(GameData.achievements_unlocked) } },
     }
 
     var headers = PackedStringArray([
@@ -135,7 +151,23 @@ func cargar_desde_fields(fields: Dictionary) -> void:
     GameData.arena_pos     = int(fields.get("arena_pos",    {}).get("integerValue", "9999"))
     GameData.arena_bounty  = int(fields.get("arena_bounty", {}).get("integerValue", "0"))
     GameData.arena_is_top1 = fields.get("arena_is_top1", {}).get("booleanValue", false)
-    GameData.player_clan_id = fields.get("player_clan_id", {}).get("stringValue", "")
+    GameData.player_clan_id   = fields.get("player_clan_id",   {}).get("stringValue", "")
+    GameData.player_clan_name = fields.get("player_clan_name", {}).get("stringValue", "")
+    GameData.player_clan_tag  = fields.get("player_clan_tag",  {}).get("stringValue", "")
+    GameData.pve_wins       = int(fields.get("pve_wins",     {}).get("integerValue", "0"))
+    GameData.boss_kills     = int(fields.get("boss_kills",   {}).get("integerValue", "0"))
+    GameData.crits_landed   = int(fields.get("crits_landed", {}).get("integerValue", "0"))
+    GameData.double_hits    = int(fields.get("double_hits",  {}).get("integerValue", "0"))
+    GameData.dodges_done    = int(fields.get("dodges_done",  {}).get("integerValue", "0"))
+    GameData.blocks_done    = int(fields.get("blocks_done",  {}).get("integerValue", "0"))
+    GameData.resist_done    = int(fields.get("resist_done",  {}).get("integerValue", "0"))
+    GameData.items_dropped  = int(fields.get("items_dropped",{}).get("integerValue", "0"))
+    GameData.messages_sent  = int(fields.get("messages_sent",{}).get("integerValue", "0"))
+    # Cargar logros desbloqueados
+    var ach_raw = fields.get("achievements_unlocked", {}).get("arrayValue", {}).get("values", [])
+    GameData.achievements_unlocked = []
+    for v in ach_raw:
+        GameData.achievements_unlocked.append(v.get("stringValue", ""))
     # arena_league se recalcula automáticamente desde el nivel, no hace falta cargarlo
 
     # Cargar equipo
@@ -264,3 +296,9 @@ func _on_clan_read(_result, response_code, _headers_r, body) -> void:
         _http_clan.cancel_request()
     _http_clan.request(url, headers, HTTPClient.METHOD_PATCH, body_str)
     _pending_clan_delta = {}
+
+static func _array_to_firestore(arr: Array) -> Array:
+    var result = []
+    for item in arr:
+        result.append({ "stringValue": str(item) })
+    return result

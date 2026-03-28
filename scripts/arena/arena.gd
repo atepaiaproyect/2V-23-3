@@ -4,7 +4,7 @@ extends Control
 # ARENA — Sistema PvP por ligas
 # ─────────────────────────────────────────────────────────
 
-const BOUNTY_PER_MINUTE := 3        # bronce/min que acumula el #1
+const BOUNTY_PER_MINUTE := 5        # bronce/min que acumula el #1
 const MAX_ATTACKS_VALID  := 10       # ataques con recompensa por jugador/24h
 const ATTACK_COOLDOWN_H  := 24       # horas para reset del contador
 
@@ -363,6 +363,12 @@ func _crear_fila_jugador(icono: String, jugador: Dictionary, es_yo: bool, con_bo
 # ATACAR JUGADOR
 # ─────────────────────────────────────
 func _on_atacar_jugador(rival: Dictionary) -> void:
+    # Cooldown global de 1 minuto entre ataques PvP
+    var ahora = int(Time.get_unix_time_from_system())
+    var segundos_restantes = 60 - (ahora - GameData.pvp_last_attack_time)
+    if segundos_restantes > 0:
+        _lbl_status.text = "⏳ Podés atacar en " + str(segundos_restantes) + " segundos."
+        return
     # Verificar límite de 10 ataques/24h
     var ataques_hoy = _contar_ataques_hoy(rival["player_id"])
     if ataques_hoy >= MAX_ATTACKS_VALID:
@@ -422,6 +428,8 @@ func _ejecutar_ataque(rival: Dictionary, con_recompensa: bool) -> void:
     rival["_con_recompensa"] = con_recompensa
     _ataque_activo = rival
     _lbl_status.text = "Combatiendo contra " + rival.get("nombre","?") + "..."
+    # Registrar cooldown global
+    GameData.pvp_last_attack_time = int(Time.get_unix_time_from_system())
     _registrar_ataque(rival["player_id"])
     _resolver_combate_pvp()
 
@@ -473,12 +481,14 @@ func _aplicar_resultado_pvp(resultado: Dictionary, rival: Dictionary, con_recomp
             if pos_rival < GameData.arena_pos:
                 GameData.arena_pos = pos_rival
 
-            # Si le quitó el puesto #1 y tenía botín, robar botín
+            # Si le quitó el puesto #1: robar botín y resetear el del rival
             if rival.get("arena_is_top1", false) and rival.get("arena_bounty", 0) > 0:
                 var botin = rival.get("arena_bounty", 0)
                 GameData.bronze_hand += botin
-                GameData.arena_bounty = 0
-                # El rival pierde el botín y deja de ser #1
+                # Guardar en Firestore que el rival ya no tiene botín ni es #1
+                _resetear_botin_rival(rival.get("player_id", ""))
+            # Mi propio botín empieza desde 0 al tomar el #1
+            GameData.arena_bounty = 0
 
         else:
             # Perder baja un puesto (pero no más de 5 posiciones)
@@ -492,6 +502,7 @@ func _aplicar_resultado_pvp(resultado: Dictionary, rival: Dictionary, con_recomp
     GameData.arena_is_top1 = (GameData.arena_pos == 1)
 
     SaveManager.save_progress()
+    AchievementManager.check_all()
 
     # Actualizar puntos del clan si el jugador pertenece a uno
     if con_recompensa and gane:
@@ -502,6 +513,17 @@ func _aplicar_resultado_pvp(resultado: Dictionary, rival: Dictionary, con_recomp
 
     # Guardar resultado en Firestore para actualizar ranking
     _guardar_resultado_firestore(rival, gane, con_recompensa)
+
+func _resetear_botin_rival(rival_player_id: String) -> void:
+    if rival_player_id == "":
+        return
+    var url = GameData.FIRESTORE_URL + "players/" + rival_player_id
+    url += "?updateMask.fieldPaths=arena_bounty&updateMask.fieldPaths=arena_is_top1"
+    var body = JSON.stringify({ "fields": {
+        "arena_bounty":  { "integerValue": "0" },
+        "arena_is_top1": { "booleanValue": false },
+    }})
+    _http2.request(url, _headers(), HTTPClient.METHOD_PATCH, body)
 
 func _guardar_resultado_firestore(rival: Dictionary, gane: bool, con_recompensa: bool) -> void:
     if not con_recompensa:

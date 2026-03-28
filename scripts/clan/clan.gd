@@ -250,19 +250,27 @@ func _on_crear_clan() -> void:
     _accion_actual = "crear_clan"
     var clan_id = GameData.player_id + "_clan"
     var url = GameData.FIRESTORE_URL + "clanes/" + clan_id
+    var fecha = Time.get_datetime_string_from_system()
     var body = JSON.stringify({ "fields": {
-        "nombre":     { "stringValue": nombre },
-        "tag":        { "stringValue": "[" + tag + "]" },
-        "lider_id":   { "stringValue": GameData.player_id },
-        "lider_name": { "stringValue": GameData.player_name },
-        "miembros":   { "integerValue": "1" },
-        "created_at": { "stringValue": Time.get_datetime_string_from_system() },
+        "nombre":       { "stringValue": nombre },
+        "tag":          { "stringValue": "[" + tag + "]" },
+        "lider_id":     { "stringValue": GameData.player_id },
+        "lider_name":   { "stringValue": GameData.player_name },
+        "miembros":     { "integerValue": "1" },
+        "created_at":   { "stringValue": fecha },
+        "descripcion":  { "stringValue": "" },
         "pvp_points":   { "integerValue": "0" },
         "gold_stolen":  { "integerValue": "0" },
         "xp_total":     { "integerValue": "0" },
         "craft_points": { "integerValue": "0" },
-        "clan_id": { "stringValue": clan_id },
+        "clan_id":      { "stringValue": clan_id },
+        "medallas":     { "arrayValue": { "values": [] } },
     }})
+    # Guardar en GameData para el estandarte
+    GameData.player_clan_name = nombre
+    GameData.player_clan_tag  = "[" + tag + "]"
+    GameData.clan_founded_by  = GameData.player_name
+    GameData.clan_created_at  = fecha
     _mi_clan = { "nombre": nombre, "tag": "[" + tag + "]", "clan_id": clan_id }
     _http_patch(url, body)
 
@@ -361,9 +369,21 @@ func _on_http_completed(_result, response_code, _headers_r, body) -> void:
                 _http_membresia.request(url, _headers(), HTTPClient.METHOD_PATCH, body2)
             else:
                 _lbl_status.text = "Error al crear/unirse al clan. Código: " + str(response_code)
+        "cargar_detalle":
+            if response_code == 200 and data != null and data.has("fields"):
+                var f = data["fields"]
+                _mi_clan["descripcion"] = f.get("descripcion", {}).get("stringValue", "")
+                _mi_clan["lider_name"]  = f.get("lider_name",  {}).get("stringValue", "")
+                _mi_clan["created_at"]  = f.get("created_at",  {}).get("stringValue", "")
+                GameData.clan_founded_by = _mi_clan["lider_name"]
+                GameData.clan_created_at = _mi_clan["created_at"]
+                _actualizar_descripcion_panel()
+
         "salir_clan":
             _mi_clan = {}
-            GameData.player_clan_id = ""
+            GameData.player_clan_id   = ""
+            GameData.player_clan_name = ""
+            GameData.player_clan_tag  = ""
             _lbl_status.text = "Abandonaste el clan."
             _panel_sin_clan.visible = true
             _panel_con_clan.visible = false
@@ -383,11 +403,37 @@ func _mostrar_panel_clan() -> void:
     _panel_sin_clan.visible = false
     _panel_con_clan.visible = true
     _lbl_clan_nombre.text   = _mi_clan.get("nombre", "Mi Clan")
-    _lbl_clan_tag.text      = _mi_clan.get("tag", "")
+    _lbl_clan_tag.text      = _mi_clan.get("tag", "") + "  —  Toca el nombre para ver el perfil del clan"
     _lbl_clan_miembros.text = ""
     _lbl_status.text        = "Clan cargado."
-    # Guardar clan_id en GameData para que SaveManager pueda actualizar el clan
-    GameData.player_clan_id = _mi_clan.get("clan_id", "")
+    # Guardar info del clan en GameData
+    GameData.player_clan_id   = _mi_clan.get("clan_id", "")
+    GameData.player_clan_name = _mi_clan.get("nombre", "")
+    GameData.player_clan_tag  = _mi_clan.get("tag", "")
+    GameData.clan_founded_by  = _mi_clan.get("lider_name", "")
+    GameData.clan_created_at  = _mi_clan.get("created_at", "")
+    # Hacer el nombre clickeable para abrir el perfil del clan
+    var cid = _mi_clan.get("clan_id", "")
+    if cid != "":
+        _lbl_clan_nombre.mouse_filter = Control.MOUSE_FILTER_STOP
+        _lbl_clan_nombre.add_theme_color_override("font_color", Color(0.55, 0.88, 1.0, 1))
+        # Desconectar si ya estaba conectado para evitar dobles
+        if not _lbl_clan_nombre.gui_input.is_connected(_on_lbl_clan_click):
+            _lbl_clan_nombre.gui_input.connect(_on_lbl_clan_click)
+    _cargar_detalle_clan()
+
+func _cargar_detalle_clan() -> void:
+    if GameData.player_clan_id == "":
+        return
+    var url = GameData.FIRESTORE_URL + "clanes/" + GameData.player_clan_id
+    _accion_actual = "cargar_detalle"
+    _http_get(url)
+
+func _actualizar_descripcion_panel() -> void:
+    # Actualizar la descripción visible si el panel está abierto
+    var lbl_desc = _panel_con_clan.find_child("LblDescClan", true, false)
+    if lbl_desc:
+        lbl_desc.text = _mi_clan.get("descripcion", "(Sin descripción)")
 
 func _poblar_lista_clanes() -> void:
     for child in _grid_clanes.get_children():
@@ -405,11 +451,16 @@ func _poblar_lista_clanes() -> void:
         var vbox = VBoxContainer.new()
         vbox.size_flags_horizontal = Control.SIZE_EXPAND_FILL
         hbox.add_child(vbox)
-        var lbl_n = Label.new()
-        lbl_n.text = clan.get("tag", "") + "  " + clan.get("nombre", "?")
-        lbl_n.add_theme_color_override("font_color", Color(0.9, 0.82, 0.5, 1))
-        lbl_n.add_theme_font_size_override("font_size", 12)
-        vbox.add_child(lbl_n)
+        var btn_n = Button.new()
+        btn_n.text = clan.get("tag", "") + "  " + clan.get("nombre", "?")
+        btn_n.flat = true
+        btn_n.alignment = HORIZONTAL_ALIGNMENT_LEFT
+        btn_n.add_theme_color_override("font_color", Color(0.9, 0.82, 0.5, 1))
+        btn_n.add_theme_font_size_override("font_size", 12)
+        var cid = clan.get("clan_id", "")
+        if cid != "":
+            btn_n.pressed.connect(_abrir_perfil_clan.bind(cid))
+        vbox.add_child(btn_n)
         var lbl_m = Label.new()
         lbl_m.text = "Lider: " + clan.get("lider_name", "?") + "  |  Miembros: " + str(clan.get("miembros", 1))
         lbl_m.add_theme_color_override("font_color", Color(0.6, 0.6, 0.55, 1))
@@ -450,3 +501,23 @@ func _http_post(url: String, body: String) -> void:
 func _http_delete(url: String) -> void:
     _cancelar_si_ocupado(_http)
     _http.request(url, _headers(), HTTPClient.METHOD_DELETE)
+
+func _on_lbl_clan_click(event: InputEvent) -> void:
+    if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+        var cid = _mi_clan.get("clan_id", "")
+        if cid != "":
+            _abrir_perfil_clan(cid)
+
+func _abrir_perfil_clan(clan_id: String) -> void:
+    if clan_id == "":
+        return
+    var script = load("res://scripts/clan_profile/clan_profile.gd")
+    if script == null:
+        print("ERROR: No se encuentra clan_profile.gd")
+        return
+    var perfil = Control.new()
+    perfil.set_script(script)
+    add_child(perfil)
+    perfil.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+    perfil.z_index = 100
+    perfil.cargar_clan(clan_id)

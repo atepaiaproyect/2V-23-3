@@ -78,7 +78,30 @@ var craft_points: int = 0
 var pvp_kills:    int = 0
 
 # --- Clan ---
-var player_clan_id: String = ""
+var player_clan_id:   String = ""
+var player_clan_name: String = ""
+var player_clan_tag:  String = ""
+var clan_founded_by:  String = ""
+var clan_created_at:  String = ""
+
+# --- Logros ---
+var achievements_unlocked: Array = []   # IDs de logros desbloqueados
+var achievement_progress: Dictionary = {} # id → valor actual
+
+# --- Cooldown PvP global (1 minuto entre ataques) ---
+var pvp_last_attack_time: int = 0   # timestamp unix del último ataque PvP
+
+# --- Estadísticas de logros ---
+var pve_wins:        int = 0
+var boss_kills:      int = 0
+var crits_landed:    int = 0
+var double_hits:     int = 0
+var dodges_done:     int = 0
+var blocks_done:     int = 0
+var resist_done:     int = 0
+var items_dropped:   int = 0
+var days_played:     int = 0
+var messages_sent:   int = 0
 
 # --- Arena PvP ---
 var arena_pos:     int = 9999   # posición en liga actual

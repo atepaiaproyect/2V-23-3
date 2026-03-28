@@ -121,7 +121,19 @@ func _actualizar_info_panel() -> void:
         info_nivel.text  = "Nivel " + str(GameData.level)
     if info_clase:
         var clase_str = GameData.player_class.capitalize()
-        info_clase.text = clase_str if clase_str != "" else "Aventurero"
+        var texto_clase = clase_str if clase_str != "" else "Aventurero"
+        # Si tiene clan, mostramos el tag a continuación
+        if GameData.player_clan_tag != "":
+            info_clase.text = texto_clase + "  " + GameData.player_clan_tag
+            info_clase.mouse_filter = Control.MOUSE_FILTER_STOP
+            info_clase.add_theme_color_override("font_color", Color(0.55, 0.88, 1.0, 1))
+            info_clase.tooltip_text = "Ver clan: " + GameData.player_clan_name
+            if not info_clase.gui_input.is_connected(_on_info_clan_click):
+                info_clase.gui_input.connect(_on_info_clan_click)
+        else:
+            info_clase.text = texto_clase
+            info_clase.mouse_filter = Control.MOUSE_FILTER_IGNORE
+            info_clase.add_theme_color_override("font_color", Color(0.9, 0.75, 0.3, 1))
     if info_hp:
         info_hp.text     = "❤ " + str(GameData.hp) + "/" + str(GameData.hp_max)
     if info_xp:
@@ -305,3 +317,22 @@ func _restaurar_equipo() -> void:
         var item = mapa.get(slot.slot_name, {})
         if not item.is_empty():
             slot.set_equipped(item)
+
+func _on_info_clan_click(event: InputEvent) -> void:
+    if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+        if GameData.player_clan_id != "":
+            _abrir_perfil_clan(GameData.player_clan_id)
+
+func _abrir_perfil_clan(clan_id: String) -> void:
+    if clan_id == "":
+        return
+    var script = load("res://scripts/clan_profile/clan_profile.gd")
+    if script == null:
+        print("ERROR: No se encuentra clan_profile.gd")
+        return
+    var perfil = Control.new()
+    perfil.set_script(script)
+    add_child(perfil)
+    perfil.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+    perfil.z_index = 100
+    perfil.cargar_clan(clan_id)
