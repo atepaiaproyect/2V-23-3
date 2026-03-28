@@ -217,7 +217,7 @@ func _cargar_mi_clan() -> void:
     var url = GameData.FIRESTORE_URL + "clan_members/" + GameData.player_id
     _http_get(url)
 
-func _cargar_lista_clanes(filtro: String = "") -> void:
+func _cargar_lista_clanes(_filtro: String = "") -> void:
     _accion_actual = "lista_clanes"
     var url = "https://firestore.googleapis.com/v1/projects/" + GameData.FIREBASE_PROJECT_ID
     url += "/databases/(default)/documents:runQuery"
@@ -428,14 +428,22 @@ func _headers() -> PackedStringArray:
         "Authorization: Bearer " + GameData.id_token
     ])
 
+func _cancelar_si_ocupado(h: HTTPRequest) -> void:
+    if h.get_http_client_status() != HTTPClient.STATUS_DISCONNECTED:
+        h.cancel_request()
+
 func _http_get(url: String) -> void:
+    _cancelar_si_ocupado(_http)
     _http.request(url, _headers(), HTTPClient.METHOD_GET)
 
 func _http_patch(url: String, body: String) -> void:
+    _cancelar_si_ocupado(_http)
     _http.request(url, _headers(), HTTPClient.METHOD_PATCH, body)
 
 func _http_post(url: String, body: String) -> void:
+    _cancelar_si_ocupado(_http)
     _http.request(url, _headers(), HTTPClient.METHOD_POST, body)
 
 func _http_delete(url: String) -> void:
+    _cancelar_si_ocupado(_http)
     _http.request(url, _headers(), HTTPClient.METHOD_DELETE)

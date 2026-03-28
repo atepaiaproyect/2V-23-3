@@ -91,12 +91,12 @@ func _mostrar_recompensa(resultado: Dictionary) -> void:
 # LOG ESTILO GLADIATUS
 # ─────────────────────────────────────
 func _mostrar_log(resultado: Dictionary, jugador: Dictionary, enemigo: Dictionary) -> void:
-    var log      : Array  = resultado.get("log", [])
+    var combat_log : Array = resultado.get("log", [])
     var nombre_j : String = jugador.get("nombre", "Jugador")
     var nombre_e : String = enemigo.get("nombre", "Enemigo")
     var txt      : String = ""
 
-    for ronda_data in log:
+    for ronda_data in combat_log:
         var r = ronda_data.get("ronda", 0)
         txt += "\nRonda " + str(r) + "\n"
 

@@ -73,6 +73,10 @@ func save_progress() -> void:
         "Content-Type: application/json",
         "Authorization: Bearer " + GameData.id_token
     ])
+    # Si hay una petición en curso la cancelamos y enviamos la nueva
+    # (la más reciente siempre tiene los datos más actualizados)
+    if _http.get_http_client_status() != HTTPClient.STATUS_DISCONNECTED:
+        _http.cancel_request()
     _http.request(url, headers, HTTPClient.METHOD_PATCH, JSON.stringify({"fields": fields}))
 
 # ─────────────────────────────────────

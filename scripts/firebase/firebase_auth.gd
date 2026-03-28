@@ -34,7 +34,8 @@ func _normalizar_email(email: String) -> String:
 # LOGIN POR USERNAME
 # ==================================================
 func login_by_username(username: String, password: String) -> void:
-    var url = BASE_URL + "/usernames/" + username.to_lower()
+    # Necesita API key para leer sin token de autenticación
+    var url = BASE_URL + "/usernames/" + username.to_lower() + "?key=" + GameData.FIREBASE_API_KEY
     var http = HTTPRequest.new()
     add_child(http)
     http.request_completed.connect(_on_username_lookup.bind(http, password))
@@ -53,8 +54,12 @@ func _on_username_lookup(_result, response_code, _headers, body, http: HTTPReque
             _do_login(email, password)
         else:
             emit_signal("login_failed", "Usuario no encontrado.")
-    else:
+    elif response_code == 404:
         emit_signal("login_failed", "Usuario no encontrado.")
+    elif response_code == 403:
+        emit_signal("login_failed", "Acceso denegado. Revisá las reglas de Firestore.")
+    else:
+        emit_signal("login_failed", "Error de conexión. Código: " + str(response_code))
 
 func _do_login(email: String, password: String) -> void:
     var url = AUTH_URL + "signInWithPassword?key=" + GameData.FIREBASE_API_KEY

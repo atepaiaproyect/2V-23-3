@@ -93,3 +93,40 @@ func _nombre_visible(sn: String) -> String:
         "anillo": return "Anillo"
         "capa":   return "Capa/Alas"
         _:        return sn
+
+# ─────────────────────────────────────
+# DOBLE CLICK → desequipar al inventario
+# DRAG → arrastrar al inventario
+# ─────────────────────────────────────
+func _gui_input(event: InputEvent) -> void:
+    if event is InputEventMouseButton and event.pressed:
+        if event.button_index == MOUSE_BUTTON_LEFT:
+            if equipped_item.is_empty():
+                return
+            if event.double_click:
+                # Desequipar: mover al inventario
+                var item = equipped_item.duplicate()
+                EquipmentManager.remove_item_stats(item)
+                set_equipped({})
+                _devolver_al_inventario(item)
+                EquipmentManager.emit_signal("stats_changed")
+            else:
+                # Click simple → tooltip
+                ItemTooltip.show_tooltip(equipped_item, get_global_rect().position)
+
+func _get_drag_data(_at_position: Vector2) -> Variant:
+    if equipped_item.is_empty():
+        return null
+    ItemTooltip.hide_tooltip()
+    var preview = TextureRect.new()
+    preview.texture             = item_icon.texture
+    preview.custom_minimum_size = Vector2(55, 55)
+    preview.expand_mode         = TextureRect.EXPAND_FIT_WIDTH_PROPORTIONAL
+    preview.stretch_mode        = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+    set_drag_preview(preview)
+    EquipmentManager.start_drag(equipped_item)
+    return { "item": equipped_item, "source_slot": self }
+
+func _notification(what: int) -> void:
+    if what == NOTIFICATION_DRAG_END:
+        EquipmentManager.end_drag()

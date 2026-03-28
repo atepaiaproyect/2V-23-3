@@ -177,10 +177,10 @@ func _save_to_firestore(player_name: String):
             "bonus_exp":        {"doubleValue": GameData.bonus_exp},
             "bonus_gold":       {"doubleValue": GameData.bonus_gold},
             "created_at":       {"stringValue": Time.get_datetime_string_from_system()},
-            # Equipo inicial — Katana Oxidada, Tablón Reforzado, Trapo (lvl 1)
-            "eq_weapon":        {"stringValue": "arma_001"},
-            "eq_shield":        {"stringValue": "escudo_001"},
-            "eq_chest":         {"stringValue": "pecho_001"},
+            # Sin equipo inicial — los ítems arrancan en el inventario
+            "eq_weapon":        {"stringValue": ""},
+            "eq_shield":        {"stringValue": ""},
+            "eq_chest":         {"stringValue": ""},
             "eq_helmet":        {"stringValue": ""},
             "eq_boots":         {"stringValue": ""},
             "eq_gloves":        {"stringValue": ""},
