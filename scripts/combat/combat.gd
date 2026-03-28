@@ -41,6 +41,7 @@ func _aplicar_resultado(resultado: Dictionary) -> void:
         GameData.xp       += xp_ganada
         GameData.xp_total += xp_ganada  # ranking Eruditos
         _chequear_nivel()
+        SaveManager.save_clan_stats(xp_ganada, 0, 0, 0)
         var item = resultado.get("item_dropeado", {})
         if not item.is_empty():
             GameData.ultimo_drop = item

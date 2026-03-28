@@ -77,6 +77,9 @@ var xp_total:     int = 0
 var craft_points: int = 0
 var pvp_kills:    int = 0
 
+# --- Clan ---
+var player_clan_id: String = ""
+
 # --- Arena PvP ---
 var arena_pos:     int = 9999   # posición en liga actual
 var arena_bounty:  int = 0      # botín acumulado como #1

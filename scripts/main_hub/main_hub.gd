@@ -160,6 +160,10 @@ func _navigate_to(section: String):
             _load_sub_scene("res://scenes/ranking/Ranking.tscn")
         "Salir":
             get_tree().quit()
+        "Herreria":
+            _load_sub_scene("res://scenes/crafting/Crafting.tscn")
+        "Inventario", "Mercado", "Taberna":
+            _show_label_bloqueado(section)
         _:
             _show_label("[ " + section + " ]\n\nEsta sección está en construcción.\nProximamente disponible.")
 
@@ -173,6 +177,19 @@ func _show_label(text: String):
     for child in $HBoxMain/VBoxRight/ContentContainer/ContentArea.get_children():
         child.queue_free()
     label_content.text = text
+    $HBoxMain/VBoxRight/ContentContainer/ContentArea.add_child(label_content)
+
+func _show_label_bloqueado(section: String):
+    var iconos = {"Herreria": "⚒", "Inventario": "🎒", "Mercado": "🏪", "Taberna": "🍺"}
+    var fechas = {"Herreria": "Próximamente", "Inventario": "Próximamente", "Mercado": "Próximamente", "Taberna": "Próximamente"}
+    var icono = iconos.get(section, "🔒")
+    var txt = icono + "  " + section.to_upper() + "\n\n"
+    txt += "Esta sección está en desarrollo.\n"
+    txt += "Estará disponible en una próxima actualización.\n\n"
+    txt += "⚠  No disponible aún."
+    for child in $HBoxMain/VBoxRight/ContentContainer/ContentArea.get_children():
+        child.queue_free()
+    label_content.text = txt
     $HBoxMain/VBoxRight/ContentContainer/ContentArea.add_child(label_content)
 
 func _on_btn_edit_pressed():

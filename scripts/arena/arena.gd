@@ -188,19 +188,36 @@ func _cargar_liga() -> void:
     var url = "https://firestore.googleapis.com/v1/projects/" + GameData.FIREBASE_PROJECT_ID
     url += "/databases/(default)/documents:runQuery"
     var liga_id = GameData.get_arena_league_id()
+    # Filtrar por rango de nivel (no requiere campo arena_league en Firestore)
+    var liga     = GameData.get_arena_league()
+    var min_lvl  = (liga - 1) * 10 + 1
+    var max_lvl  = liga * 10
+    # integerValue debe ser int, no string
+    # Sin orderBy para evitar requerir índice compuesto — ordenamos localmente
     var query = {
         "structuredQuery": {
             "from": [{ "collectionId": "players" }],
             "where": {
-                "fieldFilter": {
-                    "field": { "fieldPath": "arena_league" },
-                    "op": "EQUAL",
-                    "value": { "stringValue": liga_id }
+                "compositeFilter": {
+                    "op": "AND",
+                    "filters": [
+                        {
+                            "fieldFilter": {
+                                "field": { "fieldPath": "level" },
+                                "op": "GREATER_THAN_OR_EQUAL",
+                                "value": { "integerValue": min_lvl }
+                            }
+                        },
+                        {
+                            "fieldFilter": {
+                                "field": { "fieldPath": "level" },
+                                "op": "LESS_THAN_OR_EQUAL",
+                                "value": { "integerValue": max_lvl }
+                            }
+                        }
+                    ]
                 }
             },
-            "orderBy": [
-                { "field": { "fieldPath": "arena_pos" }, "direction": "ASCENDING" }
-            ],
             "limit": 100
         }
     }
@@ -214,6 +231,8 @@ func _on_http(_result, response_code, _headers_r, body) -> void:
     var data = JSON.parse_string(body.get_string_from_utf8())
     match _accion:
         "cargar_liga":
+            print("Arena response_code: ", response_code)
+            print("Arena body: ", body.get_string_from_utf8().left(300))
             _jugadores_liga = []
             if data != null:
                 for doc in data:
@@ -256,19 +275,27 @@ func _on_http2(_r, _c, _h, _b) -> void:
 # CALCULAR RIVALES (4 posiciones superiores)
 # ─────────────────────────────────────
 func _calcular_rivales() -> void:
-    _top5_liga    = []
-    _mis_rivales  = []
-    var mi_pos    = GameData.arena_pos
+    _top5_liga   = []
+    _mis_rivales = []
 
-    for j in _jugadores_liga:
-        if j["arena_pos"] <= 5:
-            _top5_liga.append(j)
-        # Rivales: los 4 inmediatamente por encima de mí
-        if j["arena_pos"] < mi_pos and j["arena_pos"] >= mi_pos - 4:
+    # Ordenar por pvp_points DESC para determinar posiciones reales
+    var lista = _jugadores_liga.duplicate()
+    lista.sort_custom(func(a, b): return a["pvp_points"] > b["pvp_points"])
+
+    # Asignar posiciones reales según orden en la lista
+    for i in range(lista.size()):
+        lista[i]["pos_real"] = i + 1
+        if lista[i]["player_id"] == GameData.player_id:
+            GameData.arena_pos = i + 1
+
+    # Top 5
+    _top5_liga = lista.slice(0, min(5, lista.size()))
+
+    # Mis rivales: los 4 jugadores inmediatamente por encima de mí
+    var mi_pos_real = GameData.arena_pos
+    for j in lista:
+        if j["pos_real"] < mi_pos_real and j["pos_real"] >= mi_pos_real - 4:
             _mis_rivales.append(j)
-
-    _top5_liga.sort_custom(func(a, b): return a["arena_pos"] < b["arena_pos"])
-    _mis_rivales.sort_custom(func(a, b): return a["arena_pos"] < b["arena_pos"])
 
 # ─────────────────────────────────────
 # POBLAR UI
@@ -457,13 +484,22 @@ func _aplicar_resultado_pvp(resultado: Dictionary, rival: Dictionary, con_recomp
             # Perder baja un puesto (pero no más de 5 posiciones)
             pass  # el atacante no baja, solo el defensor podría subir si ganara
 
-    GameData.xp_total += resultado.get("xp_ganada", 0)
-    GameData.xp       += resultado.get("xp_ganada", 0)
+    var xp_pvp = resultado.get("xp_ganada", 0)
+    GameData.xp_total += xp_pvp
+    GameData.xp       += xp_pvp
 
     # Actualizar si somos top 1
     GameData.arena_is_top1 = (GameData.arena_pos == 1)
 
     SaveManager.save_progress()
+
+    # Actualizar puntos del clan si el jugador pertenece a uno
+    if con_recompensa and gane:
+        var oro_clan  = randi_range(1, max(1, rival.get("nivel", 1) * 10))
+        SaveManager.save_clan_stats(xp_pvp, 5, oro_clan, 0)
+    elif con_recompensa:
+        SaveManager.save_clan_stats(xp_pvp, 0, 0, 0)
+
     # Guardar resultado en Firestore para actualizar ranking
     _guardar_resultado_firestore(rival, gane, con_recompensa)
 

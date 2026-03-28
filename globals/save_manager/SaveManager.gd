@@ -7,9 +7,13 @@ extends Node
 
 var _http: HTTPRequest
 
+var _http_clan: HTTPRequest
+
 func _ready() -> void:
     _http = HTTPRequest.new()
     add_child(_http)
+    _http_clan = HTTPRequest.new()
+    add_child(_http_clan)
 
 # ─────────────────────────────────────
 # GUARDAR PROGRESO
@@ -35,6 +39,7 @@ func save_progress() -> void:
     url += "&updateMask.fieldPaths=xp_total&updateMask.fieldPaths=craft_points&updateMask.fieldPaths=pvp_kills"
     url += "&updateMask.fieldPaths=last_online"
     url += "&updateMask.fieldPaths=arena_pos&updateMask.fieldPaths=arena_bounty&updateMask.fieldPaths=arena_is_top1&updateMask.fieldPaths=arena_league"
+    url += "&updateMask.fieldPaths=player_clan_id"
 
     var fields: Dictionary = {
         "level":            { "integerValue": str(GameData.level) },
@@ -71,7 +76,8 @@ func save_progress() -> void:
         "arena_pos":    { "integerValue": str(GameData.arena_pos) },
         "arena_bounty": { "integerValue": str(GameData.arena_bounty) },
         "arena_is_top1":{ "booleanValue": GameData.arena_is_top1 },
-        "arena_league": { "stringValue": GameData.get_arena_league_id() },
+        "arena_league":   { "stringValue": GameData.get_arena_league_id() },
+        "player_clan_id": { "stringValue": GameData.player_clan_id },
     }
 
     var headers = PackedStringArray([
@@ -129,6 +135,7 @@ func cargar_desde_fields(fields: Dictionary) -> void:
     GameData.arena_pos     = int(fields.get("arena_pos",    {}).get("integerValue", "9999"))
     GameData.arena_bounty  = int(fields.get("arena_bounty", {}).get("integerValue", "0"))
     GameData.arena_is_top1 = fields.get("arena_is_top1", {}).get("booleanValue", false)
+    GameData.player_clan_id = fields.get("player_clan_id", {}).get("stringValue", "")
     # arena_league se recalcula automáticamente desde el nivel, no hace falta cargarlo
 
     # Cargar equipo
@@ -190,3 +197,70 @@ func _aplicar_stats_item(item: Dictionary) -> void:
             GameData.armor += item.get("defensa", 0)
         "pecho":
             GameData.armor += item.get("defensa", 0)
+
+# ─────────────────────────────────────
+# ACTUALIZAR PUNTOS DEL CLAN
+# Se llama después de save_progress cuando hay clan
+# Los puntos del clan son la suma de todos sus miembros
+# Usamos un campo "delta" para no leer primero (operación atómica)
+# ─────────────────────────────────────
+func save_clan_stats(xp_ganada: int, pvp_pts: int, oro_robado: int, craft_pts: int) -> void:
+    if GameData.player_clan_id == "" or GameData.id_token == "":
+        return
+    if xp_ganada == 0 and pvp_pts == 0 and oro_robado == 0 and craft_pts == 0:
+        return
+
+    # Leer el doc del clan primero para sumar
+    var url = GameData.FIRESTORE_URL + "clanes/" + GameData.player_clan_id
+    url += "?updateMask.fieldPaths=xp_total&updateMask.fieldPaths=pvp_points"
+    url += "&updateMask.fieldPaths=gold_stolen&updateMask.fieldPaths=craft_points"
+
+    # Guardamos los deltas en variables temporales y los mandamos al callback
+    _pending_clan_delta = {
+        "xp_total":     xp_ganada,
+        "pvp_points":   pvp_pts,
+        "gold_stolen":  oro_robado,
+        "craft_points": craft_pts,
+    }
+    var headers = PackedStringArray([
+        "Content-Type: application/json",
+        "Authorization: Bearer " + GameData.id_token
+    ])
+    # Primero GET para leer valores actuales
+    if _http_clan.get_http_client_status() != HTTPClient.STATUS_DISCONNECTED:
+        _http_clan.cancel_request()
+    _http_clan.request_completed.connect(_on_clan_read, CONNECT_ONE_SHOT)
+    _http_clan.request(url.split("?")[0], headers, HTTPClient.METHOD_GET)
+
+var _pending_clan_delta: Dictionary = {}
+
+func _on_clan_read(_result, response_code, _headers_r, body) -> void:
+    if response_code != 200:
+        return
+    var data = JSON.parse_string(body.get_string_from_utf8())
+    if data == null or not data.has("fields"):
+        return
+    var f = data["fields"]
+    var new_xp     = int(f.get("xp_total",    {}).get("integerValue","0")) + _pending_clan_delta.get("xp_total",0)
+    var new_pvp    = int(f.get("pvp_points",  {}).get("integerValue","0")) + _pending_clan_delta.get("pvp_points",0)
+    var new_oro    = int(f.get("gold_stolen", {}).get("integerValue","0")) + _pending_clan_delta.get("gold_stolen",0)
+    var new_craft  = int(f.get("craft_points",{}).get("integerValue","0")) + _pending_clan_delta.get("craft_points",0)
+
+    var url = GameData.FIRESTORE_URL + "clanes/" + GameData.player_clan_id
+    url += "?updateMask.fieldPaths=xp_total&updateMask.fieldPaths=pvp_points"
+    url += "&updateMask.fieldPaths=gold_stolen&updateMask.fieldPaths=craft_points"
+
+    var body_str = JSON.stringify({ "fields": {
+        "xp_total":     { "integerValue": str(new_xp)    },
+        "pvp_points":   { "integerValue": str(new_pvp)   },
+        "gold_stolen":  { "integerValue": str(new_oro)   },
+        "craft_points": { "integerValue": str(new_craft) },
+    }})
+    var headers = PackedStringArray([
+        "Content-Type: application/json",
+        "Authorization: Bearer " + GameData.id_token
+    ])
+    if _http_clan.get_http_client_status() != HTTPClient.STATUS_DISCONNECTED:
+        _http_clan.cancel_request()
+    _http_clan.request(url, headers, HTTPClient.METHOD_PATCH, body_str)
+    _pending_clan_delta = {}

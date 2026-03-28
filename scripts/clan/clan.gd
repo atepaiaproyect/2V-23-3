@@ -363,6 +363,7 @@ func _on_http_completed(_result, response_code, _headers_r, body) -> void:
                 _lbl_status.text = "Error al crear/unirse al clan. Código: " + str(response_code)
         "salir_clan":
             _mi_clan = {}
+            GameData.player_clan_id = ""
             _lbl_status.text = "Abandonaste el clan."
             _panel_sin_clan.visible = true
             _panel_con_clan.visible = false
@@ -385,6 +386,8 @@ func _mostrar_panel_clan() -> void:
     _lbl_clan_tag.text      = _mi_clan.get("tag", "")
     _lbl_clan_miembros.text = ""
     _lbl_status.text        = "Clan cargado."
+    # Guardar clan_id en GameData para que SaveManager pueda actualizar el clan
+    GameData.player_clan_id = _mi_clan.get("clan_id", "")
 
 func _poblar_lista_clanes() -> void:
     for child in _grid_clanes.get_children():
