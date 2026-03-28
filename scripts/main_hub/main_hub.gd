@@ -17,6 +17,7 @@ extends Control
     $HBoxMain/SideMenuContainer/SideMenu/BtnPerfil,
     $HBoxMain/SideMenuContainer/SideMenu/BtnExploracion,
     $HBoxMain/SideMenuContainer/SideMenu/BtnArena,
+    $HBoxMain/SideMenuContainer/SideMenu/BtnClasificacion,
     $HBoxMain/SideMenuContainer/SideMenu/BtnMercado,
     $HBoxMain/SideMenuContainer/SideMenu/BtnClan,
     $HBoxMain/SideMenuContainer/SideMenu/BtnCrafteo,
@@ -73,7 +74,7 @@ func _on_regen_tick() -> void:
 
 func _setup_effects():
     var sections = [
-        "Perfil", "Exploración", "Arena", "Mercado", "Clan",
+        "Perfil", "Exploración", "Arena", "Clasificación", "Mercado", "Clan",
         "Crafteo", "Ranking", "Inventario", "Entrenamiento", "Taberna", "Salir"
     ]
     for i in range(menu_buttons.size()):
@@ -149,6 +150,10 @@ func _navigate_to(section: String):
             _load_sub_scene("res://scenes/exploration/Exploration.tscn")
         "Entrenamiento":
             _load_sub_scene("res://scenes/training/Training.tscn")
+        "Arena":
+            _load_sub_scene("res://scenes/arena/Arena.tscn")
+        "Clasificación":
+            _load_sub_scene("res://scenes/classification/Classification.tscn")
         "Clan":
             _load_sub_scene("res://scenes/clan/Clan.tscn")
         "Ranking":

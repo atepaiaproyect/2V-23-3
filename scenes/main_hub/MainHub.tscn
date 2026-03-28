@@ -120,6 +120,15 @@ theme_override_font_sizes/font_size = 14
 text = "ARENA"
 flat = true
 
+[node name="BtnClasificacion" type="Button" parent="HBoxMain/SideMenuContainer/SideMenu" unique_id=999888777]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.72, 0.45, 1)
+theme_override_colors/font_hover_color = Color(1, 0.92, 0.55, 1)
+theme_override_font_sizes/font_size = 14
+text = "📊  Clasificación"
+flat = true
+
 [node name="BtnClan" type="Button" parent="HBoxMain/SideMenuContainer/SideMenu" unique_id=588464885]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2

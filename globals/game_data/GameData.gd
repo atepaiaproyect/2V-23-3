@@ -77,6 +77,11 @@ var xp_total:     int = 0
 var craft_points: int = 0
 var pvp_kills:    int = 0
 
+# --- Arena PvP ---
+var arena_pos:     int = 9999   # posición en liga actual
+var arena_bounty:  int = 0      # botín acumulado como #1
+var arena_is_top1: bool = false
+
 
 # FÓRMULAS
 
@@ -134,3 +139,18 @@ func reduccion_precio() -> float:
 
 func precio_con_descuento(precio_base: int) -> int:
     return max(1, int(precio_base * (1.0 - reduccion_precio())))
+
+# Liga de arena según nivel (1-10=liga1, 11-20=liga2, etc.)
+func get_arena_league() -> int:
+    return max(1, int(ceil(float(level) / 10.0)))
+
+func get_arena_league_name() -> String:
+    var l = get_arena_league()
+    var min_lvl = (l - 1) * 10 + 1
+    var max_lvl = l * 10
+    return "Liga " + str(min_lvl) + " - " + str(max_lvl)
+
+func get_arena_league_id() -> String:
+    return "liga_" + str(get_arena_league())
+
+# ── Liga de arena ──────────────────────────────────────

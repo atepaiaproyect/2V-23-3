@@ -34,6 +34,7 @@ func save_progress() -> void:
     url += "&updateMask.fieldPaths=pvp_points&updateMask.fieldPaths=gold_stolen"
     url += "&updateMask.fieldPaths=xp_total&updateMask.fieldPaths=craft_points&updateMask.fieldPaths=pvp_kills"
     url += "&updateMask.fieldPaths=last_online"
+    url += "&updateMask.fieldPaths=arena_pos&updateMask.fieldPaths=arena_bounty&updateMask.fieldPaths=arena_is_top1&updateMask.fieldPaths=arena_league"
 
     var fields: Dictionary = {
         "level":            { "integerValue": str(GameData.level) },
@@ -67,6 +68,10 @@ func save_progress() -> void:
         "pvp_kills":    { "integerValue": str(GameData.pvp_kills) },
         # Timestamp Unix para calcular regen offline
         "last_online":  { "integerValue": str(int(Time.get_unix_time_from_system())) },
+        "arena_pos":    { "integerValue": str(GameData.arena_pos) },
+        "arena_bounty": { "integerValue": str(GameData.arena_bounty) },
+        "arena_is_top1":{ "booleanValue": GameData.arena_is_top1 },
+        "arena_league": { "stringValue": GameData.get_arena_league_id() },
     }
 
     var headers = PackedStringArray([
@@ -120,6 +125,11 @@ func cargar_desde_fields(fields: Dictionary) -> void:
             var regen_total = minutos_fuera * GameData.hp_regen_per_min
             GameData.hp = min(GameData.hp + regen_total, GameData.hp_max)
             print("SaveManager: regen offline ", minutos_fuera, " min → +", regen_total, " HP")
+
+    GameData.arena_pos     = int(fields.get("arena_pos",    {}).get("integerValue", "9999"))
+    GameData.arena_bounty  = int(fields.get("arena_bounty", {}).get("integerValue", "0"))
+    GameData.arena_is_top1 = fields.get("arena_is_top1", {}).get("booleanValue", false)
+    # arena_league se recalcula automáticamente desde el nivel, no hace falta cargarlo
 
     # Cargar equipo
     var eq_ids = {
