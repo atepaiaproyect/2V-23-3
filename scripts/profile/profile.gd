@@ -2,9 +2,6 @@ extends Control
 
 # --- Referencias izquierda ---
 @onready var portrait_image = $HBoxMain/ColLeft/PortraitBg/PortraitImage
-@onready var label_name     = $HBoxMain/ColLeft/StatsPanel/VBoxStats/LabelName
-@onready var label_class    = $HBoxMain/ColLeft/StatsPanel/VBoxStats/LabelClass
-@onready var label_level    = $HBoxMain/ColLeft/StatsPanel/VBoxStats/LabelLevel
 @onready var label_hp       = $HBoxMain/ColLeft/StatsPanel/VBoxStats/LabelHP
 @onready var bar_hp         = $HBoxMain/ColLeft/StatsPanel/VBoxStats/BarHPBg/BarHP
 @onready var label_xp       = $HBoxMain/ColLeft/StatsPanel/VBoxStats/LabelXP
@@ -40,6 +37,15 @@ extends Control
 # --- Inventario ---
 @onready var grid_inv = $HBoxMain/ColCenter/InvPanel/VBoxInv/GridInv
 
+# --- Info Panel (entre foto y equipo) ---
+@onready var info_nombre = $HBoxMain/InfoPanel/InfoMargin/InfoVBox/InfoNombre
+@onready var info_nivel  = $HBoxMain/InfoPanel/InfoMargin/InfoVBox/InfoNivel
+@onready var info_hp     = $HBoxMain/InfoPanel/InfoMargin/InfoVBox/InfoHP
+@onready var info_xp     = $HBoxMain/InfoPanel/InfoMargin/InfoVBox/InfoXP
+@onready var info_oro    = $HBoxMain/InfoPanel/InfoMargin/InfoVBox/InfoOro
+@onready var info_clase  = $HBoxMain/InfoPanel/InfoMargin/InfoVBox/InfoClase
+@onready var info_bronce = $HBoxMain/InfoPanel/InfoMargin/InfoVBox/InfoBronce
+
 # --- Tooltip ---
 @onready var tooltip       = $Tooltip
 @onready var tooltip_label = $Tooltip/TooltipLabel
@@ -55,8 +61,8 @@ const TOOLTIPS = {
     "cha": "Carisma: Aumenta el agro en peleas y la probabilidad de bloquear ataques.",
     "con": "Constitución: Aumenta los puntos de vida y la regeneración por hora.",
     "int": "Inteligencia: Reduce precios en tiendas y subastas. Aumenta bonificaciones del clan.",
-    "atk": "Daño: Valor total del ataque. Incluye % de golpe crítico y doble golpe.",
-    "def": "Armadura: Valor total de la armadura. Incluye % de esquiva y bloqueo.",
+    "atk": "atk_dinamico",
+    "def": "def_dinamico",
 }
 
 # ─────────────────────────────────────
@@ -106,6 +112,24 @@ func _insertar_monedas() -> void:
     vbox.move_child(sep_monedas, insert_idx + 2)
 
     _actualizar_monedas()
+    _actualizar_info_panel()
+
+func _actualizar_info_panel() -> void:
+    if info_nombre:
+        info_nombre.text = GameData.player_name
+    if info_nivel:
+        info_nivel.text  = "Nivel " + str(GameData.level)
+    if info_clase:
+        var clase_str = GameData.player_class.capitalize()
+        info_clase.text = clase_str if clase_str != "" else "Aventurero"
+    if info_hp:
+        info_hp.text     = "❤ " + str(GameData.hp) + "/" + str(GameData.hp_max)
+    if info_xp:
+        info_xp.text     = "⭐ " + str(GameData.xp) + "/" + str(GameData.xp_next)
+    if info_oro:
+        info_oro.text    = "💰 " + str(GameData.gold_hand)
+    if info_bronce:
+        info_bronce.text = "🪙 " + str(GameData.bronze_hand)
 
 func _actualizar_monedas() -> void:
     if label_gold:
@@ -117,9 +141,6 @@ func _load_profile():
     var path = "res://assets/portraits/players/" + GameData.player_portrait + ".png"
     if ResourceLoader.exists(path):
         portrait_image.texture = load(path)
-    label_name.text  = GameData.player_name
-    label_class.text = GameData.player_class.capitalize()
-    label_level.text = "Nivel " + str(GameData.level)
     _refresh_stats()
     var bio = GameData.get("public_bio") if GameData.get("public_bio") != null else ""
     label_public_view.text = bio if bio != "" else "Sin descripción."
@@ -133,7 +154,6 @@ func _refresh_stats():
     bar_hp.anchor_right = clamp(float(GameData.hp) / float(GameData.hp_max), 0.0, 1.0)
     label_xp.text = "⭐ XP: " + str(GameData.xp) + "/" + str(GameData.xp_next)
     bar_xp.anchor_right = clamp(float(GameData.xp) / float(GameData.xp_next), 0.0, 1.0)
-    label_level.text = "Nivel " + str(GameData.level)
 
     label_str.text = str(GameData.attr_strength)
     label_agi.text = str(GameData.attr_agility)
@@ -142,12 +162,14 @@ func _refresh_stats():
     label_con.text = str(GameData.attr_constitution)
     label_int.text = str(GameData.attr_intelligence)
 
-    var base_min = 5  + GameData.attr_strength
+    GameData.recalcular_stats()
+    var base_min = 5 + GameData.attr_strength
     var base_max = 10 + GameData.attr_strength * 2
-    label_atk.text = str(base_min + GameData.damage_min) + "-" + str(base_max + GameData.damage_max)
+    label_atk.text = str(base_min + GameData.damage_min) + " - " + str(base_max + GameData.damage_max)
     label_def.text = str(GameData.attr_constitution * 5 + GameData.armor)
 
     _actualizar_monedas()
+    _actualizar_info_panel()
 
 # ─────────────────────────────────────
 # MODO EDICIÓN
@@ -194,7 +216,28 @@ func _setup_tooltips():
         row.mouse_exited.connect(_hide_tooltip)
 
 func _show_tooltip(key: String):
-    tooltip_label.text = TOOLTIPS.get(key, "")
+    if key == "atk":
+        var crit_pct   = int(GameData.crit_chance * 100)
+        var doble_pct  = int(GameData.double_hit_chance * 100)
+        var crit_dmg   = int((GameData.crit_damage - 1.0) * 100)
+        tooltip_label.text = (
+            "Daño: Valor total del ataque.\n" +
+            "🎯 Golpe crítico: " + str(crit_pct) + "%\n" +
+            "⚡ Doble golpe: " + str(doble_pct) + "%\n" +
+            "💥 Daño en crítico: +" + str(crit_dmg) + "%"
+        )
+    elif key == "def":
+        var bloqueo_pct  = int(GameData.block_chance * 100)
+        var esquiva_pct  = int(GameData.dodge_chance * 100)
+        var resist_pct   = int(GameData.resist_mortal * 100)
+        tooltip_label.text = (
+            "Armadura: Reducción de daño.\n" +
+            "🛡 Bloqueo (0 daño): " + str(bloqueo_pct) + "%\n" +
+            "💨 Esquiva: " + str(esquiva_pct) + "%\n" +
+            "❤ Resistir golpe mortal: " + str(resist_pct) + "%"
+        )
+    else:
+        tooltip_label.text = TOOLTIPS.get(key, "")
     tooltip.visible = true
 
 func _hide_tooltip():

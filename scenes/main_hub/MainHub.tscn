@@ -156,6 +156,15 @@ theme_override_font_sizes/font_size = 14
 text = "ENTRENAMIENTO"
 flat = true
 
+[node name="BtnSalir" type="Button" parent="HBoxMain/SideMenuContainer/SideMenu" unique_id=111111111]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.35, 0.35, 1)
+theme_override_colors/font_hover_color = Color(1, 0.92, 0.55, 1)
+theme_override_font_sizes/font_size = 14
+text = "🚪  Salir"
+flat = true
+
 [node name="VBoxRight" type="VBoxContainer" parent="HBoxMain" unique_id=183095403]
 layout_mode = 2
 size_flags_horizontal = 3

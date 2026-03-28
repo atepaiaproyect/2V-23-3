@@ -28,14 +28,16 @@ var attr_constitution: int = 2
 var attr_intelligence: int = 2
 var attr_charisma: int = 2
 
-# --- Stats de combate ---
-var crit_chance: float = 0.0
-var crit_damage: float = 1.5
-var dodge_chance: float = 0.0
-var block_chance: float = 0.0
-var block_reduction: float = 0.0
-var double_hit_chance: float = 0.0
-const MAX_CHANCE: float = 0.5
+# --- Stats de combate (se recalculan con recalcular_stats) ---
+var crit_chance: float = 0.05       # base 5%
+var crit_damage: float = 1.5        # base +50% daño
+var dodge_chance: float = 0.05      # base 5%
+var block_chance: float = 0.05      # base 5%
+var block_reduction: float = 1.0    # bloqueo = 0 daño
+var double_hit_chance: float = 0.05 # base 5%
+var resist_mortal: float = 0.0      # % de sobrevivir con 1 HP (fuerza/11)
+var hp_regen_per_min: int = 1       # regeneracion base 1/min
+const MAX_CHANCE: float = 0.75      # cap 75%
 
 # --- Bonos de clase ---
 var bonus_exp: float = 0.0
@@ -68,19 +70,67 @@ var armor:      int = 0
 var enemigo_actual: Dictionary = {}
 var ultimo_drop:    Dictionary = {}
 
-# ─────────────────────────────────────
-# FÓRMULAS
-# ─────────────────────────────────────
+# --- Ranking ---
+var pvp_points:   int = 0
+var gold_stolen:  int = 0
+var xp_total:     int = 0
+var craft_points: int = 0
+var pvp_kills:    int = 0
 
-# XP para subir al siguiente nivel: floor(80 * nivel^2.6)
+
+# FÓRMULAS
+
 func xp_para_nivel(nivel: int) -> int:
     return int(floor(80.0 * pow(float(nivel), 2.6)))
 
-# Costo entrenamiento: max(2, floor(valor^2.8 * 0.16))
-# Nivel 2: 2  | Nivel 10: 100  | Nivel 100: 63.697  | Nivel 500: 5.7M
 func costo_entrenamiento(valor_actual: int) -> int:
     return max(2, int(floor(pow(float(valor_actual), 2.8) * 0.16)))
 
-func recalcular_hp_max() -> void:
-    hp_max = 100 + attr_constitution * 10
+# Recalcula TODOS los stats derivados de atributos + equipo
+func recalcular_stats() -> void:
+    
+    # HP max: 100 + CON*10 + (CONdiv11)*5
+    var hp_bonus_con = (attr_constitution / 11) * 5
+    hp_max = 100 + attr_constitution * 10 + hp_bonus_con
     hp = min(hp, hp_max)
+    # Regen: base 1 + 1 por cada 10 CON
+    hp_regen_per_min = 1 + attr_constitution / 10
+
+    
+    # Daño bonus del arma + bonus por cada 10 puntos de fuerza
+    var fuerza_bonus = attr_strength / 10
+    damage_min = equipped_weapon.get("ataque_min", 0) + fuerza_bonus
+    damage_max = equipped_weapon.get("ataque_max", 0) + fuerza_bonus
+    # Resistir mortal: +1% por cada 11 puntos de fuerza
+    resist_mortal = min((attr_strength / 11) / 100.0, MAX_CHANCE)
+
+    
+    # Esquiva: base 5% + 1% por cada 10 puntos
+    dodge_chance = min(0.05 + (attr_agility / 10) / 100.0, MAX_CHANCE)
+    # Daño crítico: base 1.5 (+50%) + 1% por cada 11 puntos
+    crit_damage = 1.5 + (attr_agility / 11) / 100.0
+
+    
+    # Doble golpe: base 5% + 1% por cada 15 puntos
+    double_hit_chance = min(0.05 + (attr_dexterity / 15) / 100.0, MAX_CHANCE)
+    # Golpe crítico: base 5% + 1% por cada 15 puntos
+    crit_chance = min(0.05 + (attr_dexterity / 15) / 100.0, MAX_CHANCE)
+
+    
+    # Bloqueo: base 5% + 1% por cada 10 puntos (bloqueo = 0 daño)
+    block_chance = min(0.05 + (attr_charisma / 10) / 100.0, MAX_CHANCE)
+    block_reduction = 1.0  # siempre 0 daño al bloquear
+
+    
+    armor = equipped_chest.get("defensa", 0) + equipped_shield.get("defensa", 0)
+
+# Alias para compatibilidad
+func recalcular_hp_max() -> void:
+    recalcular_stats()
+
+# Reducción de precio por inteligencia: -2% por cada 10 puntos, máx 80%
+func reduccion_precio() -> float:
+    return min((attr_intelligence / 10) * 0.02, 0.80)
+
+func precio_con_descuento(precio_base: int) -> int:
+    return max(1, int(precio_base * (1.0 - reduccion_precio())))

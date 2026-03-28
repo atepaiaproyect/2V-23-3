@@ -34,12 +34,12 @@ func _resolver_y_mostrar() -> void:
     _mostrar_log(resultado, jugador, enemigo)
 
 func _aplicar_resultado(resultado: Dictionary) -> void:
-    # Guardar progreso en Firebase después de cada combate
-    SaveManager.save_progress()
     GameData.hp = max(1, resultado.get("hp_final_a", GameData.hp))
     if resultado.get("jugador_gano", false):
         GameData.bronze_hand += resultado.get("oro_ganado", 0)  # PvE recompensa en bronce
-        GameData.xp        += resultado.get("xp_ganada", 0)
+        var xp_ganada = resultado.get("xp_ganada", 0)
+        GameData.xp       += xp_ganada
+        GameData.xp_total += xp_ganada  # ranking Eruditos
         _chequear_nivel()
         var item = resultado.get("item_dropeado", {})
         if not item.is_empty():

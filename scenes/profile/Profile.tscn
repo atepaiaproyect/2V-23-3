@@ -79,27 +79,6 @@ stretch_mode = 6
 layout_mode = 2
 theme_override_constants/separation = 2
 
-[node name="LabelName" type="Label" parent="HBoxMain/ColLeft/StatsPanel/VBoxStats" unique_id=1974643486]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.9, 0.75, 0.3, 1)
-theme_override_font_sizes/font_size = 14
-text = "Nombre"
-
-[node name="LabelClass" type="Label" parent="HBoxMain/ColLeft/StatsPanel/VBoxStats" unique_id=1166770556]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.7, 0.62, 0.45, 1)
-theme_override_font_sizes/font_size = 12
-text = "Noble"
-
-[node name="LabelLevel" type="Label" parent="HBoxMain/ColLeft/StatsPanel/VBoxStats" unique_id=1717044653]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.85, 0.72, 0.45, 1)
-theme_override_font_sizes/font_size = 12
-text = "Nivel 1"
-
-[node name="Sep1" type="HSeparator" parent="HBoxMain/ColLeft/StatsPanel/VBoxStats" unique_id=1729306960]
-layout_mode = 2
-
 [node name="LabelHP" type="Label" parent="HBoxMain/ColLeft/StatsPanel/VBoxStats" unique_id=1337433438]
 layout_mode = 2
 theme_override_colors/font_color = Color(0.9, 0.3, 0.3, 1)
@@ -278,9 +257,69 @@ theme_override_colors/font_color = Color(0.9, 0.85, 0.6, 1)
 theme_override_font_sizes/font_size = 11
 text = "0"
 
-[node name="Spacer" type="Control" parent="HBoxMain" unique_id=2095561810]
+[node name="InfoPanel" type="PanelContainer" parent="HBoxMain" unique_id=2095561810]
+custom_minimum_size = Vector2(120, 0)
 layout_mode = 2
-size_flags_horizontal = 3
+size_flags_vertical = 0
+
+[node name="InfoMargin" type="MarginContainer" parent="HBoxMain/InfoPanel"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="InfoVBox" type="VBoxContainer" parent="HBoxMain/InfoPanel/InfoMargin"]
+layout_mode = 2
+theme_override_constants/separation = 5
+
+[node name="InfoNombre" type="Label" parent="HBoxMain/InfoPanel/InfoMargin/InfoVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.75, 0.3, 1)
+theme_override_font_sizes/font_size = 12
+text = "Nombre"
+
+[node name="InfoNivel" type="Label" parent="HBoxMain/InfoPanel/InfoMargin/InfoVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.85, 0.72, 0.45, 1)
+theme_override_font_sizes/font_size = 11
+text = "Nivel 1"
+
+[node name="InfoClase" type="Label" parent="HBoxMain/InfoPanel/InfoMargin/InfoVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.7, 0.62, 0.45, 1)
+theme_override_font_sizes/font_size = 11
+text = "Noble"
+
+[node name="SepInfo1" type="HSeparator" parent="HBoxMain/InfoPanel/InfoMargin/InfoVBox"]
+layout_mode = 2
+
+[node name="InfoHP" type="Label" parent="HBoxMain/InfoPanel/InfoMargin/InfoVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.9, 0.3, 0.3, 1)
+theme_override_font_sizes/font_size = 11
+text = "❤ 100/100"
+
+[node name="InfoXP" type="Label" parent="HBoxMain/InfoPanel/InfoMargin/InfoVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.4, 0.7, 1.0, 1)
+theme_override_font_sizes/font_size = 11
+text = "⭐ 0/80"
+
+[node name="SepInfo2" type="HSeparator" parent="HBoxMain/InfoPanel/InfoMargin/InfoVBox"]
+layout_mode = 2
+
+[node name="InfoOro" type="Label" parent="HBoxMain/InfoPanel/InfoMargin/InfoVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(1.0, 0.85, 0.2, 1)
+theme_override_font_sizes/font_size = 11
+text = "💰 100"
+
+[node name="InfoBronce" type="Label" parent="HBoxMain/InfoPanel/InfoMargin/InfoVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.8, 0.55, 0.25, 1)
+theme_override_font_sizes/font_size = 11
+text = "🪙 500"
 
 [node name="ColCenter" type="VBoxContainer" parent="HBoxMain" unique_id=185731114]
 layout_mode = 2

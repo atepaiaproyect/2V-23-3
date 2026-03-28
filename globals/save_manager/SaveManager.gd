@@ -31,6 +31,8 @@ func save_progress() -> void:
     url += "&updateMask.fieldPaths=eq_boots&updateMask.fieldPaths=eq_gloves"
     url += "&updateMask.fieldPaths=eq_neck&updateMask.fieldPaths=eq_ring_l"
     url += "&updateMask.fieldPaths=eq_ring_r&updateMask.fieldPaths=eq_cape"
+    url += "&updateMask.fieldPaths=pvp_points&updateMask.fieldPaths=gold_stolen"
+    url += "&updateMask.fieldPaths=xp_total&updateMask.fieldPaths=craft_points&updateMask.fieldPaths=pvp_kills"
 
     var fields: Dictionary = {
         "level":            { "integerValue": str(GameData.level) },
@@ -58,6 +60,12 @@ func save_progress() -> void:
         "eq_ring_l":  { "stringValue": GameData.equipped_ring_l.get("id",  "") },
         "eq_ring_r":  { "stringValue": GameData.equipped_ring_r.get("id",  "") },
         "eq_cape":    { "stringValue": GameData.equipped_cape.get("id",    "") },
+        # Ranking
+        "pvp_points":   { "integerValue": str(GameData.pvp_points) },
+        "gold_stolen":  { "integerValue": str(GameData.gold_stolen) },
+        "xp_total":     { "integerValue": str(GameData.xp_total) },
+        "craft_points": { "integerValue": str(GameData.craft_points) },
+        "pvp_kills":    { "integerValue": str(GameData.pvp_kills) },
     }
 
     var headers = [
@@ -86,6 +94,13 @@ static func cargar_desde_fields(fields: Dictionary) -> void:
     GameData.attr_intelligence = max(2, int(fields.get("attr_intelligence", {}).get("integerValue", "2")))
     GameData.attr_charisma     = max(2, int(fields.get("attr_charisma",     {}).get("integerValue", "2")))
     GameData.recalcular_hp_max()
+
+    # Ranking
+    GameData.pvp_points   = int(fields.get("pvp_points",   {}).get("integerValue", "0"))
+    GameData.gold_stolen  = int(fields.get("gold_stolen",  {}).get("integerValue", "0"))
+    GameData.xp_total     = int(fields.get("xp_total",     {}).get("integerValue", "0"))
+    GameData.craft_points = int(fields.get("craft_points", {}).get("integerValue", "0"))
+    GameData.pvp_kills    = int(fields.get("pvp_kills",    {}).get("integerValue", "0"))
 
     # Cargar IDs de equipo y reconstruir ítems desde el JSON
     var eq_ids = {

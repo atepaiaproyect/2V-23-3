@@ -24,6 +24,7 @@ extends Control
     $HBoxMain/SideMenuContainer/SideMenu/BtnInventario,
     $HBoxMain/SideMenuContainer/SideMenu/BtnEntrenamiento,
     $HBoxMain/SideMenuContainer/SideMenu/BtnTaberna,
+    $HBoxMain/SideMenuContainer/SideMenu/BtnSalir,
 ]
 
 var btn_section_map = {}
@@ -44,11 +45,13 @@ func _ready():
     _update_quick_buttons()
     edit_popup.visible = false
     call_deferred("_setup_effects")
+    # Cargar Perfil por defecto
+    call_deferred("_navigate_to", "Perfil")
 
 func _setup_effects():
     var sections = [
         "Perfil", "Exploración", "Arena", "Mercado", "Clan",
-        "Crafteo", "Ranking", "Inventario", "Entrenamiento", "Taberna"
+        "Crafteo", "Ranking", "Inventario", "Entrenamiento", "Taberna", "Salir"
     ]
     for i in range(menu_buttons.size()):
         var btn = menu_buttons[i]
@@ -123,6 +126,12 @@ func _navigate_to(section: String):
             _load_sub_scene("res://scenes/exploration/Exploration.tscn")
         "Entrenamiento":
             _load_sub_scene("res://scenes/training/Training.tscn")
+        "Clan":
+            _load_sub_scene("res://scenes/clan/Clan.tscn")
+        "Ranking":
+            _load_sub_scene("res://scenes/ranking/Ranking.tscn")
+        "Salir":
+            get_tree().quit()
         _:
             _show_label("[ " + section + " ]\n\nEsta sección está en construcción.\nProximamente disponible.")
 

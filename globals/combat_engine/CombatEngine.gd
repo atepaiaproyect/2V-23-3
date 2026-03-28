@@ -24,7 +24,7 @@ func _resolver_combate(atacante: Dictionary, defensor: Dictionary, max_rondas: i
         ronda_final = ronda
         var eventos: Array = []
 
-        # Turno del atacante
+        # ── Turno del atacante ──────────────────────────
         var res_a = _resolver_turno(a, d)
         d["hp"] = max(0, d.get("hp", 0) - res_a["dano_total"])
         eventos.append_array(res_a["eventos"])
@@ -35,10 +35,22 @@ func _resolver_combate(atacante: Dictionary, defensor: Dictionary, max_rondas: i
             log_rondas.append({ "ronda": ronda, "hp_a": a["hp"], "hp_d": 0, "eventos": eventos })
             break
 
-        # Turno del defensor
+        # ── Turno del defensor ──────────────────────────
         var res_d = _resolver_turno(d, a)
-        a["hp"] = max(0, a.get("hp", 0) - res_d["dano_total"])
+        var hp_antes = a.get("hp", 0)
+        var dano_d   = res_d["dano_total"]
+        a["hp"] = max(0, hp_antes - dano_d)
         eventos.append_array(res_d["eventos"])
+
+        # Resistir golpe mortal: si el golpe mataría, hay % de quedar con 1 HP
+        if a["hp"] <= 0 and hp_antes > 1:
+            var resist = a.get("resist_mortal", 0.0)
+            if resist > 0.0 and randf() < resist:
+                a["hp"] = 1
+                eventos.append({
+                    "tipo":   "resistencia",
+                    "nombre": a.get("nombre", "?")
+                })
 
         if a["hp"] <= 0:
             eventos.append({ "tipo": "muerte", "nombre": a.get("nombre", "?") })
@@ -85,49 +97,41 @@ func _resolver_turno(atacante: Dictionary, defensor: Dictionary) -> Dictionary:
     var eventos: Array = []
     var dano_total := 0
 
-    # Daño base
-    var dano_min = atacante.get("ataque_min", 3) + atacante.get("attr_strength", 5)
-    var dano_max = atacante.get("ataque_max", 8) + atacante.get("attr_strength", 5) * 2
+    var dano_min  = atacante.get("ataque_min", 3)
+    var dano_max  = atacante.get("ataque_max", 8)
     var dano_base = randi_range(dano_min, max(dano_min, dano_max))
 
-    # ¿Crítico?
-    var es_critico: bool = randf() < atacante.get("crit_chance", 0.0)
+    var es_critico: bool = randf() < atacante.get("crit_chance", 0.05)
     if es_critico:
         dano_base = int(dano_base * atacante.get("crit_damage", 1.5))
 
-    # ¿Doble golpe?
-    var es_doble: bool = randf() < atacante.get("double_hit_chance", 0.0)
+    var es_doble: bool = randf() < atacante.get("double_hit_chance", 0.05)
 
-    # Reducción armadura
-    var armadura   = defensor.get("armadura", 0)
-    var reduccion  = int(armadura * 0.5)
-    dano_base      = max(0, dano_base - reduccion)
+    var armadura  = defensor.get("armadura", 0)
+    var reduccion = int(armadura * 0.5)
+    dano_base     = max(0, dano_base - reduccion)
 
-    # ¿Esquiva?
-    var esquivo: bool = randf() < defensor.get("dodge_chance", 0.0)
+    var esquivo: bool = randf() < defensor.get("dodge_chance", 0.05)
 
-    # ¿Bloqueo?
     var bloqueo := false
-    if not esquivo and randf() < defensor.get("block_chance", 0.0):
+    if not esquivo and randf() < defensor.get("block_chance", 0.05):
         bloqueo   = true
-        var red_b = int(dano_base * defensor.get("block_reduction", 0.3))
-        dano_base = max(0, dano_base - red_b)
+        # Bloqueo = 0 daño (block_reduction = 1.0)
+        dano_base = 0
 
-    # Golpe principal
     eventos.append({
-        "tipo":      "golpe_critico" if es_critico else "golpe",
-        "atacante":  nombre_a,
-        "defensor":  nombre_d,
-        "dano":      dano_base,
-        "esquivo":   esquivo,
-        "bloqueo":   bloqueo,
-        "critico":   es_critico,
+        "tipo":    "golpe_critico" if es_critico else "golpe",
+        "atacante": nombre_a,
+        "defensor": nombre_d,
+        "dano":     dano_base,
+        "esquivo":  esquivo,
+        "bloqueo":  bloqueo,
+        "critico":  es_critico,
     })
 
-    if not esquivo:
+    if not esquivo and not bloqueo:
         dano_total += dano_base
 
-    # Doble golpe
     if es_doble:
         var dano2 = max(0, randi_range(dano_min, max(dano_min, dano_max)) - reduccion)
         dano_total += dano2
@@ -153,6 +157,8 @@ func _generar_drop(nivel_enemigo: int) -> Dictionary:
     }
 
 func get_ficha_jugador() -> Dictionary:
+    # Recalcular stats pasivos antes de armar la ficha
+    GameData.recalcular_stats()
     return {
         "nombre":            GameData.player_name,
         "nivel":             GameData.level,
@@ -164,7 +170,7 @@ func get_ficha_jugador() -> Dictionary:
         "attr_constitution": GameData.attr_constitution,
         "attr_intelligence": GameData.attr_intelligence,
         "attr_charisma":     GameData.attr_charisma,
-        "ataque_min":        5  + GameData.attr_strength + GameData.damage_min,
+        "ataque_min":        5 + GameData.attr_strength + GameData.damage_min,
         "ataque_max":        10 + GameData.attr_strength * 2 + GameData.damage_max,
         "armadura":          GameData.attr_constitution * 5 + GameData.armor,
         "crit_chance":       GameData.crit_chance,
@@ -173,5 +179,6 @@ func get_ficha_jugador() -> Dictionary:
         "block_chance":      GameData.block_chance,
         "block_reduction":   GameData.block_reduction,
         "double_hit_chance": GameData.double_hit_chance,
+        "resist_mortal":     GameData.resist_mortal,
         "icono":             "res://assets/portraits/players/" + GameData.player_portrait + ".png",
     }
