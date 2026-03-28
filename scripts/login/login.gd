@@ -210,7 +210,7 @@ func _on_player_check_completed(_result, response_code, _headers, body):
         get_tree().change_scene_to_file("res://scenes/main_hub/MainHub.tscn")
     else:
         # Jugador NO tiene personaje → ir a creación
-        get_tree().change_scene_to_file("res://scenes/character_creation.tscn")
+        get_tree().change_scene_to_file("res://scenes/character_creation/character_creation.tscn")
 
 # --- REGISTRO ---
 func _on_confirm_register() -> void:
