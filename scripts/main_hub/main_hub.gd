@@ -31,6 +31,8 @@ extends Control
 var btn_section_map = {}
 var editing_slot: int = -1
 var active_button: Button = null
+var _btn_correo: Button = null
+var _lbl_badge:  Label  = null
 var quick_slots = [
     "👤  Perfil",
     "⚔  Arena",
@@ -50,6 +52,8 @@ func _ready():
     call_deferred("_navigate_to", "Perfil")
     # Iniciar timer de regeneración de HP en tiempo real
     _iniciar_regen_timer()
+    # Agregar botón de correo/mensajes
+    call_deferred("_agregar_boton_correo")
 
 # ─────────────────────────────────────
 # REGENERACIÓN DE HP EN TIEMPO REAL
@@ -215,3 +219,88 @@ func _on_option_selected(option: String):
 func _on_popup_cerrar():
     edit_popup.visible = false
     editing_slot = -1
+
+# ─────────────────────────────────────
+# BOTÓN DE CORREO CON BADGE
+# ─────────────────────────────────────
+func _agregar_boton_correo() -> void:
+    var topbar_content = get_node_or_null("HBoxMain/VBoxRight/TopBar/TopBarContent")
+    if topbar_content == null:
+        return
+
+    # Contenedor del botón con badge encima
+    var stack = Control.new()
+    stack.custom_minimum_size = Vector2(48, 36)
+    topbar_content.add_child(stack)
+
+    _btn_correo = Button.new()
+    _btn_correo.text = "✉"
+    _btn_correo.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+    _btn_correo.add_theme_font_size_override("font_size", 18)
+    _btn_correo.pressed.connect(_abrir_buzon)
+    stack.add_child(_btn_correo)
+
+    # Badge rojo con contador
+    _lbl_badge = Label.new()
+    _lbl_badge.text = ""
+    _lbl_badge.add_theme_font_size_override("font_size", 10)
+    _lbl_badge.add_theme_color_override("font_color", Color(1, 1, 1, 1))
+    _lbl_badge.position = Vector2(26, -4)
+    _lbl_badge.visible = false
+
+    var badge_panel = PanelContainer.new()
+    badge_panel.position = Vector2(26, -4)
+    badge_panel.custom_minimum_size = Vector2(18, 18)
+    var badge_style = StyleBoxFlat.new()
+    badge_style.bg_color = Color(0.95, 0.2, 0.2, 1)
+    badge_style.corner_radius_top_left     = 9
+    badge_style.corner_radius_top_right    = 9
+    badge_style.corner_radius_bottom_left  = 9
+    badge_style.corner_radius_bottom_right = 9
+    badge_panel.add_theme_stylebox_override("panel", badge_style)
+    badge_panel.add_child(_lbl_badge)
+    badge_panel.name = "BadgePanel"
+    badge_panel.visible = false
+    stack.add_child(badge_panel)
+
+    # Conectar señal del MessageManager
+    if MessageManager.unread_changed.is_connected(_on_unread_changed):
+        pass
+    else:
+        MessageManager.unread_changed.connect(_on_unread_changed)
+
+    # Cargar no leídos al abrir
+    MessageManager.cargar_no_leidos()
+
+
+func _on_unread_changed(count: int) -> void:
+    if _lbl_badge == null:
+        return
+    var badge = get_node_or_null("HBoxMain/VBoxRight/TopBar/TopBarContent/*/BadgePanel")
+    if count > 0:
+        _lbl_badge.text = str(count) if count < 100 else "99+"
+        _lbl_badge.visible = true
+        if badge: badge.visible = true
+        # Pulso animado para llamar la atención
+        if _btn_correo:
+            var tween = create_tween()
+            tween.tween_property(_btn_correo, "scale", Vector2(1.2, 1.2), 0.15)
+            tween.tween_property(_btn_correo, "scale", Vector2(1.0, 1.0), 0.15)
+    else:
+        _lbl_badge.visible = false
+        if badge: badge.visible = false
+
+
+func _abrir_buzon() -> void:
+    # Evitar abrir dos veces
+    if get_node_or_null("Mailbox"):
+        return
+    var script = load("res://scripts/mailbox/mailbox.gd")
+    if script == null:
+        return
+    var buzon = Control.new()
+    buzon.name = "Mailbox"
+    buzon.set_script(script)
+    add_child(buzon)
+    buzon.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+    buzon.z_index = 150

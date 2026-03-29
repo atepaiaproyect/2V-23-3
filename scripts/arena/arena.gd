@@ -514,6 +514,38 @@ func _aplicar_resultado_pvp(resultado: Dictionary, rival: Dictionary, con_recomp
     # Guardar resultado en Firestore para actualizar ranking
     _guardar_resultado_firestore(rival, gane, con_recompensa)
 
+    # ── Guardar reporte de combate PvP ──────────────────────
+    _guardar_reportes_pvp(resultado, rival, gane)
+
+
+func _guardar_reportes_pvp(resultado: Dictionary, rival: Dictionary, gane: bool) -> void:
+    var nombre_j   = GameData.player_name
+    var nombre_r   = rival.get("nombre", "Rival")
+    var rival_id   = rival.get("player_id", "")
+    var log_txt    = MessageManager.construir_log_pvp(resultado, nombre_j, nombre_r)
+
+    # Reporte para el atacante (yo)
+    var titulo_atac = ("⚔ Victoria vs " if gane else "💀 Derrota vs ") + nombre_r
+    MessageManager.guardar_reporte(
+        GameData.player_id,
+        nombre_r,
+        "pvp_ataque",
+        titulo_atac,
+        log_txt
+    )
+
+    # Reporte de defensa para el rival (si tenemos su ID)
+    if rival_id != "":
+        var titulo_def = ("🛡 Fuiste atacado por " + nombre_j +
+            (" — Sobreviviste" if not gane else " — Fuiste derrotado"))
+        MessageManager.guardar_reporte(
+            rival_id,
+            nombre_j,
+            "pvp_defensa",
+            titulo_def,
+            log_txt
+        )
+
 func _resetear_botin_rival(rival_player_id: String) -> void:
     if rival_player_id == "":
         return

@@ -27,6 +27,7 @@ ItemTooltip="*uid://cj15dt0s4sy6g"
 CombatEngine="*uid://cdkv56yc2ahpd"
 SaveManager="*uid://coiqbjhmnpv5d"
 AchievementManager="*uid://d0rid65kd8aba"
+MessageManager="*uid://de781rbg1kyff"
 
 [display]
 

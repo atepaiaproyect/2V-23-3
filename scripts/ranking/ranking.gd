@@ -137,31 +137,63 @@ func _construir_ui() -> void:
 func _crear_tabla(titulo: String, color: Color) -> PanelContainer:
     var panel = PanelContainer.new()
     panel.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+
+    # Estilo del panel con borde de color
+    var style = StyleBoxFlat.new()
+    style.bg_color = Color(0.08, 0.06, 0.05, 1.0)
+    style.border_color = color
+    style.border_width_top    = 2
+    style.border_width_left   = 1
+    style.border_width_right  = 1
+    style.border_width_bottom = 1
+    style.corner_radius_top_left     = 4
+    style.corner_radius_top_right    = 4
+    style.corner_radius_bottom_left  = 4
+    style.corner_radius_bottom_right = 4
+    panel.add_theme_stylebox_override("panel", style)
+
     var margin = MarginContainer.new()
     margin.add_theme_constant_override("margin_left",   10)
     margin.add_theme_constant_override("margin_right",  10)
-    margin.add_theme_constant_override("margin_top",    10)
+    margin.add_theme_constant_override("margin_top",    8)
     margin.add_theme_constant_override("margin_bottom", 10)
     panel.add_child(margin)
+
     var vbox = VBoxContainer.new()
     vbox.add_theme_constant_override("separation", 4)
     margin.add_child(vbox)
+
+    # Header con fondo de color
+    var header_panel = PanelContainer.new()
+    var header_style = StyleBoxFlat.new()
+    header_style.bg_color = Color(color.r, color.g, color.b, 0.15)
+    header_style.corner_radius_top_left     = 3
+    header_style.corner_radius_top_right    = 3
+    header_style.corner_radius_bottom_left  = 0
+    header_style.corner_radius_bottom_right = 0
+    header_panel.add_theme_stylebox_override("panel", header_style)
+    vbox.add_child(header_panel)
+
     var lbl = Label.new()
     lbl.text = titulo
     lbl.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
     lbl.add_theme_color_override("font_color", color)
     lbl.add_theme_font_size_override("font_size", 12)
-    vbox.add_child(lbl)
+    header_panel.add_child(lbl)
+
     vbox.add_child(HSeparator.new())
+
     var rows = VBoxContainer.new()
     rows.name = "VBoxRows"
-    rows.add_theme_constant_override("separation", 3)
+    rows.add_theme_constant_override("separation", 2)
     vbox.add_child(rows)
+
     var lbl_loading = Label.new()
     lbl_loading.text = "Cargando..."
     lbl_loading.add_theme_color_override("font_color", Color(0.5, 0.5, 0.5, 1))
     lbl_loading.add_theme_font_size_override("font_size", 11)
     rows.add_child(lbl_loading)
+
     return panel
 
 # ─────────────────────────────────────
@@ -233,28 +265,103 @@ func _poblar_tablas() -> void:
             lbl.add_theme_font_size_override("font_size", 11)
             vbox_rows.add_child(lbl)
             continue
-        var medallas = ["🥇", "🥈", "🥉"]
+
+        var medallas   = ["🥇", "🥈", "🥉"]
+        var mi_pos     = -1
+        var mi_valor   = 0
+        var nombre_yo  = GameData.player_name if t["coleccion"] == "players" else GameData.player_clan_name
+
         for i in range(lista.size()):
             var j    = lista[i]
+            var es_yo = (j["nombre"] == nombre_yo)
+            if es_yo:
+                mi_pos   = i + 1
+                mi_valor = j["valor"]
+
+            # Fila con fondo para top 3
+            var fila_panel = PanelContainer.new()
+            if i < 3:
+                var fila_style = StyleBoxFlat.new()
+                var alpha = 0.12 - i * 0.03
+                fila_style.bg_color = Color(t["color"].r, t["color"].g, t["color"].b, alpha)
+                fila_style.corner_radius_top_left     = 3
+                fila_style.corner_radius_top_right    = 3
+                fila_style.corner_radius_bottom_left  = 3
+                fila_style.corner_radius_bottom_right = 3
+                fila_panel.add_theme_stylebox_override("panel", fila_style)
+            elif es_yo:
+                var fila_style = StyleBoxFlat.new()
+                fila_style.bg_color = Color(0.2, 0.5, 0.2, 0.25)
+                fila_style.border_color = Color(0.3, 0.8, 0.3, 0.6)
+                fila_style.border_width_left = 2
+                fila_style.corner_radius_top_left     = 3
+                fila_style.corner_radius_top_right    = 3
+                fila_style.corner_radius_bottom_left  = 3
+                fila_style.corner_radius_bottom_right = 3
+                fila_panel.add_theme_stylebox_override("panel", fila_style)
+
             var hbox = HBoxContainer.new()
             hbox.add_theme_constant_override("separation", 6)
-            vbox_rows.add_child(hbox)
+            fila_panel.add_child(hbox)
+            vbox_rows.add_child(fila_panel)
+
             var lbl_pos = Label.new()
             lbl_pos.text = medallas[i] if i < 3 else str(i + 1) + "."
             lbl_pos.custom_minimum_size = Vector2(26, 0)
             lbl_pos.add_theme_font_size_override("font_size", 12)
             hbox.add_child(lbl_pos)
+
             var lbl_nombre = Label.new()
-            lbl_nombre.text = j["nombre"]
+            lbl_nombre.text = j["nombre"] + (" ◀" if es_yo else "")
             lbl_nombre.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-            lbl_nombre.add_theme_color_override("font_color", Color(0.9, 0.85, 0.7, 1))
+            var c_nombre = Color(0.3, 0.9, 0.3, 1) if es_yo else Color(0.9, 0.85, 0.7, 1)
+            lbl_nombre.add_theme_color_override("font_color", c_nombre)
             lbl_nombre.add_theme_font_size_override("font_size", 11)
             hbox.add_child(lbl_nombre)
+
             var lbl_valor = Label.new()
             lbl_valor.text = _fmt(j["valor"]) + t["sufijo"]
             lbl_valor.add_theme_color_override("font_color", t["color"])
             lbl_valor.add_theme_font_size_override("font_size", 11)
             hbox.add_child(lbl_valor)
+
+        # Si el jugador no está en el top 10, mostrarlo al final como hace Travian
+        if mi_pos == -1 and nombre_yo != "":
+            vbox_rows.add_child(HSeparator.new())
+            var fila_yo = PanelContainer.new()
+            var style_yo = StyleBoxFlat.new()
+            style_yo.bg_color = Color(0.15, 0.35, 0.15, 0.3)
+            style_yo.border_color = Color(0.3, 0.8, 0.3, 0.5)
+            style_yo.border_width_left = 2
+            style_yo.corner_radius_top_left     = 3
+            style_yo.corner_radius_top_right    = 3
+            style_yo.corner_radius_bottom_left  = 3
+            style_yo.corner_radius_bottom_right = 3
+            fila_yo.add_theme_stylebox_override("panel", style_yo)
+            var hbox_yo = HBoxContainer.new()
+            hbox_yo.add_theme_constant_override("separation", 6)
+            fila_yo.add_child(hbox_yo)
+            vbox_rows.add_child(fila_yo)
+
+            var lbl_pos_yo = Label.new()
+            lbl_pos_yo.text = "..."
+            lbl_pos_yo.custom_minimum_size = Vector2(26, 0)
+            lbl_pos_yo.add_theme_font_size_override("font_size", 11)
+            lbl_pos_yo.add_theme_color_override("font_color", Color(0.5, 0.5, 0.5, 1))
+            hbox_yo.add_child(lbl_pos_yo)
+
+            var lbl_nombre_yo = Label.new()
+            lbl_nombre_yo.text = nombre_yo + " ◀"
+            lbl_nombre_yo.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+            lbl_nombre_yo.add_theme_color_override("font_color", Color(0.3, 0.9, 0.3, 1))
+            lbl_nombre_yo.add_theme_font_size_override("font_size", 11)
+            hbox_yo.add_child(lbl_nombre_yo)
+
+            var lbl_valor_yo = Label.new()
+            lbl_valor_yo.text = _fmt(mi_valor) + t["sufijo"]
+            lbl_valor_yo.add_theme_color_override("font_color", t["color"])
+            lbl_valor_yo.add_theme_font_size_override("font_size", 11)
+            hbox_yo.add_child(lbl_valor_yo)
 
     if _lbl_actualizado:
         _lbl_actualizado.text = "Actualizado: " + Time.get_time_string_from_system()

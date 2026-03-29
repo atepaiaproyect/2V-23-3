@@ -32,6 +32,22 @@ func _resolver_y_mostrar() -> void:
     _mostrar_retratos(resultado, jugador, enemigo)
     _mostrar_recompensa(resultado)
     _mostrar_log(resultado, jugador, enemigo)
+    _guardar_reporte_pve(resultado, jugador, enemigo)
+
+
+func _guardar_reporte_pve(resultado: Dictionary, jugador: Dictionary, enemigo: Dictionary) -> void:
+    var nombre_j = jugador.get("nombre", GameData.player_name)
+    var nombre_e = enemigo.get("nombre", "Enemigo")
+    var gano     = resultado.get("jugador_gano", false)
+    var titulo   = ("⚔ Victoria vs " if gano else "💀 Derrota vs ") + nombre_e
+    var log_txt  = MessageManager.construir_log_pve(resultado, nombre_j, nombre_e)
+    MessageManager.guardar_reporte(
+        GameData.player_id,
+        nombre_e,
+        "pve",
+        titulo,
+        log_txt
+    )
 
 func _aplicar_resultado(resultado: Dictionary) -> void:
     GameData.hp = max(1, resultado.get("hp_final_a", GameData.hp))
