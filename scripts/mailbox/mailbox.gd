@@ -632,7 +632,7 @@ func _crear_fila_reporte(msg: Dictionary) -> PanelContainer:
     sf.border_width_right = 0
     sf.border_width_top = 0
     sf.border_width_bottom = 0
-        sf.corner_radius_top_left     = 2
+    sf.corner_radius_top_left     = 2
     sf.corner_radius_top_right    = 2
     sf.corner_radius_bottom_left  = 2
     sf.corner_radius_bottom_right = 2
@@ -864,76 +864,61 @@ func _abrir_mensaje(msg: Dictionary) -> void:
 # ENVIAR MENSAJE
 # ============================================================
 func _on_enviar_mensaje() -> void:
-    var dest  = _input_destinatario.text.strip_edges()
+    var dest   = _input_destinatario.text.strip_edges()
     var asunto = _input_asunto.text.strip_edges()
     var cuerpo = _txt_mensaje.text.strip_edges()
 
     if dest == "" or asunto == "" or cuerpo == "":
-        _lbl_envio_status.text = "⚠ Completá todos los campos."
+        _lbl_envio_status.text = "Completa todos los campos."
+        _lbl_envio_status.add_theme_color_override("font_color", C_ROJO)
+        return
+
+    if dest == GameData.player_name:
+        _lbl_envio_status.text = "No podés enviarte mensajes a vos mismo."
         _lbl_envio_status.add_theme_color_override("font_color", C_ROJO)
         return
 
     _lbl_envio_status.text = "Buscando jugador..."
     _lbl_envio_status.add_theme_color_override("font_color", C_TENUE)
 
-    # Buscar el player_id del destinatario por username
+    # Buscar directamente en players por username (el nick del juego)
     var http = HTTPRequest.new()
     add_child(http)
     http.request_completed.connect(func(_r, code, _h, body):
         http.queue_free()
-        _on_buscar_destinatario(code, body, dest, asunto, cuerpo)
+        _on_player_encontrado(code, body, dest, asunto, cuerpo)
     )
-
-    # Buscar en la colección usernames
-    var url = GameData.FIRESTORE_URL + "usernames/" + dest
-    http.request(url, _headers(), HTTPClient.METHOD_GET)
-
-
-func _on_buscar_destinatario(code: int, body: PackedByteArray,
-                              dest: String, asunto: String, cuerpo: String) -> void:
-    if code != 200:
-        _lbl_envio_status.text = "❌ Jugador no encontrado."
-        _lbl_envio_status.add_theme_color_override("font_color", C_ROJO)
-        return
-
-    var data = JSON.parse_string(body.get_string_from_utf8())
-    if data == null or not data.has("fields"):
-        _lbl_envio_status.text = "❌ Jugador no encontrado."
-        _lbl_envio_status.add_theme_color_override("font_color", C_ROJO)
-        return
-
-    # Buscar el player_id desde el documento del jugador
-    var http2 = HTTPRequest.new()
-    add_child(http2)
-    http2.request_completed.connect(func(_r, code2, _h2, body2):
-        http2.queue_free()
-        _on_player_encontrado(code2, body2, dest, asunto, cuerpo)
-    )
-
     var query = {
         "structuredQuery": {
             "from": [{"collectionId": "players"}],
-            "where": {"fieldFilter": {"field": {"fieldPath": "username"}, "op": "EQUAL", "value": {"stringValue": dest}}},
+            "where": {
+                "fieldFilter": {
+                    "field": {"fieldPath": "username"},
+                    "op": "EQUAL",
+                    "value": {"stringValue": dest}
+                }
+            },
             "limit": 1
         }
     }
-    _http_query(http2, query)
+    _http_query(http, query)
 
 
 func _on_player_encontrado(code: int, body: PackedByteArray,
                             dest_name: String, asunto: String, cuerpo: String) -> void:
     if code != 200:
-        _lbl_envio_status.text = "❌ Error al buscar jugador."
+        _lbl_envio_status.text = "Error de conexion. Intenta de nuevo."
+        _lbl_envio_status.add_theme_color_override("font_color", C_ROJO)
         return
 
     var data = JSON.parse_string(body.get_string_from_utf8())
     if not data is Array or data.is_empty() or not data[0].has("document"):
-        _lbl_envio_status.text = "❌ Jugador no encontrado."
+        _lbl_envio_status.text = "Jugador '" + dest_name + "' no encontrado."
         _lbl_envio_status.add_theme_color_override("font_color", C_ROJO)
         return
 
-    var doc   = data[0]["document"]
-    var parts = doc.get("name", "").split("/")
+    var doc     = data[0]["document"]
+    var parts   = doc.get("name", "").split("/")
     var dest_id = parts[parts.size() - 1]
 
     # Guardar el mensaje

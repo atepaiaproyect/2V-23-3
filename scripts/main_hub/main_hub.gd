@@ -163,7 +163,7 @@ func _navigate_to(section: String):
         "Ranking":
             _load_sub_scene("res://scenes/ranking/Ranking.tscn")
         "Salir":
-            get_tree().quit()
+            SaveManager.save_and_quit()
         "Herreria":
             _load_sub_scene("res://scenes/crafting/Crafting.tscn")
         "Inventario", "Mercado", "Taberna":

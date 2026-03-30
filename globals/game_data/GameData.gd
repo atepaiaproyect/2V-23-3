@@ -103,6 +103,9 @@ var items_dropped:   int = 0
 var days_played:     int = 0
 var messages_sent:   int = 0
 
+# --- Control de carga ---
+var datos_cargados: bool = false   # true solo después de cargar_desde_fields()
+
 # --- Arena PvP ---
 var arena_pos:     int = 9999   # posición en liga actual
 var arena_bounty:  int = 0      # botín acumulado como #1

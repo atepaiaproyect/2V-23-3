@@ -27,8 +27,14 @@ var unread_count: int = 0
 # ── Guardar un reporte / mensaje ──────────────────────────────
 func guardar_reporte(to_player_id: String, from_name: String,
                      tipo: String, title: String, body: String) -> void:
-    if to_player_id == "" or GameData.id_token == "":
+    if to_player_id == "":
         return
+    # Esperar hasta tener token (máximo 5 intentos con delay)
+    if GameData.id_token == "":
+        await get_tree().create_timer(1.0).timeout
+        if GameData.id_token == "":
+            print("MessageManager: sin token, reporte descartado")
+            return
 
     var ahora      = int(Time.get_unix_time_from_system())
     var expira_en  = ahora + DIAS_EXPIRACION * 86400

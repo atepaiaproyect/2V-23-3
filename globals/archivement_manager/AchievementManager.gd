@@ -132,6 +132,10 @@ func _ready() -> void:
 # VERIFICAR TODOS LOS LOGROS
 # ─────────────────────────────────────
 func check_all() -> void:
+    # Nunca ejecutar antes de que Firebase termine de cargar los datos
+    # Evita desbloquear logros duplicados al iniciar sesión
+    if not GameData.datos_cargados:
+        return
     for ach in ACHIEVEMENTS:
         _check_one(ach)
 
