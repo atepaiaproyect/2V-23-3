@@ -284,7 +284,7 @@ func _cargar_inventario() -> void:
             equipados_ids.append(item.get("id", ""))
 
     var todos_los_items: Array = []
-    for categoria in ["armas", "escudos", "pecho"]:
+    for categoria in ["armas", "escudos", "pecho", "cascos", "guantes", "botas", "anillos", "collares"]:
         if db.has(categoria):
             for item in db[categoria]:
                 if item.get("id", "") in equipados_ids:
@@ -303,15 +303,16 @@ func _cargar_inventario() -> void:
 
 func _restaurar_equipo() -> void:
     var mapa := {
-        "mano_d": GameData.equipped_weapon,
-        "mano_i": GameData.equipped_shield,
-        "pecho":  GameData.equipped_chest,
-        "casco":  GameData.equipped_helmet,
-        "pies":   GameData.equipped_boots,
-        "manos":  GameData.equipped_gloves,
-        "cuello": GameData.equipped_neck,
-        "anillo": GameData.equipped_ring_l,
-        "capa":   GameData.equipped_cape,
+        "mano_d":   GameData.equipped_weapon,
+        "mano_i":   GameData.equipped_shield,
+        "pecho":    GameData.equipped_chest,
+        "casco":    GameData.equipped_helmet,
+        "pies":     GameData.equipped_boots,
+        "manos":    GameData.equipped_gloves,
+        "cuello":   GameData.equipped_neck,
+        "anillo":   GameData.equipped_ring_l,
+        "anillo_r": GameData.equipped_ring_r,
+        "capa":     GameData.equipped_cape,
     }
     for slot in get_tree().get_nodes_in_group("equip_slots"):
         var item = mapa.get(slot.slot_name, {})

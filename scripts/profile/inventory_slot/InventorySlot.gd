@@ -2,13 +2,45 @@ extends PanelContainer
 
 var item_data: Dictionary = {}
 
+# Colores de calidad — fondo del slot del ítem
 const RARITY_COLORS := {
-    "comun":      Color(0.15, 0.15, 0.15, 0.0),
-    "inusual":    Color(0.1,  0.4,  0.1,  0.55),
-    "magico":     Color(0.1,  0.2,  0.5,  0.55),
-    "raro":       Color(0.5,  0.45, 0.0,  0.55),
-    "epico":      Color(0.45, 0.15, 0.0,  0.55),
-    "legendario": Color(0.5,  0.05, 0.05, 0.55),
+    # Sistema nuevo de 5 calidades
+    "normal":     Color(0.22, 0.22, 0.22, 0.0 ),   # Blanco / sin fondo
+    "bueno":      Color(0.10, 0.42, 0.10, 0.60),   # Verde
+    "epico":      Color(0.35, 0.08, 0.50, 0.65),   # Morado
+    "inmortal":   Color(0.55, 0.05, 0.05, 0.65),   # Rojo
+    "legendario": Color(0.55, 0.45, 0.00, 0.70),   # Dorado
+    # Sistema viejo (compatibilidad)
+    "comun":      Color(0.22, 0.22, 0.22, 0.0 ),
+    "inusual":    Color(0.10, 0.42, 0.10, 0.55),
+    "magico":     Color(0.10, 0.20, 0.50, 0.55),
+    "raro":       Color(0.55, 0.45, 0.00, 0.55),
+}
+
+# Labels de calidad para mostrar en tooltip
+const CALIDAD_LABELS := {
+    "normal":     "Normal",
+    "bueno":      "Bueno",
+    "epico":      "Épico",
+    "inmortal":   "Inmortal",
+    "legendario": "Legendario",
+    "comun":      "Común",
+    "inusual":    "Inusual",
+    "magico":     "Mágico",
+    "raro":       "Raro",
+}
+
+# Color del texto de calidad para tooltip
+const CALIDAD_TEXT_COLORS := {
+    "normal":     Color(0.90, 0.90, 0.90, 1),
+    "bueno":      Color(0.30, 0.90, 0.30, 1),
+    "epico":      Color(0.80, 0.40, 1.00, 1),
+    "inmortal":   Color(1.00, 0.30, 0.30, 1),
+    "legendario": Color(1.00, 0.85, 0.20, 1),
+    "comun":      Color(0.90, 0.90, 0.90, 1),
+    "inusual":    Color(0.30, 0.90, 0.30, 1),
+    "magico":     Color(0.40, 0.60, 1.00, 1),
+    "raro":       Color(1.00, 0.85, 0.20, 1),
 }
 
 # Timer para hover de 1 segundo

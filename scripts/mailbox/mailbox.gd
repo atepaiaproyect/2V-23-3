@@ -375,7 +375,6 @@ func _cargar_inbox() -> void:
                     ]
                 }
             },
-            "orderBy": [{"field": {"fieldPath": "timestamp"}, "direction": "DESCENDING"}],
             "limit": 50
         }
     }
@@ -413,7 +412,6 @@ func _cargar_enviados() -> void:
                     ]
                 }
             },
-            "orderBy": [{"field": {"fieldPath": "timestamp"}, "direction": "DESCENDING"}],
             "limit": 50
         }
     }
@@ -443,6 +441,8 @@ func _cargar_reportes_tipo(tipo: String) -> void:
         http.queue_free()
         _on_reportes_tipo_cargado(code, body)
     )
+    # Sin orderBy para evitar requerir índice compuesto en Firestore
+    # El ordenamiento se hace localmente en _on_reportes_tipo_cargado
     var query = {
         "structuredQuery": {
             "from": [{"collectionId": "messages"}],
@@ -455,7 +455,6 @@ func _cargar_reportes_tipo(tipo: String) -> void:
                     ]
                 }
             },
-            "orderBy": [{"field": {"fieldPath": "timestamp"}, "direction": "DESCENDING"}],
             "limit": 50
         }
     }

@@ -1,21 +1,29 @@
 extends CanvasLayer
 
+# Sistema de 5 calidades
 const RARITY_COLORS := {
+    "normal":     Color(0.90, 0.90, 0.90, 1.0),
+    "bueno":      Color(0.30, 0.90, 0.30, 1.0),
+    "epico":      Color(0.80, 0.40, 1.00, 1.0),
+    "inmortal":   Color(1.00, 0.30, 0.30, 1.0),
+    "legendario": Color(1.00, 0.85, 0.20, 1.0),
+    # Compatibilidad sistema viejo
     "comun":      Color(0.85, 0.85, 0.85, 1.0),
-    "inusual":    Color(0.3,  0.85, 0.3,  1.0),
-    "magico":     Color(0.4,  0.6,  1.0,  1.0),
-    "raro":       Color(1.0,  0.85, 0.1,  1.0),
-    "epico":      Color(1.0,  0.5,  0.1,  1.0),
-    "legendario": Color(1.0,  0.2,  0.2,  1.0),
+    "inusual":    Color(0.30, 0.85, 0.30, 1.0),
+    "magico":     Color(0.40, 0.60, 1.00, 1.0),
+    "raro":       Color(1.00, 0.85, 0.10, 1.0),
 }
 
 const RARITY_LABELS := {
-    "comun":      "⬜ Común",
-    "inusual":    "🟩 Inusual",
-    "magico":     "🟦 Mágico",
-    "raro":       "🟨 Raro",
-    "epico":      "🟧 Épico",
-    "legendario": "🔴 Legendario",
+    "normal":     "Normal",
+    "bueno":      "✦ Bueno",
+    "epico":      "✦✦ Épico",
+    "inmortal":   "✦✦✦ Inmortal",
+    "legendario": "✦✦✦✦ Legendario",
+    "comun":      "Común",
+    "inusual":    "Inusual",
+    "magico":     "Mágico",
+    "raro":       "Raro",
 }
 
 var panel       : PanelContainer
@@ -96,39 +104,80 @@ func _input(event: InputEvent) -> void:
                 hide_tooltip()
 
 func show_tooltip(item: Dictionary, origin_pos: Vector2) -> void:
-    var rareza    = item.get("rareza", "comun")
+    var rareza    = item.get("rareza", item.get("calidad", "normal"))
     var nivel     = item.get("nivel", 1)
     var herrero   = item.get("crafteo_por", "")
     var categoria = item.get("categoria", "")
     var color     = RARITY_COLORS.get(rareza, Color.WHITE)
 
-    # Nombre con color de rareza
+    # Borde del panel con color de calidad
+    var style = StyleBoxFlat.new()
+    style.bg_color        = Color(0.08, 0.06, 0.04, 0.97)
+    style.border_color    = color
+    style.border_width_left   = 2
+    style.border_width_right  = 2
+    style.border_width_top    = 2
+    style.border_width_bottom = 2
+    style.corner_radius_top_left     = 5
+    style.corner_radius_top_right    = 5
+    style.corner_radius_bottom_left  = 5
+    style.corner_radius_bottom_right = 5
+    panel.add_theme_stylebox_override("panel", style)
+
+    # Nombre con color de calidad
     lbl_nombre.text = item.get("nombre", "?")
     lbl_nombre.add_theme_color_override("font_color", color)
 
-    # Calidad — texto grande y coloreado, bien visible
-    lbl_rareza.text = RARITY_LABELS.get(rareza, "Común")
+    # Calidad — texto con color
+    lbl_rareza.text = RARITY_LABELS.get(rareza, "Normal")
     lbl_rareza.add_theme_color_override("font_color", color)
 
     # Nivel
-    lbl_nivel.text = "Nivel requerido: " + str(nivel)
+    lbl_nivel.text = "Nivel: " + str(nivel) + "   Slot: " + item.get("slot", "?").capitalize()
 
-    # Stats
+    # Stats — soporta todas las categorías
     var s = ""
+    var dur = str(item.get("durabilidad", 0)) + " / " + str(item.get("durabilidad_max", 0))
     match categoria:
         "armas":
-            s  = "Daño base: " + str(item.get("ataque_min", 0)) + " — " + str(item.get("ataque_max", 0))
-            s += "\nDurabilidad: " + str(item.get("durabilidad", 0)) + " / " + str(item.get("durabilidad_max", 0))
+            s  = "⚔ Daño: " + str(item.get("ataque_min", 0)) + " — " + str(item.get("ataque_max", 0))
+            s += "\n🔧 Durabilidad: " + dur
         "escudos":
-            s  = "Defensa: " + str(item.get("defensa", 0))
-            s += "\nBloqueo: +" + str(int(item.get("bloqueo_bonus", 0.0) * 100)) + "%"
-            s += "\nDurabilidad: " + str(item.get("durabilidad", 0)) + " / " + str(item.get("durabilidad_max", 0))
+            s  = "🛡 Defensa: " + str(item.get("defensa", 0))
+            var blq = item.get("bloqueo_bonus", 0.0)
+            if blq > 0:
+                s += "\n⛨ Bloqueo: +" + str(int(blq * 100)) + "%"
+            s += "\n🔧 Durabilidad: " + dur
         "pecho":
-            s  = "Defensa: " + str(item.get("defensa", 0))
+            s  = "🛡 Defensa: " + str(item.get("defensa", 0))
             var con_b = item.get("constitucion_bonus", 0)
             if con_b > 0:
-                s += "\n+Constitución: " + str(con_b)
-            s += "\nDurabilidad: " + str(item.get("durabilidad", 0)) + " / " + str(item.get("durabilidad_max", 0))
+                s += "\n💪 Constitución: +" + str(con_b)
+            s += "\n🔧 Durabilidad: " + dur
+        "cascos":
+            s  = "🛡 Defensa: " + str(item.get("defensa", 0))
+            s += "\n🔧 Durabilidad: " + dur
+        "guantes":
+            s  = "🛡 Defensa: " + str(item.get("defensa", 0))
+            s += "\n🔧 Durabilidad: " + dur
+        "botas":
+            s  = "🛡 Defensa: " + str(item.get("defensa", 0))
+            s += "\n🔧 Durabilidad: " + dur
+        "anillos", "collares":
+            var bonus_tipo = item.get("bonus_tipo", "")
+            match bonus_tipo:
+                "armadura":
+                    s = "🛡 Armadura: +" + str(item.get("defensa", 0))
+                "ataque":
+                    s = "⚔ Ataque: +" + str(item.get("ataque_min", 0)) + " / +" + str(item.get("ataque_max", 0))
+                "all_stats":
+                    var pct = int(item.get("all_stats_bonus", 0.03) * 100)
+                    s = "✦ Todos los stats: +" + str(pct) + "%"
+                _:
+                    if item.has("defensa"):
+                        s = "🛡 Armadura: +" + str(item.get("defensa", 0))
+                    elif item.has("ataque_min"):
+                        s = "⚔ Ataque: +" + str(item.get("ataque_min", 0)) + " — +" + str(item.get("ataque_max", 0))
     lbl_stats.text = s
 
     # Valor
