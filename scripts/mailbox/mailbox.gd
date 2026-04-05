@@ -429,14 +429,20 @@ func _on_enviados_cargado(code: int, body: PackedByteArray) -> void:
 
 func _cargar_reportes() -> void:
     for child in _vbox_reportes.get_children(): child.queue_free()
+    _mensajes_reportes = []
+    # Cargar los 3 tipos de reporte por separado (evita NOT_EQUAL que requiere índice)
+    _cargar_reportes_tipo("pve")
+    _cargar_reportes_tipo("pvp_ataque")
+    _cargar_reportes_tipo("pvp_defensa")
 
+
+func _cargar_reportes_tipo(tipo: String) -> void:
     var http = HTTPRequest.new()
     add_child(http)
     http.request_completed.connect(func(_r, code, _h, body):
         http.queue_free()
-        _on_reportes_cargado(code, body)
+        _on_reportes_tipo_cargado(code, body)
     )
-
     var query = {
         "structuredQuery": {
             "from": [{"collectionId": "messages"}],
@@ -445,25 +451,31 @@ func _cargar_reportes() -> void:
                     "op": "AND",
                     "filters": [
                         {"fieldFilter": {"field": {"fieldPath": "to_player_id"}, "op": "EQUAL", "value": {"stringValue": GameData.player_id}}},
-                        {"fieldFilter": {"field": {"fieldPath": "type"}, "op": "NOT_EQUAL", "value": {"stringValue": "mensaje"}}}
+                        {"fieldFilter": {"field": {"fieldPath": "type"}, "op": "EQUAL", "value": {"stringValue": tipo}}}
                     ]
                 }
             },
-            "orderBy": [
-                {"field": {"fieldPath": "type"}, "direction": "ASCENDING"},
-                {"field": {"fieldPath": "timestamp"}, "direction": "DESCENDING"}
-            ],
-            "limit": 100
+            "orderBy": [{"field": {"fieldPath": "timestamp"}, "direction": "DESCENDING"}],
+            "limit": 50
         }
     }
     _http_query(http, query)
 
 
-func _on_reportes_cargado(code: int, body: PackedByteArray) -> void:
-    if code != 200: return
+func _on_reportes_tipo_cargado(code: int, body: PackedByteArray) -> void:
+    if code != 200:
+        print("Mailbox error cargando reportes: ", code)
+        return
     var data = JSON.parse_string(body.get_string_from_utf8())
-    _mensajes_reportes = _parsear_mensajes(data)
+    var nuevos = _parsear_mensajes(data)
+    _mensajes_reportes.append_array(nuevos)
+    # Ordenar por timestamp descendente y repoblar
+    _mensajes_reportes.sort_custom(func(a, b): return a.get("timestamp", 0) > b.get("timestamp", 0))
     _poblar_reportes()
+
+
+func _on_reportes_cargado(code: int, body: PackedByteArray) -> void:
+    pass  # Reemplazado por _on_reportes_tipo_cargado
 
 
 # ============================================================

@@ -41,6 +41,8 @@ func _guardar_reporte_pve(resultado: Dictionary, jugador: Dictionary, enemigo: D
     var gano     = resultado.get("jugador_gano", false)
     var titulo   = ("⚔ Victoria vs " if gano else "💀 Derrota vs ") + nombre_e
     var log_txt  = MessageManager.construir_log_pve(resultado, nombre_j, nombre_e)
+    # Esperar un frame para asegurarse que el token esté disponible
+    await get_tree().process_frame
     MessageManager.guardar_reporte(
         GameData.player_id,
         nombre_e,

@@ -524,6 +524,9 @@ func _guardar_reportes_pvp(resultado: Dictionary, rival: Dictionary, gane: bool)
     var rival_id   = rival.get("player_id", "")
     var log_txt    = MessageManager.construir_log_pvp(resultado, nombre_j, nombre_r)
 
+    # Esperar un frame para asegurarse que el token esté disponible
+    await get_tree().process_frame
+
     # Reporte para el atacante (yo)
     var titulo_atac = ("⚔ Victoria vs " if gane else "💀 Derrota vs ") + nombre_r
     MessageManager.guardar_reporte(

@@ -29,16 +29,14 @@ func guardar_reporte(to_player_id: String, from_name: String,
                      tipo: String, title: String, body: String) -> void:
     if to_player_id == "":
         return
-    # Esperar hasta tener token (máximo 5 intentos con delay)
     if GameData.id_token == "":
-        await get_tree().create_timer(1.0).timeout
-        if GameData.id_token == "":
-            print("MessageManager: sin token, reporte descartado")
-            return
+        print("MessageManager: sin token al guardar reporte, ignorado.")
+        return
 
-    var ahora      = int(Time.get_unix_time_from_system())
-    var expira_en  = ahora + DIAS_EXPIRACION * 86400
-    var msg_id     = str(ahora) + "_" + to_player_id.substr(0, 6) + "_" + tipo
+    var ahora     = int(Time.get_unix_time_from_system())
+    var expira_en = ahora + DIAS_EXPIRACION * 86400
+    # ID único: timestamp + random para evitar colisiones
+    var msg_id    = str(ahora) + str(randi() % 9999) + "_" + tipo
 
     var doc = {
         "fields": {
@@ -55,11 +53,17 @@ func guardar_reporte(to_player_id: String, from_name: String,
 
     var http = HTTPRequest.new()
     add_child(http)
-    http.request_completed.connect(func(_r, _c, _h, _b): http.queue_free())
+    http.request_completed.connect(func(_r, code, _h, _b):
+        if code != 200:
+            print("MessageManager ERROR guardar reporte: ", code)
+        else:
+            print("MessageManager: reporte guardado OK - ", tipo, " para ", to_player_id)
+        http.queue_free()
+    )
 
-    var url = FIRESTORE_URL + "/messages/" + msg_id
-    var headers = _headers()
-    http.request(url, headers, HTTPClient.METHOD_PATCH, JSON.stringify(doc))
+    # URL correcta sin doble barra
+    var url = "https://firestore.googleapis.com/v1/projects/atepaia-2v/databases/(default)/documents/messages/" + msg_id
+    http.request(url, _headers(), HTTPClient.METHOD_PATCH, JSON.stringify(doc))
 
 
 # ── Contar mensajes no leídos del jugador actual ──────────────

@@ -12,17 +12,8 @@ var _http_clan: HTTPRequest
 func _ready() -> void:
     _http = HTTPRequest.new()
     add_child(_http)
-    _http.request_completed.connect(_on_save_completado)
     _http_clan = HTTPRequest.new()
     add_child(_http_clan)
-
-func _on_save_completado(_result, response_code, _headers, _body) -> void:
-    if response_code != 200:
-        print("SaveManager ERROR al guardar: código ", response_code)
-        # Si el token venció (401) no hay mucho que hacer
-        # Si es 400 puede ser un problema con los datos
-    else:
-        pass  # Guardado exitoso
 
 # ─────────────────────────────────────
 # GUARDAR PROGRESO
@@ -119,7 +110,6 @@ func save_progress() -> void:
 # CARGAR DESDE FIRESTORE
 # ─────────────────────────────────────
 func cargar_desde_fields(fields: Dictionary) -> void:
-    GameData.datos_cargados = false
     GameData.level       = int(fields.get("level",       {}).get("integerValue", "1"))
     GameData.xp          = int(fields.get("xp",          {}).get("integerValue", "0"))
     GameData.hp          = int(fields.get("hp",          {}).get("integerValue", "120"))
@@ -194,8 +184,7 @@ func cargar_desde_fields(fields: Dictionary) -> void:
         "eq_cape":    fields.get("eq_cape",    {}).get("stringValue", ""),
     }
     _restaurar_equipo_desde_ids(eq_ids)
-    GameData.datos_cargados = true
-    print("SaveManager: cargado OK. Nivel ", GameData.level, " HP ", GameData.hp, "/", GameData.hp_max)
+    print("SaveManager: cargado. Nivel ", GameData.level, " HP ", GameData.hp, "/", GameData.hp_max)
 
 func _restaurar_equipo_desde_ids(eq_ids: Dictionary) -> void:
     if not FileAccess.file_exists("res://data/items_database/items_database.json"):
@@ -272,7 +261,8 @@ func save_clan_stats(xp_ganada: int, pvp_pts: int, oro_robado: int, craft_pts: i
     # Primero GET para leer valores actuales
     if _http_clan.get_http_client_status() != HTTPClient.STATUS_DISCONNECTED:
         _http_clan.cancel_request()
-    _http_clan.request_completed.connect(_on_clan_read, CONNECT_ONE_SHOT)
+    if not _http_clan.request_completed.is_connected(_on_clan_read):
+        _http_clan.request_completed.connect(_on_clan_read, CONNECT_ONE_SHOT)
     _http_clan.request(url.split("?")[0], headers, HTTPClient.METHOD_GET)
 
 var _pending_clan_delta: Dictionary = {}
@@ -307,21 +297,6 @@ func _on_clan_read(_result, response_code, _headers_r, body) -> void:
         _http_clan.cancel_request()
     _http_clan.request(url, headers, HTTPClient.METHOD_PATCH, body_str)
     _pending_clan_delta = {}
-
-# ─────────────────────────────────────
-# GUARDAR AL SALIR (usando HTTPClient directo para no depender de señales)
-# ─────────────────────────────────────
-func save_and_quit() -> void:
-    save_progress()
-    # Esperar hasta 3 segundos para que el HTTP termine
-    var timeout = 3.0
-    var elapsed = 0.0
-    while elapsed < timeout:
-        if _http.get_http_client_status() == HTTPClient.STATUS_DISCONNECTED:
-            break
-        await get_tree().create_timer(0.1).timeout
-        elapsed += 0.1
-    get_tree().quit()
 
 static func _array_to_firestore(arr: Array) -> Array:
     var result = []
