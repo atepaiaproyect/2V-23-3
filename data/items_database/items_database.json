@@ -82,7 +82,7 @@
     },
     {
       "id": "arma_002_normal",
-      "nombre": "Hacha de Talador",
+      "nombre": "Espada Corta",
       "nivel": 2,
       "calidad": "normal",
       "slot": "mano_d",
@@ -98,7 +98,7 @@
     },
     {
       "id": "arma_002_bueno",
-      "nombre": "Hacha de Talador",
+      "nombre": "Espada Corta",
       "nivel": 2,
       "calidad": "bueno",
       "slot": "mano_d",
@@ -114,7 +114,7 @@
     },
     {
       "id": "arma_002_epico",
-      "nombre": "Hacha de Talador",
+      "nombre": "Espada Corta",
       "nivel": 2,
       "calidad": "epico",
       "slot": "mano_d",
@@ -130,7 +130,7 @@
     },
     {
       "id": "arma_002_inmortal",
-      "nombre": "Hacha de Talador",
+      "nombre": "Espada Corta",
       "nivel": 2,
       "calidad": "inmortal",
       "slot": "mano_d",
@@ -146,7 +146,7 @@
     },
     {
       "id": "arma_002_legendario",
-      "nombre": "Hacha de Talador",
+      "nombre": "Espada Corta",
       "nivel": 2,
       "calidad": "legendario",
       "slot": "mano_d",
@@ -162,7 +162,7 @@
     },
     {
       "id": "arma_003_normal",
-      "nombre": "Espada Corta de Hierro",
+      "nombre": "Garras de Tejedor",
       "nivel": 3,
       "calidad": "normal",
       "slot": "mano_d",
@@ -178,7 +178,7 @@
     },
     {
       "id": "arma_003_bueno",
-      "nombre": "Espada Corta de Hierro",
+      "nombre": "Garras de Tejedor",
       "nivel": 3,
       "calidad": "bueno",
       "slot": "mano_d",
@@ -194,7 +194,7 @@
     },
     {
       "id": "arma_003_epico",
-      "nombre": "Espada Corta de Hierro",
+      "nombre": "Garras de Tejedor",
       "nivel": 3,
       "calidad": "epico",
       "slot": "mano_d",
@@ -210,7 +210,7 @@
     },
     {
       "id": "arma_003_inmortal",
-      "nombre": "Espada Corta de Hierro",
+      "nombre": "Garras de Tejedor",
       "nivel": 3,
       "calidad": "inmortal",
       "slot": "mano_d",
@@ -226,7 +226,7 @@
     },
     {
       "id": "arma_003_legendario",
-      "nombre": "Espada Corta de Hierro",
+      "nombre": "Garras de Tejedor",
       "nivel": 3,
       "calidad": "legendario",
       "slot": "mano_d",
@@ -242,7 +242,7 @@
     },
     {
       "id": "arma_004_normal",
-      "nombre": "Sable del Caminante",
+      "nombre": "Puño Serath",
       "nivel": 4,
       "calidad": "normal",
       "slot": "mano_d",
@@ -258,7 +258,7 @@
     },
     {
       "id": "arma_004_bueno",
-      "nombre": "Sable del Caminante",
+      "nombre": "Puño Serath",
       "nivel": 4,
       "calidad": "bueno",
       "slot": "mano_d",
@@ -274,7 +274,7 @@
     },
     {
       "id": "arma_004_epico",
-      "nombre": "Sable del Caminante",
+      "nombre": "Puño Serath",
       "nivel": 4,
       "calidad": "epico",
       "slot": "mano_d",
@@ -290,7 +290,7 @@
     },
     {
       "id": "arma_004_inmortal",
-      "nombre": "Sable del Caminante",
+      "nombre": "Puño Serath",
       "nivel": 4,
       "calidad": "inmortal",
       "slot": "mano_d",
@@ -306,7 +306,7 @@
     },
     {
       "id": "arma_004_legendario",
-      "nombre": "Sable del Caminante",
+      "nombre": "Puño Serath",
       "nivel": 4,
       "calidad": "legendario",
       "slot": "mano_d",
@@ -322,7 +322,7 @@
     },
     {
       "id": "arma_005_normal",
-      "nombre": "Espadón de Acero",
+      "nombre": "Maza Varek",
       "nivel": 5,
       "calidad": "normal",
       "slot": "mano_d",
@@ -338,7 +338,7 @@
     },
     {
       "id": "arma_005_bueno",
-      "nombre": "Espadón de Acero",
+      "nombre": "Maza Varek",
       "nivel": 5,
       "calidad": "bueno",
       "slot": "mano_d",
@@ -354,7 +354,7 @@
     },
     {
       "id": "arma_005_epico",
-      "nombre": "Espadón de Acero",
+      "nombre": "Maza Varek",
       "nivel": 5,
       "calidad": "epico",
       "slot": "mano_d",
@@ -370,7 +370,7 @@
     },
     {
       "id": "arma_005_inmortal",
-      "nombre": "Espadón de Acero",
+      "nombre": "Maza Varek",
       "nivel": 5,
       "calidad": "inmortal",
       "slot": "mano_d",
@@ -386,7 +386,7 @@
     },
     {
       "id": "arma_005_legendario",
-      "nombre": "Espadón de Acero",
+      "nombre": "Maza Varek",
       "nivel": 5,
       "calidad": "legendario",
       "slot": "mano_d",
@@ -402,7 +402,7 @@
     },
     {
       "id": "arma_006_normal",
-      "nombre": "Cimitarra Templada",
+      "nombre": "Espada Extraña",
       "nivel": 6,
       "calidad": "normal",
       "slot": "mano_d",
@@ -414,11 +414,11 @@
       "rareza": "normal",
       "origen": null,
       "esencia": null,
-      "descripcion": "Forjado dos veces al fuego. Los artesanos lo llaman el punto de quiebre."
+      "descripcion": "Proveniente de una extraña mitología."
     },
     {
       "id": "arma_006_bueno",
-      "nombre": "Cimitarra Templada",
+      "nombre": "Espada Extraña",
       "nivel": 6,
       "calidad": "bueno",
       "slot": "mano_d",
@@ -430,11 +430,11 @@
       "rareza": "bueno",
       "origen": null,
       "esencia": null,
-      "descripcion": "Forjado dos veces al fuego. Los artesanos lo llaman el punto de quiebre."
+      "descripcion": "Proveniente de una extraña mitología."
     },
     {
       "id": "arma_006_epico",
-      "nombre": "Cimitarra Templada",
+      "nombre": "Espada Extraña",
       "nivel": 6,
       "calidad": "epico",
       "slot": "mano_d",
@@ -446,11 +446,11 @@
       "rareza": "epico",
       "origen": null,
       "esencia": null,
-      "descripcion": "Forjado dos veces al fuego. Los artesanos lo llaman el punto de quiebre."
+      "descripcion": "Proveniente de una extraña mitología."
     },
     {
       "id": "arma_006_inmortal",
-      "nombre": "Cimitarra Templada",
+      "nombre": "Espada Extraña",
       "nivel": 6,
       "calidad": "inmortal",
       "slot": "mano_d",
@@ -462,11 +462,11 @@
       "rareza": "inmortal",
       "origen": null,
       "esencia": null,
-      "descripcion": "Forjado dos veces al fuego. Los artesanos lo llaman el punto de quiebre."
+      "descripcion": "Proveniente de una extraña mitología."
     },
     {
       "id": "arma_006_legendario",
-      "nombre": "Cimitarra Templada",
+      "nombre": "Espada Extraña",
       "nivel": 6,
       "calidad": "legendario",
       "slot": "mano_d",
@@ -478,11 +478,11 @@
       "rareza": "legendario",
       "origen": null,
       "esencia": null,
-      "descripcion": "Forjado dos veces al fuego. Los artesanos lo llaman el punto de quiebre."
+      "descripcion": "Proveniente de una extraña mitología."
     },
     {
       "id": "arma_007_normal",
-      "nombre": "Hoja Garra de Serath",
+      "nombre": "Espada Ath-Anori",
       "nivel": 7,
       "calidad": "normal",
       "slot": "mano_d",
@@ -494,11 +494,11 @@
       "rareza": "normal",
       "origen": null,
       "esencia": null,
-      "descripcion": "Diseño hallado en ruinas antiguas. Nadie sabe quién lo forjó primero."
+      "descripcion": "Forjada con el nombre del Devorador. Nadie sabe quién la creó ni por qué."
     },
     {
       "id": "arma_007_bueno",
-      "nombre": "Hoja Garra de Serath",
+      "nombre": "Espada Ath-Anori",
       "nivel": 7,
       "calidad": "bueno",
       "slot": "mano_d",
@@ -510,11 +510,11 @@
       "rareza": "bueno",
       "origen": null,
       "esencia": null,
-      "descripcion": "Diseño hallado en ruinas antiguas. Nadie sabe quién lo forjó primero."
+      "descripcion": "Forjada con el nombre del Devorador. Nadie sabe quién la creó ni por qué."
     },
     {
       "id": "arma_007_epico",
-      "nombre": "Hoja Garra de Serath",
+      "nombre": "Espada Ath-Anori",
       "nivel": 7,
       "calidad": "epico",
       "slot": "mano_d",
@@ -526,11 +526,11 @@
       "rareza": "epico",
       "origen": null,
       "esencia": null,
-      "descripcion": "Diseño hallado en ruinas antiguas. Nadie sabe quién lo forjó primero."
+      "descripcion": "Forjada con el nombre del Devorador. Nadie sabe quién la creó ni por qué."
     },
     {
       "id": "arma_007_inmortal",
-      "nombre": "Hoja Garra de Serath",
+      "nombre": "Espada Ath-Anori",
       "nivel": 7,
       "calidad": "inmortal",
       "slot": "mano_d",
@@ -542,11 +542,11 @@
       "rareza": "inmortal",
       "origen": null,
       "esencia": null,
-      "descripcion": "Diseño hallado en ruinas antiguas. Nadie sabe quién lo forjó primero."
+      "descripcion": "Forjada con el nombre del Devorador. Nadie sabe quién la creó ni por qué."
     },
     {
       "id": "arma_007_legendario",
-      "nombre": "Hoja Garra de Serath",
+      "nombre": "Espada Ath-Anori",
       "nivel": 7,
       "calidad": "legendario",
       "slot": "mano_d",
@@ -558,11 +558,11 @@
       "rareza": "legendario",
       "origen": null,
       "esencia": null,
-      "descripcion": "Diseño hallado en ruinas antiguas. Nadie sabe quién lo forjó primero."
+      "descripcion": "Forjada con el nombre del Devorador. Nadie sabe quién la creó ni por qué."
     },
     {
       "id": "arma_008_normal",
-      "nombre": "Espada del Tejedor",
+      "nombre": "Gran Hacha Nathari",
       "nivel": 8,
       "calidad": "normal",
       "slot": "mano_d",
@@ -578,7 +578,7 @@
     },
     {
       "id": "arma_008_bueno",
-      "nombre": "Espada del Tejedor",
+      "nombre": "Gran Hacha Nathari",
       "nivel": 8,
       "calidad": "bueno",
       "slot": "mano_d",
@@ -594,7 +594,7 @@
     },
     {
       "id": "arma_008_epico",
-      "nombre": "Espada del Tejedor",
+      "nombre": "Gran Hacha Nathari",
       "nivel": 8,
       "calidad": "epico",
       "slot": "mano_d",
@@ -610,7 +610,7 @@
     },
     {
       "id": "arma_008_inmortal",
-      "nombre": "Espada del Tejedor",
+      "nombre": "Gran Hacha Nathari",
       "nivel": 8,
       "calidad": "inmortal",
       "slot": "mano_d",
@@ -626,7 +626,7 @@
     },
     {
       "id": "arma_008_legendario",
-      "nombre": "Espada del Tejedor",
+      "nombre": "Gran Hacha Nathari",
       "nivel": 8,
       "calidad": "legendario",
       "slot": "mano_d",
@@ -642,7 +642,7 @@
     },
     {
       "id": "arma_009_normal",
-      "nombre": "Filo Nathari",
+      "nombre": "Atepaia",
       "nivel": 9,
       "calidad": "normal",
       "slot": "mano_d",
@@ -654,11 +654,11 @@
       "rareza": "normal",
       "origen": null,
       "esencia": null,
-      "descripcion": "Forjado con la técnica de los primeros habitantes. Lleva el Anima en su estructura."
+      "descripcion": "Lleva el nombre de la luna misma. Quien la empuña siente que algo debajo de la roca lo observa."
     },
     {
       "id": "arma_009_bueno",
-      "nombre": "Filo Nathari",
+      "nombre": "Atepaia",
       "nivel": 9,
       "calidad": "bueno",
       "slot": "mano_d",
@@ -670,11 +670,11 @@
       "rareza": "bueno",
       "origen": null,
       "esencia": null,
-      "descripcion": "Forjado con la técnica de los primeros habitantes. Lleva el Anima en su estructura."
+      "descripcion": "Lleva el nombre de la luna misma. Quien la empuña siente que algo debajo de la roca lo observa."
     },
     {
       "id": "arma_009_epico",
-      "nombre": "Filo Nathari",
+      "nombre": "Atepaia",
       "nivel": 9,
       "calidad": "epico",
       "slot": "mano_d",
@@ -686,11 +686,11 @@
       "rareza": "epico",
       "origen": null,
       "esencia": null,
-      "descripcion": "Forjado con la técnica de los primeros habitantes. Lleva el Anima en su estructura."
+      "descripcion": "Lleva el nombre de la luna misma. Quien la empuña siente que algo debajo de la roca lo observa."
     },
     {
       "id": "arma_009_inmortal",
-      "nombre": "Filo Nathari",
+      "nombre": "Atepaia",
       "nivel": 9,
       "calidad": "inmortal",
       "slot": "mano_d",
@@ -702,11 +702,11 @@
       "rareza": "inmortal",
       "origen": null,
       "esencia": null,
-      "descripcion": "Forjado con la técnica de los primeros habitantes. Lleva el Anima en su estructura."
+      "descripcion": "Lleva el nombre de la luna misma. Quien la empuña siente que algo debajo de la roca lo observa."
     },
     {
       "id": "arma_009_legendario",
-      "nombre": "Filo Nathari",
+      "nombre": "Atepaia",
       "nivel": 9,
       "calidad": "legendario",
       "slot": "mano_d",
@@ -718,11 +718,11 @@
       "rareza": "legendario",
       "origen": null,
       "esencia": null,
-      "descripcion": "Forjado con la técnica de los primeros habitantes. Lleva el Anima en su estructura."
+      "descripcion": "Lleva el nombre de la luna misma. Quien la empuña siente que algo debajo de la roca lo observa."
     },
     {
       "id": "arma_010_normal",
-      "nombre": "Fragmento de Anima",
+      "nombre": "Devorador de Mundos",
       "nivel": 10,
       "calidad": "normal",
       "slot": "mano_d",
@@ -734,11 +734,11 @@
       "rareza": "normal",
       "origen": null,
       "esencia": null,
-      "descripcion": "El material vibra levemente. Algo dentro de él recuerda al Devorador."
+      "descripcion": "No parece hecha por manos. Es posible que simplemente apareció."
     },
     {
       "id": "arma_010_bueno",
-      "nombre": "Fragmento de Anima",
+      "nombre": "Devorador de Mundos",
       "nivel": 10,
       "calidad": "bueno",
       "slot": "mano_d",
@@ -750,11 +750,11 @@
       "rareza": "bueno",
       "origen": null,
       "esencia": null,
-      "descripcion": "El material vibra levemente. Algo dentro de él recuerda al Devorador."
+      "descripcion": "No parece hecha por manos. Es posible que simplemente apareció."
     },
     {
       "id": "arma_010_epico",
-      "nombre": "Fragmento de Anima",
+      "nombre": "Devorador de Mundos",
       "nivel": 10,
       "calidad": "epico",
       "slot": "mano_d",
@@ -766,11 +766,11 @@
       "rareza": "epico",
       "origen": null,
       "esencia": null,
-      "descripcion": "El material vibra levemente. Algo dentro de él recuerda al Devorador."
+      "descripcion": "No parece hecha por manos. Es posible que simplemente apareció."
     },
     {
       "id": "arma_010_inmortal",
-      "nombre": "Fragmento de Anima",
+      "nombre": "Devorador de Mundos",
       "nivel": 10,
       "calidad": "inmortal",
       "slot": "mano_d",
@@ -782,11 +782,11 @@
       "rareza": "inmortal",
       "origen": null,
       "esencia": null,
-      "descripcion": "El material vibra levemente. Algo dentro de él recuerda al Devorador."
+      "descripcion": "No parece hecha por manos. Es posible que simplemente apareció."
     },
     {
       "id": "arma_010_legendario",
-      "nombre": "Fragmento de Anima",
+      "nombre": "Devorador de Mundos",
       "nivel": 10,
       "calidad": "legendario",
       "slot": "mano_d",
@@ -798,7 +798,7 @@
       "rareza": "legendario",
       "origen": null,
       "esencia": null,
-      "descripcion": "El material vibra levemente. Algo dentro de él recuerda al Devorador."
+      "descripcion": "No parece hecha por manos. Es posible que simplemente apareció."
     }
   ],
   "escudos": [

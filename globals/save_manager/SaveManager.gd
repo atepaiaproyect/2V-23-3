@@ -110,6 +110,7 @@ func save_progress() -> void:
 # CARGAR DESDE FIRESTORE
 # ─────────────────────────────────────
 func cargar_desde_fields(fields: Dictionary) -> void:
+    GameData.datos_cargados = false
     GameData.level       = int(fields.get("level",       {}).get("integerValue", "1"))
     GameData.xp          = int(fields.get("xp",          {}).get("integerValue", "0"))
     GameData.hp          = int(fields.get("hp",          {}).get("integerValue", "120"))
@@ -184,7 +185,8 @@ func cargar_desde_fields(fields: Dictionary) -> void:
         "eq_cape":    fields.get("eq_cape",    {}).get("stringValue", ""),
     }
     _restaurar_equipo_desde_ids(eq_ids)
-    print("SaveManager: cargado. Nivel ", GameData.level, " HP ", GameData.hp, "/", GameData.hp_max)
+    GameData.datos_cargados = true
+    print("SaveManager: cargado OK. Nivel ", GameData.level, " HP ", GameData.hp, "/", GameData.hp_max)
 
 func _restaurar_equipo_desde_ids(eq_ids: Dictionary) -> void:
     if not FileAccess.file_exists("res://data/items_database/items_database.json"):
@@ -193,7 +195,7 @@ func _restaurar_equipo_desde_ids(eq_ids: Dictionary) -> void:
     if db == null:
         return
     var indice: Dictionary = {}
-    for categoria in ["armas", "escudos", "pecho", "cascos", "botas", "guantes", "collares", "anillos", "capas"]:
+    for categoria in ["armas", "escudos", "pecho", "cascos", "botas", "guantes", "collares", "anillos"]:
         if db.has(categoria):
             for item in db[categoria]:
                 var item_c = item.duplicate()
@@ -217,7 +219,33 @@ func _restaurar_equipo_desde_ids(eq_ids: Dictionary) -> void:
         if item_id != "" and indice.has(item_id):
             var item = indice[item_id]
             GameData.set(slot_map[eq_key], item)
-            _aplicar_stats_item(item)
+    # Después de cargar todos los ítems, recalcular stats de una sola vez
+    _recalcular_stats_desde_equipo()
+
+func _recalcular_stats_desde_equipo() -> void:
+    # Resetear stats de equipo a 0 antes de recalcular
+    GameData.damage_min  = 0
+    GameData.damage_max  = 0
+    GameData.armor       = 0
+    GameData.block_chance = 0.0
+
+    var items_equipados = [
+        GameData.equipped_weapon,
+        GameData.equipped_shield,
+        GameData.equipped_chest,
+        GameData.equipped_helmet,
+        GameData.equipped_boots,
+        GameData.equipped_gloves,
+        GameData.equipped_neck,
+        GameData.equipped_ring_l,
+        GameData.equipped_ring_r,
+        GameData.equipped_cape,
+    ]
+    for item in items_equipados:
+        if item.is_empty():
+            continue
+        _aplicar_stats_item(item)
+    GameData.recalcular_stats()
 
 func _aplicar_stats_item(item: Dictionary) -> void:
     var categoria = item.get("categoria", "")
@@ -226,9 +254,19 @@ func _aplicar_stats_item(item: Dictionary) -> void:
             GameData.damage_min += item.get("ataque_min", 0)
             GameData.damage_max += item.get("ataque_max", 0)
         "escudos":
+            GameData.armor       += item.get("defensa", 0)
+            GameData.block_chance = min(GameData.block_chance + item.get("bloqueo_bonus", 0.0), 0.75)
+        "pecho", "cascos", "guantes", "botas":
             GameData.armor += item.get("defensa", 0)
-        "pecho":
-            GameData.armor += item.get("defensa", 0)
+        "anillos", "collares":
+            match item.get("bonus_tipo", ""):
+                "armadura":
+                    GameData.armor += item.get("defensa", 0)
+                "ataque":
+                    GameData.damage_min += item.get("ataque_min", 0)
+                    GameData.damage_max += item.get("ataque_max", 0)
+                "all_stats":
+                    pass  # se aplica en recalcular_stats()
 
 # ─────────────────────────────────────
 # ACTUALIZAR PUNTOS DEL CLAN

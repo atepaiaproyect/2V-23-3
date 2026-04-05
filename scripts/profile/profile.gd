@@ -283,15 +283,42 @@ func _cargar_inventario() -> void:
         if not item.is_empty():
             equipados_ids.append(item.get("id", ""))
 
+    # ── SET DE PRUEBA: 1 ítem épico lvl 8 por slot ──────────
+    # Cuenta cuántos anillos ya están equipados para no duplicar
+    var anillos_equipados = 0
+    if not GameData.equipped_ring_l.is_empty(): anillos_equipados += 1
+    if not GameData.equipped_ring_r.is_empty(): anillos_equipados += 1
+
+    var IDS_PRUEBA_BASE = [
+        "arma_008_epico",
+        "escudo_008_epico",
+        "pecho_008_epico",
+        "casco_008_epico",
+        "guantes_008_epico",
+        "botas_008_epico",
+        "collar_008_epico",
+    ]
+    # Agregar hasta 2 anillos menos los que ya están equipados
+    var anillos_en_inventario = max(0, 2 - anillos_equipados)
+
     var todos_los_items: Array = []
     for categoria in ["armas", "escudos", "pecho", "cascos", "guantes", "botas", "anillos", "collares"]:
         if db.has(categoria):
             for item in db[categoria]:
-                if item.get("id", "") in equipados_ids:
+                var id = item.get("id", "")
+                if id not in IDS_PRUEBA_BASE and id != "anillo_008_epico":
+                    continue
+                if id in equipados_ids:
                     continue
                 var item_con_cat = item.duplicate()
                 item_con_cat["categoria"] = categoria
-                todos_los_items.append(item_con_cat)
+                # Para anillos, solo agregar según cuántos faltan
+                if id == "anillo_008_epico":
+                    if anillos_en_inventario > 0:
+                        todos_los_items.append(item_con_cat)
+                        anillos_en_inventario -= 1
+                else:
+                    todos_los_items.append(item_con_cat)
 
     var slots = grid_inv.get_children()
     for i in range(min(todos_los_items.size(), slots.size())):

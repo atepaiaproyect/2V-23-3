@@ -83,16 +83,17 @@ func _devolver_al_inventario(item: Dictionary) -> void:
 
 func _nombre_visible(sn: String) -> String:
     match sn:
-        "mano_d": return "Mano D"
-        "mano_i": return "Mano I"
-        "pecho":  return "Pecho"
-        "casco":  return "Casco"
-        "pies":   return "Pies"
-        "manos":  return "Manos"
-        "cuello": return "Cuello"
-        "anillo": return "Anillo"
-        "capa":   return "Capa/Alas"
-        _:        return sn
+        "mano_d":   return "Mano D"
+        "mano_i":   return "Mano I"
+        "pecho":    return "Pecho"
+        "casco":    return "Casco"
+        "pies":     return "Pies"
+        "manos":    return "Manos"
+        "cuello":   return "Cuello"
+        "anillo":   return "Anillo L"
+        "anillo_r": return "Anillo R"
+        "capa":     return "Capa/Alas"
+        _:          return sn
 
 # ─────────────────────────────────────
 # DOBLE CLICK → desequipar al inventario
